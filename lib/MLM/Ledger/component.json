@@ -1,0 +1,42 @@
+{
+	"actions" : {
+		"topics"  :{"groups":["m"]},
+		"makeIncome":{},
+		"addShopping":{"validate":["remark"]},
+		"insert"  :{"validate":["memberid","weekid","amount","balance"]},
+		"delete"  :{"validate":["ledgerid"]},
+		"edit"    :{"groups":["m"],"validate":["ledgerid"]},
+		"update"  :{"validate":["ledgerid"]}
+	},
+	"fks" : {
+		"m" : ["memberid"]
+	},
+	"current_table"   :"income_ledger",
+	"current_key"     :"ledgerid",
+	"current_id_auto" :"ledgerid",
+	"insert_pars"     :["old_ledgerid","weekid","created","shop_balance","balance","status","amount","remark","memberid","manager"],
+	"update_pars"     :["old_ledgerid","weekid","created","shop_balance","balance","status","amount","remark","memberid","manager","ledgerid"],
+	"topics_pars"     :["old_ledgerid","weekid","created","shop_balance","balance","status","amount","remark","memberid","manager","ledgerid"],
+	"edit_pars"       :["old_ledgerid","weekid","created","shop_balance","balance","status","amount","remark","memberid","manager","ledgerid"],
+
+    "current_tables" : [
+        {"name":"income_ledger", "alias":"l"},
+        {"name":"cron_1week", "alias":"one",  "type":"LEFT", "on": "one.c1_id=l.weekid"},
+        {"name":"cron_4week", "alias":"four", "type":"LEFT", "on":"four.c4_id=l.weekid AND l.status='Monthly'"}
+    ],
+    "topics_pars" : {
+        "l.ledgerid":"ledgerid",
+        "l.old_ledgerid":"old_ledgerid",
+		"l.weekid":"weekid",
+		"l.created":"created",
+		"l.shop_balance":"shop_balance",
+		"l.balance":"balance",
+		"l.status":"status",
+		"l.amount":"amount",
+		"l.remark":"remark",
+		"l.memberid":"memberid",
+		"l.manager":"manager",
+        "one.daily":"daily1",
+        "four.daily":"daily4"
+    }
+}

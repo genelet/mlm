@@ -1,0 +1,32 @@
+[% INCLUDE start.en %]
+
+<h2>Store of Shopping</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th></th>
+<th></th>
+<th>Name</th>
+<th>Description</th>
+<th>Price</th>
+<th>BV</th>
+<th> </th>
+</tr>
+</thead><tbody>[% FOREACH item=topics %]
+<tr>
+<td>[% IF item.logo %]<a href='[% item.logo %]'><img border=0 width=100 src='[% item.logo %]' border=0></a>[% END %]</td>
+<td>[% IF item.full %]<a href='[% item.full %]'><img border=0 width=100 src='[% item.full %]' border=0></a>[% END %]</td>
+<td>[% item.title %]</td>
+<td>[% item.description %]</td>
+<td>[% item.price %]</td>
+<td>[% item.bv %]</td>
+<td><a class="btn btn-sm btn-primary" href="gallery?action=edit&galleryid=[% item.galleryid %]">View</a>
+</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+[% INCLUDE end.en %]

@@ -1,0 +1,142 @@
+[% INCLUDE start.en %]
+
+<form class="form-inline" name=f0 action=ledger method=post>
+<div class="row">
+    <div class="col-sm-2">Search:</div>
+    <div class="col-sm-3">
+        <select class="form-control" name=u>
+<option [% IF u=='memberid' %]selected[% END %] value='memberid'>Member ID</option>
+<option [% IF u=='weekid' %]selected[% END %] value='weekid'>Week ID</option>
+        </select>
+    </div>
+    <div class="col-sm-3">
+<input class="form-control" type=text name=v value="[% v %]">
+    </div>
+    <div class="col-sm-2">
+<select class="form-control" name=status>
+<option [% IF status=='Weekly' %]selected[% END %] value='Weekly'>Weekly</option>
+<option [% IF status=='Monthly' %]selected[% END %] value='Monthly'>Monthly</option>
+<option [% IF status=='Delivered' %]selected[% END %] value='Delivered'>Delivered</option>
+<option [% IF status=='Cancel' %]selected[% END %] value='Cancel'>Cancelled</option>
+<option [% IF status=='Shopping' %]selected[% END %] value='Shopping'>Shopping</option>
+<option [% IF status=='Offline' %]selected[% END %] value='Offline'>Offline</option>
+<option [% IF status=='Other' %]selected[% END %] value='Other'>Other</option>
+</select>
+    </div>
+    <div class="col-sm-2">
+<input type=hidden name=action value=topics>
+<button class="btn btn-sm btn-primary" type=submit> Run it! </button>
+    </div>
+</div>
+</form>
+
+<p> </p>
+
+    <div class="row">
+        <div class="col-sm-5"><h4>Ledger: [% status %]</h4></div>
+        <div class="col-sm-7 text-right">[% SET from = ( pageno - 1 ) * rowcount + 1 %][% SET to = pageno * rowcount %]
+Between [% from %] and [% to %] among total [% totalno %].
+Page: [% SET i=1 %][% WHILE (i <= maxpageno) %]
+[% IF i==pageno %][% pageno %][% ELSE %]<a href="ledger?action=topics&status=[% status %]&pageno=[% i %][% UNLESS i==1 %]&totalno=[% totalno %]&maxpageno=[% maxpageno %][% END %]">[% i %]</a>[% END %] &nbsp; [% SET i=i+1 %][% END %]
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>#</th>
+<th>When</th>
+<th>Member ID</th>
+<th>Status</th>
+<th>Week ID</th>
+<th>Amount</th>
+<th>Balance</th>
+<th>Advanced</th>
+<th>Created</th>
+[% IF (status=='Cancel' || status=='Delivered' || status=='Weekly' || status=='Monthly') %]<th> </th>[% END %]
+</tr>
+</thead>
+<tbody>[% FOREACH item=topics %]
+<tr>
+<td>[% item.ledgerid %]</td>
+<td>[% IF status=='Weekly' %][% item.daily1 %][% ELSIF status=='Monthly' %][% item.daily4 %][% END %]</td>
+<td><a href="member?action=edit&memberid=[% item.memberid %]">[% item.memberid %]</a></td>
+<td>[% item.status %]</td>
+<td>[% item.weekid %]</td>
+<td>[% item.amount %]</td>
+<td>[% item.balance %]</td>
+<td>[% item.shop_balance %]</td>
+<td>[% item.created %]</td>
+[% IF (status=='Cancel') %]<td>[% item.remark %]</td>
+[% ELSIF (status=='Delivered') %]<td><button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#ledgerModal[% item.ledgerid %]">Cancel</button></td>
+[% ELSIF (status=='Weekly' || status=='Monthly') %]<td><button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#ledgerModal[% item.ledgerid %]">Mark Paid</button></td>[% END %]
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+[% IF (status=='Weekly' || status=='Monthly' || status=='Delivered') %][% FOREACH item=topics %]
+<div class="modal fade" id="ledgerDeliverModal[% item.ledgerid %]" tabindex="-1" role="dialog" aria-labelledby="ledger[% item.ledgerid %]Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ledger[% item.ledgerid %]Label">[% IF status=='Delivered' %]Cancel[% ELSE %]Mark[% END %] Payment of #[% item.ledgerid %]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"><form class=form action=ledger method=post>
+		<h6>[% IF status=='Delivered' %]Cancel[% ELSE %]Mark[% END %] payment for #[% item.ledgerid %]</h6>
+		<div classs=row>
+		  <div class=col-2>Remark:</div>
+		  <div class=col-10><input type=text class="form-control" name=remark [% IF status=='Delivered' %]value="[% item.remark %]"[% ELSE %]placeholder="remarks for payment"[% END %]></div>
+		</div>
+		<input type=hidden name=status value=[% IF status=='Delivered' %]Cancel[% ELSE %]Delivered[% END %]>
+		<input type=hidden name=action value=update>
+	  </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">[% IF status=='Delivered' %]Cancel Payment[% ELSE %]Mark Paid[% END %]</button>
+      </div></form>
+    <div>
+  </div>
+</div>[% END %][% END %]
+
+<h4>Dollar amount added offline to ledger for shoppings</h4>
+<form class="form" name=formoffline action=ledger method=post>
+<input type=hidden name=action value="addShopping">
+     <div class="row">
+        <div class="col-md-12 order-md-1">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="title">Member ID</label>
+                <input type="text" class="form-control" id="title" name="memberid" placeholder="Member ID #" required>
+                <div class="invalid-feedback">
+                  Valid first name is required.
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="amount">Amount</label>
+                <input type="text" class="form-control" id="amount" name="amount" placeholder="Amount to be added to ledger" required>
+                <div class="invalid-feedback">
+                  Valid first name is required.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="description">Remark</label>
+                <textarea class="form-control" rows=4 placeholder="Remarks"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+<button class="btn btn-primary" type=submit>Add Now!</button>
+              </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+[% INCLUDE end.en %]

@@ -1,0 +1,31 @@
+{
+	"actions" : {
+		"topics"  :{"groups":["p","m"], "validate":["packageid"]},
+		"insert"  :{"validate":["galleryid","packageid","num"]},
+		"delete"  :{},
+		"update"  :{}
+	},
+	"current_table"   :"product_detail",
+	"current_key"     :"id",
+	"current_id_auto" :"id",
+	"insert_pars"     :["galleryid","packageid",     "num"],
+	"update_pars"     :["galleryid","packageid","id","num"],
+	"edit_pars"       :["galleryid","packageid","id","num"],
+	"current_tables":[
+    {"name":"product_detail"},
+    {"name":"product_gallery","type":"INNER","on":"product_detail.galleryid=product_gallery.galleryid"}
+	],
+	"topics_pars":{
+		"id":"id",
+		"product_gallery.galleryid":"galleryid",
+		"product_detail.packageid":"packageid",
+		"price":"price",
+		"bv":"bv",
+		"sh":"sh",
+		"num":"num",
+		"title":"title",
+		"description":"description",
+		"logo":"logo",
+		"full":"full"
+	}
+}

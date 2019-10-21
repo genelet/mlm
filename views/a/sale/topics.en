@@ -1,0 +1,114 @@
+[% INCLUDE start.en %]
+
+<form class="form-inline" name=f0 action=member method=post>
+    <div class="row">
+        <div class="col-sm-3">Search [% paystatus %][% paytype %]:</div>
+        <div class="col-sm-3">
+<select class="form-control" name=u>
+<option [% IF u=='memberid' %]selected[% END %] value='memberid'>Member ID</option>
+<option [% IF u=='saleid' %]selected[% END %] value='saleid'>Sale ID</option>
+</select>
+</div>
+        <div class="col-sm-3">
+<input class="form-control" type=text name=v value="[% v %]">
+		</div>
+		<div class="col-sm-1"> </div>
+        <div class="col-sm-2">
+<button class="btn btn-sm btn-primary" type=submit> Run! </button>
+<input type=hidden name=paystatus value=[% paystatus %]>
+<input type=hidden name=action value=topics>
+        </div>
+    </div>
+</form>
+<p> </p>
+
+
+    <div class="row">
+        <div class="col-sm-3"><h4>List of Order</h4></div>
+        <div class="col-sm-9 text-right">[% SET from = ( pageno - 1 ) * rowcount + 1 %][% SET to = pageno * rowcount %]
+Between [% from %] and [% to %] among total [% totalno %].
+Page: [% SET i=1 %][% WHILE (i <= maxpageno) %]
+[% IF i==pageno %][% pageno %][% ELSE %]<a href="sale?action=topics&paystatus=[% paystatus %]&paytype=[% paytype %]&pageno=[% i %][% UNLESS i==1 %]&totalno=[% totalno %]&maxpageno=[% maxpageno %][% END %]">[% i %]</a>[% END %] &nbsp; [% SET i=i+1 %][% END %]
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>#</th>
+<th>When</th>
+<th>Member ID</th>
+<th>Member Type</th>
+<th>Pay Type</th>
+<th>Pay Status</th>
+<th>Trans</th>
+<th>Remark</th>
+<th>[% IF (paystatus=='Processing' || paystatus=='Pending') %][% ELSE %]Tracking[% END %]</th>
+</tr>
+</thead><tbody>[% FOREACH item=topics %]
+<tr>
+<td><a href="../json/sale?action=myInvoice&saleid=[% item.saleid %]">[% item.saleid %]</a></td>
+<td>[% item.created %]</td>
+<td><a href="member?action=edit&memberid=[% item.memberid %]">[% item.name %][% item.memberid %]</a></td>
+<td>[% item.signuptype %]</td>
+<td>[% item.paytype %]</td>
+<td>[% item.paystatus %]</td>
+<td>[% item.billingid %]
+<td>[% item.remark %]</td>
+<td>[% IF (paystatus=='Processing' || paystatus=='Pending') %]<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#saleModal[% item.saleid %]">Track</button>[% ELSE %][% item.trackingid %][% END %]</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+[% IF (paystatus=='Processing' || paystatus=='Pending') %][% FOREACH item=topics %]
+<!-- Modal -->
+<div class="modal fade" id="saleModal[% item.saleid %]" tabindex="-1" role="dialog" aria-labelledby="saleModal[% item.saleid %]Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="saleModal[% item.saleid %]Label">Management of sales #[% item.saleid %]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	  <!-- form name="form_1_[% item.saleid %]" class=form method=post action="sale">
+<input type=hidden name=oldstatus value='[% paystatus %]'>
+      <p>Cancel Order</p>
+How: <select class-"form-control" name=paytype>
+<option value='Refund'>Refund</option>
+<option value='Chargeback'>Chargeback</option>
+<option value='Fraud'>Fraud</option>
+<option selected value='Other'>Other</option></select>
+Remark: <input type=text class="form-control" name=remark placeholder="Your remarks for cancellation here.">
+<button type=submit class="btn btn-sm btn-primary">Cancel</button>
+</form -->
+
+	  <form name="form_2_[% item.saleid %]" class=form method=post action="sale">
+	  <input type=hidden name=action value=update>
+	  <input type=hidden name=saleid value=[% item.saleid %]>
+      <div class="modal-body">[% IF (paystatus=='Pending') %]<input type=hidden name=paystatus value="Processing">
+<h6>Change status to <em>Processing or Packaging</em></h6>
+<div classs=row>
+<div class=col-2>Remark:</div>
+<div class=col-10><input type=text class="form-control" name=remark placeholder="remarks for packaging"></div>
+ </div>
+[% ELSE %]<input type=hidden name=paystatus value="Delivered">
+<h6>Change status to <em>Delivered</em></h6>
+<div classs=row>
+<div class=col-2>Tracking #:</div>
+<div class=col-10><input type=text class="form-control" name=trackingid placeholder="Tracking number here"></div>
+ </div>
+	  [% END %]</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+	  </form>	
+    </div>
+  </div>
+</div>
+[% END %][% END %]
+
+[% INCLUDE end.en %]

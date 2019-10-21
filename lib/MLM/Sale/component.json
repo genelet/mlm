@@ -1,0 +1,53 @@
+{
+	"actions" : {
+		"topics"  :{"groups":["m"]},
+		"startnew":{"groups":["m"], "options":["no_method","no_db"]},
+		"buy"  :{"groups":["m"]},
+		"insert"  :{},
+		"edit"    :{"groups":["m"], "validate":["saleid"]},
+		"myInvoice":{"groups":["m"], "validate":["saleid"]},
+		"update"  :{}
+	},
+    "fks" : {
+        "m" : ["memberid",false,"saleid","salemd5"]
+    },
+    "nextpages":{
+      "topics":[
+        {"model":"lineitem", "action":"topics", "relate_item":{"saleid":"saleid"}}
+      ]
+    },
+	"current_table"   :"sale",
+	"current_key"     :"saleid",
+	"current_id_auto" :"saleid",
+	"insert_pars"     :["credit","trackingid","shipping","paystatus","signuptype","created","billingid","remark","amount",         "paytype","active","memberid",         "manager","typeid"],
+	"update_pars"     :["credit","trackingid","shipping","paystatus","signuptype","created","billingid","remark","amount","saleid","paytype","active","memberid",         "manager","typeid"],
+	"topics_pars"     :["credit","trackingid","shipping","paystatus","signuptype","created","billingid","remark","amount","saleid","paytype","active","memberid","moment","manager","typeid"],
+	"edit_pars"       :["credit","trackingid","shipping","paystatus","signuptype","created","billingid","remark","amount","saleid","paytype","active","memberid","moment","manager","typeid"],
+
+	"current_tables" : [
+		{"name":"sale", "alias":"s"},
+		{"name":"member", "alias":"m", "type":"INNER", "using":"memberid"},
+		{"name":"def_type","alias":"t","type":"LEFT","on":"s.typeid=t.typeid"}
+	],
+	"topics_pars" : {
+		"s.saleid"  : "saleid",
+		"s.moment"  : "moment",
+		"s.memberid": "memberid",
+		"s.billingid": "billingid",
+		"s.trackingid": "trackingid",
+		"s.amount"  : "amount",
+		"s.credit"  : "credit",
+		"s.shipping": "shipping",
+		"s.paytype": "paytype",
+		"s.paystatus"  : "paystatus",
+		"s.signuptype"  : "signuptype",
+		"s.remark"  : "remark",
+		"s.typeid"  : "typeid",
+		"t.name"    : "typename",
+		"SUBSTR(s.created,6,11)" : "created",
+		"s.active"  : "active",
+		"s.manager" : "manager",
+		"m.firstname"    : "firstname",
+		"m.lastname": "lastname"
+	}
+}

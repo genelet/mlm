@@ -1,0 +1,78 @@
+[% INCLUDE start.en %]
+
+<h4>Package of Combined Products</h4>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>#</th>
+<th>Type/Name</th>
+<th>Description</th>
+<th>Price</th>
+<th>Fee</th>
+<th>BV</th>
+<th>Num</th>
+<th> </th>
+<th> </th>
+</tr>
+</thead><tbody>[% FOREACH item=topics %]
+<form name=form[% item.packageid %] class=form method=post action=package>
+<input type=hidden name=packageid value="[% item.packageid %]">
+<input type=hidden name=action value="update">
+<tr>
+<td><a href="packagedetail?action=topics&packageid=[% item.packageid %]">[% item.packageid %]</a></td>
+<td><select class="form-control form-control-sm" name=typeid>[% FOREACH t=packagetype_topics %]
+<option [% IF (item.typeid==t.typeid) %]selected[% END %] value=[% t.typeid %]>[% t.name %]</option>
+[% END %]</select>
+<input class="form-control form-control-sm" type=text name=title value='[% item.title %]'>
+</td>
+<td><textarea class="form-control" name=description rows=3>[% item.description %]</textarea></td>
+<td>[% item.price %]</td>
+<td>[% item.sh %]</td>
+<td>[% item.packagetype_topics.0.bv %]</td>
+<td>[% item.sumnum %]</td>
+<td><button class="btn btn-sm btn-primary" type=submit>Upd</button></td>
+<td><a class="btn btn-sm btn-danger" onclick="javascript:confirm('Are you sure to delete this package?')" href="package?action=delete&packageid=[% item.packageid %]">DEL</a></td>
+</tr>
+</form>
+[% END %]</tbody>
+</table>
+</div>
+
+<form name=forminsert class="form" action=package method=post>
+<input type=hidden name=action value="insert">
+     <div class="row">
+        <div class="col-md-12 order-md-1">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="title">Package Title</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Name of Package" required>
+                <div class="invalid-feedback">
+                  Valid first name is required.
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="typeid">Package Type</label>
+                <select class="form-control" name="typeid"><option value="">--select--</option>[% FOREACH t=packagetype_topics %]
+<option value=[% t.typeid %]>[% t.name %]</option>
+[% END %]</select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="description">Description</label>
+                <textarea class="form-control" rows=4 name=description placeholder="Description"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+<button class="btn btn-primary" type=submit>Add Now!</button>
+              </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+[% INCLUDE end.en %]

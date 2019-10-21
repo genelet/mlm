@@ -1,0 +1,83 @@
+[% INCLUDE start.en %]
+
+<h4>Direct reward, run monthly</h4>
+<form class="form-inline" name=f1 action="income" method="post">
+<input type=hidden name=c4_id value='0'>
+  <div class="form-group mb-2">
+    <label for="start_monthly">Start:</label>
+    <input type="text" class="form-control" name=start_monthly id="start_monthly" placeholder="yyyy-mm-dd">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="end_daily">End:</label>
+    <input type="text" class="form-control" name=end_daily id="end_daily" placeholder="yyyy-mm-dd">
+  </div>
+  <button type="submit" name="action" value="week4_direct" class="btn btn-info mb-2">Run Test</button> &nbsp;
+</form>
+
+<h4>Binary reward, run weekly</h4>
+<form class="form-inline" name=f2 action="income" method="post">
+<input type=hidden name=c1_id value='0'>
+  <div class="form-group mb-2">
+    <label for="start_daily">Start:</label>
+    <input type="text" class="form-control" name=start_daily  id="start_daily" placeholder="yyyy-mm-dd">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="end_daily">End:</label>
+    <input type="text" class="form-control" name=end_daily id="end_daily" placeholder="yyyy-mm-dd">
+  </div>
+  <button type="submit" name="action" value="week1_binary" class="btn btn-info mb-2">Run Test</button> &nbsp;
+</form>
+
+<h4>Team rewards, run weekly</h4>
+<form class="form-inline" name=f3 action="income" method="post">
+<input type=hidden name=c1_id value='0'>
+  <div class="form-group mb-2">
+    <label for="start_daily">Start:</label>
+    <input type="text" class="form-control" name=start_daily id="start_daily" placeholder="yyyy-mm-dd">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="end_daily">End:</label>
+    <input type="text" class="form-control" name=end_daily id="end_daily" placeholder="yyyy-mm-dd">
+  </div>
+  <button type="submit" name="action" value="week1_match" class="btn btn-info mb-2">Run Test</button> &nbsp;
+</form>
+
+<h4>Affiliate reward, run weekly</h4>
+<form class="form-inline" name=f3 action="income" method="post">
+<input type=hidden name=c1_id value='0'>
+  <div class="form-group mb-2">
+    <label for="start_daily">Start:</label>
+    <input type="text" class="form-control" name=start_daily id="start_daily" placeholder="yyyy-mm-dd">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="end_daily">End:</label>
+    <input type="text" class="form-control" name=end_daily id="end_daily" placeholder="yyyy-mm-dd">
+  </div>
+  <button type="submit" name="action" value="week1_affiliate" class="btn btn-info mb-2">Run Test</button> &nbsp;
+</form>
+
+[% IF adminid.search("ROOT") %]
+<h4>Run all tests and write to ledger</h4>
+
+<form class="form-inline" name=f3 action="income" method="post">
+<input type=hidden name=c1_id value='0'>
+<input type=hidden name=c4_id value='0'>
+<input type=hidden name=isTest value='1'>
+<input type=hidden name=action value='run_all_tests'>
+  <div class="form-group mb-2">
+    <label for="start_monthly">Start Monthly:</label>
+    <input type="text" class="form-control" name=start_monthly id="start_monthly" placeholder="yyyy-mm-dd">
+  </div>
+  <div class="form-group mb-2">
+    <label for="start_daily">Start Daily:</label>
+    <input type="text" class="form-control" name=start_daily id="start_daily" placeholder="yyyy-mm-dd">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="end_daily">End:</label>
+    <input type="text" class="form-control" name=end_daily id="end_daily" placeholder="yyyy-mm-dd">
+  </div>
+  <button type="submit" class="btn btn-primary mb-2">Execute and Write</button>
+</form>
+[% END %]
+
+[% INCLUDE end.en %]

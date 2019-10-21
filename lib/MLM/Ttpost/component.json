@@ -1,0 +1,15 @@
+{
+	"actions" : {
+		"topics"  :{"groups":["m"]}
+	},
+	"fks" : {
+		"m" : ["subjectid","subjectmd5"]
+	},
+	"current_table"   :"tt_post",
+	"current_key"     :"id",
+	"current_id_auto" :"id",
+	"insert_pars"     :["subjectid","party","description","created","ip"],
+	"update_pars"     :["subjectid","party","description","created","ip","id"],
+	"topics_pars"     :["subjectid","party","description","created","ip","id"],
+	"edit_pars"       :["subjectid","party","description","created","ip","id"]
+}

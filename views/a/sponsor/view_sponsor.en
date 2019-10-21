@@ -1,0 +1,14 @@
+[% INCLUDE start.en %]
+<link rel="stylesheet" type="text/css" href="/tree.css">
+
+	<div class="row">
+<h4>Sponsorship Matrix of [% login %]</h4>
+	</div>
+
+	<div class="row">
+<div class="tree">
+	[% treetext %]
+</div>
+	</div>
+	
+[% INCLUDE end.en %]

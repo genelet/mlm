@@ -1,0 +1,32 @@
+{
+	"actions" : {
+		"topics" :{"groups" :["m"]},
+		"edit"   :{"groups" :["m"]}
+	},
+	"current_table"   :"income_amount",
+	"current_key"     :"amount_id",
+	"current_id_auto" :"amount_id",
+
+	"insert_pars"     :["bonusType","status","memberid","weekid","amount","created"           ],
+	"update_pars"     :["bonusType","status","memberid","weekid","amount","created","amount_id"],
+	"topics_pars"     :["bonusType","status","memberid","weekid","amount","created","amount_id"],
+	"edit_pars"       :["bonusType","status","memberid","weekid","amount","created","amount_id"],
+
+    "current_tables" : [
+        {"name":"income_amount", "alias":"i"},
+        {"name":"cron_1week", "alias":"one",  "type":"LEFT", "on": "one.c1_id=i.weekid"},
+        {"name":"cron_4week", "alias":"four", "type":"LEFT", "on":"four.c4_id=i.weekid AND i.bonusType='Direct'"}
+    ],
+    "topics_pars" : {
+        "i.amount_id":"amount_id",
+        "i.bonusType":"bonusType",
+        "i.weekid":"weekid",
+        "i.created":"created",
+        "i.status":"status",
+        "i.memberid":"memberid",
+        "i.amount":"amount",
+        "one.daily":"daily1",
+        "four.daily":"daily4"
+    }
+
+}

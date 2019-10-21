@@ -1,0 +1,119 @@
+[% INCLUDE start.en %]
+
+<h4>Product Items[% IF categoryid %] of Category [% categoryid %][% END %]</h4>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>#</th>
+<th></th>
+<th></th>
+<th>Status</th>
+<th>Name</th>
+<th>Description</th>
+<th>Since</th>
+<th>Price</th>
+<th>BV</th>
+<th> </th>
+</tr>
+</thead><tbody>[% FOREACH item=topics %]
+<tr>
+<td><a href="gallery?action=edit&galleryid=[% item.galleryid %]">[% item.galleryid %]</a></td>
+<td>[% IF item.logo %]<a href='[% item.logo %]'><img border=0 width=100 src='[% item.logo %]' border=0></a>[% END %]</td>
+<td>[% IF item.full %]<a href='[% item.full %]'><img border=0 width=100 src='[% item.full %]' border=0></a>[% END %]</td>
+<td>[% item.status %]</td>
+<td>[% item.title %]</td>
+<td>[% item.description %]</td>
+<td>[% item.created %]</td>
+<td>[% item.price %]</td>
+<td>[% item.bv %]</td>
+<td>
+<a class="btn btn-sm btn-danger" onclick="javascript:confirm('Do you really want to delete [% item.title %]?')" href="gallery?action=delete&galleryid=[% item.galleryid %]">Del</a>
+</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+<h4>Add New</h4>
+
+<form class="form" action=gallery enctype="multipart/form-data" method=post>
+<input type=hidden name=action value="insert">
+     <div class="row">
+        <div class="col-md-12 order-md-1">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="title">Category</label>
+				[% IF categoryid %]<input type=hidden name='categoryid' value='[% categoryid %]'>[% ELSE %]
+<select name='categoryid' class="form-control"><option value="">--select--</option>[% FOREACH item=category_topics %]<option value="[% item.categoryid %]">[% item.title %]</option>[% END %]</select>[% END %]
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="price">Price</label>
+                <input type="text" class="form-control" id="price" name="price" placeholder="Price" required>
+                <div class="invalid-feedback">
+                  Valid price is required.
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="price">BV</label>
+                <input type="text" class="form-control" id="bv" name="bv" placeholder="BV or PV" required>
+                <div class="invalid-feedback">
+                  Valid BV is required.
+                </div>
+              </div>
+
+			</div>
+			<div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="title">Product Name</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Title of the Product" required>
+                <div class="invalid-feedback">
+                  Valid title is required.
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="sh">Packaging Price</label>
+                <input type="text" class="form-control" id="sh" name="sh" placeholder="Packaging and Shipping Cost">
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="status">Status</label>
+                <select class="form-control" id="status" name="status">
+<option value="Yes">Yes</option>
+<option value="Pending">Pending</option>
+<option value="No">No</option></select>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="logoupload">Thumbnail Upload</label>
+                <input type="file" class="form-control-file" id="logoupload" name="logoupload">
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="fullupload">Full Logo Upload</label>
+                <input type="file" class="form-control-file" id="fullupload" name="logoupload">
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="description">Description</label>
+                <textarea class="form-control" rows=4 placeholder="Description"></textarea>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+<button class="btn btn-primary" type=submit>Add Now!</button>
+              </div>
+            </div>
+		</div>
+	</div>
+</form>
+
+[% INCLUDE end.en %]

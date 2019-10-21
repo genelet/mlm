@@ -1,0 +1,43 @@
+[% INCLUDE start.en %]
+[% SET item=dashboard.0 %]
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <div class="container">
+          <h1 class="display-3">Hello, [% item.login %]!</h1>
+          <p>Type ID: [% m_type %]
+Name: [% item.name %] [% item.lastname %]
+Email: [% item.email %]
+Member ID: [% item.memberid %]
+Your Sponsor ID: [% item.sid %]
+Your Upline ID: [% item.pid %]
+Active Since: [% item.signuptime %]</p>
+          <p><a class="btn btn-primary btn-sm" href="member?action=startupdate" role="button">Learn more &raquo;</a></p>
+        </div>
+      </div>
+
+      <h2>Sales Report</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Sponsoring</th>
+              <th>Left Leg</th>
+              <th>Right Leg</th>
+              <th>Left Sales Volume</th>
+              <th>Right Sales Volume</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>[% counts %]</td>
+              <td>[% item.countl %]</td>
+              <td>[% item.countr %]</td>
+              <td>[% item.milel %]</td>
+              <td>[% item.miler %]</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+[% INCLUDE end.en %]

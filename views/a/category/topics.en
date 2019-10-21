@@ -1,0 +1,61 @@
+[% INCLUDE start.en %]
+
+<h4>Product Categories</h4>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Description</th>
+<th>Since</th>
+<th> </th>
+<th> </th>
+</tr>
+</thead><tbody>[% FOREACH item=topics %]
+<tr>
+<td><a href='gallery?action=topics&categoryid=[% item.categoryid %]'>[% item.categoryid %]</a></td>
+<td>[% item.title %]</td>
+<td>[% item.description %]</td>
+<td>[% item.created %]</td>
+<td><a class="btn btn-sm btn-info" href="category?action=edit&categoryid=[% item.categoryid %]">Edit</a></td>
+<td>
+<a class="btn btn-sm btn-danger" onclick="javascript:confirm('Do you really want to delete [% item.title %]?')" href="category?action=delete&categoryid=[% item.categoryid %]">Del</a>
+</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+<h4>Add New</h4>
+
+<form class="form" action=category method=post>
+<input type=hidden name=action value="insert">
+     <div class="row">
+        <div class="col-md-12 order-md-1">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="title">Category Title</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Name of Category" required>
+                <div class="invalid-feedback">
+                  Valid first name is required.
+                </div>
+              </div>
+			</div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="description">Description</label>
+                <textarea class="form-control" rows=4 placeholder="Description"></textarea>
+              </div>
+			</div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+<button class="btn btn-primary" type=submit>Add Now!</button>
+              </div>
+			</div>
+		</div>
+	</div>
+</form>
+
+[% INCLUDE end.en %]

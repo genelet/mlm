@@ -1,0 +1,36 @@
+{
+	"actions" : {
+		"topics"  :{"groups":["p","m"]},
+		"startnew":{"options":["no_method", "no_db"]},
+		"insert"  :{"validate":["categoryid"],
+			"upload":{
+				"logoupload":["logo","/home/open/gmarket/www/product"],
+				"fullupload":["full","/home/open/gmarket/www/product"]
+			}
+		},
+		"delete"  :{"validate" :["galleryid"]},
+		"edit"    :{"groups":["p","m"], "validate" :["galleryid"]},
+		"update"  :{"validate" :["galleryid"],
+			"upload":{
+				"logoupload":["logo","/home/open/gmarket/www/product"],
+				"fullupload":["full","/home/open/gmarket/www/product"]
+			}
+		}
+	},
+	"nextpages":{
+		"edit":[
+			{"model":"category", "action":"topics"}
+		],
+		"topics":[
+			{"model":"category", "action":"topics"}
+		]
+	},
+
+	"current_table"   :"product_gallery",
+	"current_key"     :"galleryid",
+	"current_id_auto" :"galleryid",
+	"insert_pars"     :["price","bv","description","created","title","full","categoryid","logo",            "status","sh"],
+	"update_pars"     :["price","bv","description","created","title","full","categoryid","logo","galleryid","status","sh"],
+	"topics_pars"     :["price","bv","description","created","title","full","categoryid","logo","galleryid","status","sh"],
+	"edit_pars"       :["price","bv","description","created","title","full","categoryid","logo","galleryid","status","sh"]
+}

@@ -1,0 +1,12 @@
+{
+	"actions" : {
+		"topics": {}
+	},
+	"current_table"   :"cron_1week",
+	"current_key"     :"c1_id",
+
+	"insert_pars"     :["daily","statusBinary","statusUp","weekly","statusAffiliate"        ],
+	"update_pars"     :["daily","statusBinary","statusUp","weekly","statusAffiliate","c1_id"],
+	"topics_pars"     :["daily","statusBinary","statusUp","weekly","statusAffiliate","c1_id"],
+	"edit_pars"       :["daily","statusBinary","statusUp","weekly","statusAffiliate","c1_id"]
+}

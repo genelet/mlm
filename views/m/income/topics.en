@@ -1,0 +1,31 @@
+[% INCLUDE start.en %]
+
+<h2>Compensation: [% IF classify=="direct" %]Direct[% ELSIF classify=="binary" %]Binary[% ELSIF classify=="matchup" %]Team[% ELSIF classify=="affiliate" %]Affiliate[% ELSE %]All[% END %]</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>Week ID</th>
+<th>When</th>
+<th>[% IF classify=="binary" %]Pattern[% ELSE %]Level[% END %]</th>
+<th>#</th>
+<th>[% IF classify=="binary" %]Other[% ELSE %]Type[% END %]</th>
+<th>Status</th>
+<th>Created</th>
+</tr>
+</thead>
+<tbody>[% FOREACH item=topics %]
+<tr>
+<td>[% item.weekid %]</td>
+<td>[% item.daily1 %]</td>
+<td>[% item.lev  %]</td>
+<td>[% item.amount %]</td>
+<td>[% IF classify=="binary" %][% item.refid  %][% ELSE %][% IF item.refid==1 %]Platinium[% ELSIF item.refid==2 %]Gold[% ELSIF item.refid==3 %]Silver[% ELSIF item.refid==4 %]Standard[% ELSIF item.refid==5 %]Visitor[% ELSE %][% item.refid  %][% END %][% END %]</td>
+<td>[% item.paystatus %]</td>
+<td>[% item.created %]</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+[% INCLUDE end.en %]

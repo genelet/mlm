@@ -1,0 +1,24 @@
+#!/usr/bin/perl
+
+use lib qw(/SAMPLE_home/mlm/lib /SAMPLE_home/perl);
+
+use strict;
+use JSON;
+
+use DBI;
+use XML::LibXML;
+use LWP::UserAgent;
+
+use File::Find;
+use Data::Dumper;
+use URI;
+use URI::Escape();
+use Digest::HMAC_SHA1;
+use MIME::Base64();
+use Template;
+
+use Genelet::Dispatch;
+
+Genelet::Dispatch::run("/SAMPLE_home/mlm/conf/config.json","/SAMPLE_home/mlm/lib", ["Admin","Affiliate","Signup","Member","Sponsor","Placement","Category","Gallery","Package", "Packagedetail","Packagetype","Sale","Basket","Lineitem","Income","Incomeamount","Ledger","Tt","Ttpost","Week1","Week4","Affiliate"]);
+
+exit;

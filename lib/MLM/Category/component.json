@@ -1,0 +1,17 @@
+{
+	"actions" : {
+		"topics"  :{"groups":["p","m"]},
+		"startnew":{"options":["no_method", "no_db"]},
+		"insert"  :{},
+		"delete"  :{"validate" :["categoryid"]},
+		"edit"    :{"groups":["p","m"], "validate" :["categoryid"]},
+		"update"  :{"validate" :["categoryid"]}
+	},
+	"current_table"   :"product_category",
+	"current_key"     :"categoryid",
+	"current_id_auto" :"categoryid",
+	"insert_pars":["description","created","title"],
+	"update_pars":["description","created","title","categoryid"],
+	"topics_pars":["description","created","title","categoryid"],
+	"edit_pars"  :["description","created","title","categoryid"]
+}

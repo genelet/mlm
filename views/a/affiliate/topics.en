@@ -1,0 +1,63 @@
+[% INCLUDE start.en %]
+
+    <div class="row">
+        <div class="col-sm-3"><h4>List of Affiliates</h4></div>
+        <div class="col-sm-9 text-right">[% SET from = ( pageno - 1 ) * rowcount + 1 %][% SET to = pageno * rowcount %]
+Between [% from %] and [% to %] among total [% totalno %].
+Page: [% SET i=1 %][% WHILE (i <= maxpageno) %]
+[% IF i==pageno %][% pageno %][% ELSE %]<a href="affiliate?action=topics&pageno=[% i %][% UNLESS i==1 %]&totalno=[% totalno %]&maxpageno=[% maxpageno %][% END %]">[% i %]</a>[% END %] &nbsp; [% SET i=i+1 %][% END %]
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>Member ID</th>
+<th>Login</th>
+<th>Name</th>
+<th>Type</th>
+<th>Created</th>
+<th></th>
+</tr>
+</thead><tbody>[% FOREACH item=topics %]
+<tr>
+<td><a href='member?action=edit&memberid=[% item.memberid %]'>[% item.memberid %]</a></td>
+<td>[% item.login %]</td>
+<td>[% item.firstname %] [% item.lastname %]</td>
+<td>[% item.typeid %]</td>
+<td>[% item.created %]</td>
+<td>
+<a class="btn btn-sm btn-danger" 
+onclick="javascript:confirm('Do you really want to delete [% item.login %]?!')" href='affiliate?action=delete&memberid=[% item.memberid %]')">Del</a>
+</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+<h4>Add New Affiliate</h4>
+
+<form class=form id=newform action=affiliate method=post>
+<input type=hidden name=action value="insert" />
+     <div class="row">
+        <div class="col-md-12 order-md-1">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="title">Affiliate's Member ID:</label>
+                <input type="text" class="form-control" id="title" name="memberid" placeholder="Member ID" required>
+                <div class="invalid-feedback">
+                  Valid first name is required.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+<button class="btn btn-primary" type=submit>Add Now!</button>
+              </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+[% INCLUDE end.en %]

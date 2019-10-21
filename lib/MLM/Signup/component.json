@@ -1,0 +1,46 @@
+{
+	"actions" : {
+		"topics"  :{},
+		"bulk"    :{},
+		"insert"  :{"groups":["m","p"], "validate":["sidlogin","email","firstname","lastname","login","packageid"]},
+		"delete"  :{},
+		"update"  :{}
+	},
+	"current_table"   :"member_signup",
+	"current_key"     :"signupid",
+	"current_id_auto" :"signupid",
+	"insert_pars"     :[           "sidlogin","memberid","login","passwd","email","firstname","lastname","street","city","state","zip","country","packageid","ip","signuptime","pid","leg"],
+	"update_pars"     :["signupid","sidlogin","memberid","login","passwd","email","firstname","lastname","street","city","state","zip","country","packageid","ip","signuptime","pid","leg"],
+	"edit_pars"       :["signupid","sidlogin","memberid","login","passwd","email","firstname","lastname","street","city","state","zip","country","packageid","ip","signuptime","pid","leg"],
+	"current_tables":[
+{"name":"member_signup",  "alias":"s"},
+{"name":"member",  "alias":"m", "type":"inner", "on":"s.sidlogin=m.login"},
+{"name":"member",  "alias":"p", "type":"left",  "on":"s.pid=p.memberid"},
+{"name":"product_package", "alias":"g", "type":"inner", "on":"s.packageid=g.packageid"},
+{"name":"def_type","alias":"t", "type":"inner", "on":"g.typeid=t.typeid"}
+	],
+	"topics_pars":{
+		"s.signupid":"signupid",
+		"s.sidlogin":"sidlogin",
+		"s.memberid":"memberid",
+		"s.login"   :"login",
+		"s.email"   :"email",
+		"s.firstname"    :"firstname",
+		"s.lastname":"lastname",
+		"s.street"  :"street",
+		"s.city"    :"city",
+		"s.state"   :"state",
+		"s.zip"     :"zip",
+		"s.country" :"country",
+		"s.packageid":"packageid",
+		"s.ip"      :"ip",
+		"SUBSTR(s.signuptime,6,11)":"signuptime",
+		"s.pid"     :"pid",
+		"s.leg"     :"leg",
+		"m.memberid":"sid",
+		"p.login"   :"plogin",
+		"t.short"   :"short",
+		"g.price"   :"price",
+		"g.bv"      :"bv"
+	}
+}

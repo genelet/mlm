@@ -1,0 +1,24 @@
+{
+	"actions" : {
+		"topics"  :{},
+		"insert"  :{},
+		"delete"  :{"validate" :["memberid"]}
+	},
+	"current_table" : "member_affiliate",
+	"current_key"   : "memberid",
+	"insert_pars"   : ["memberid","created"],
+
+    "current_tables" : [
+        {"name":"member_affiliate", "alias":"f"},
+        {"name":"member", "alias":"m", "type":"INNER", "using":"memberid"}
+    ],
+    "topics_pars" : {
+        "m.memberid":"memberid",
+        "m.login":"login",
+        "m.firstname":"firstname",
+        "m.lastname":"lastname",
+        "m.typeid":"typeid",
+        "f.created":"created",
+        "m.signuptime":"signuptime"
+    }
+}

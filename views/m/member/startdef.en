@@ -1,0 +1,16 @@
+[% INCLUDE start.en %]
+
+<h2>Auto Placement of New Signups</h2>
+
+<form method=post action=member>
+<input type=hidden name=action value='changedef'>
+<pre>
+Default Upline of New Member: <input type=text size=5 name=defpid value=[% defpid %]>
+Default Leg of New Member: 
+<input type=radio name=defleg [% IF defleg=='L' %]checked[% END %] value='L'>Left
+<input type=radio name=defleg [% IF defleg=='R' %]checked[% END %] value='R'>Right
+</pre>
+<button type="submit">Click to Change</button>
+</form>
+
+[% INCLUDE end.en %]

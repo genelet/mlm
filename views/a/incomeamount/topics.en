@@ -1,0 +1,68 @@
+[% INCLUDE start.en %]
+
+<form class="form-inline" name=f0 action=incomeamount method=post>
+<div class="row">
+    <div class="col-sm-2">Search:</div>
+    <div class="col-sm-3">
+        <select class="form-control" name=u>
+<option [% IF u=='memberid' %]selected[% END %] value='memberid'>Member ID</option>
+<option [% IF u=='weekid' %]selected[% END %] value='weekid'>Week ID</option>
+        </select>
+    </div>
+    <div class="col-sm-3">
+<input class="form-control" type=text name=v value="[% v %]">
+    </div>
+    <div class="col-sm-2">
+<select class="form-control" name=bonusType>
+<option [% IF bonusType=='Direct' %]selected[% END %] value='Direct'>Direct</option>
+<option [% IF bonusType=='Binary' %]selected[% END %] value='Binary'>Pairing</option>
+<option [% IF bonusType=='Up' %]selected[% END %] value='Up'>Team</option>
+<option [% IF bonusType=='Down' %]selected[% END %] value='Down'>Leader</option>
+</select>
+    </div>
+    <div class="col-sm-2">
+<input type=hidden name=action value=topics>
+<button class="btn btn-sm btn-primary" type=submit> Run it! </button>
+    </div>
+</div>
+</form>
+
+<p> </p>
+
+    <div class="row">
+        <div class="col-sm-5"><h4>Rewards Category: [% bonusType %]</h4></div>
+        <div class="col-sm-7 text-right">[% SET from = ( pageno - 1 ) * rowcount + 1 %][% SET to = pageno * rowcount %]
+Between [% from %] and [% to %] among total [% totalno %].
+Page: [% SET i=1 %][% WHILE (i <= maxpageno) %]
+[% IF i==pageno %][% pageno %][% ELSE %]<a href="incomeamount?action=topics&bonusType=[% bonusType %]&pageno=[% i %][% UNLESS i==1 %]&totalno=[% totalno %]&maxpageno=[% maxpageno %][% END %]">[% i %]</a>[% END %] &nbsp; [% SET i=i+1 %][% END %]
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>#</th>
+<th>When</th>
+<th>Member ID</th>
+<th>Type</th>
+<th>Week ID</th>
+<th>Status</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>[% FOREACH item=topics %]
+<tr>
+<td>[% item.amount_id %]</td>
+<td>[% IF item.daily4 %][% item.daily4 %][% ELSIF item.daily1 %][% item.daily1 %][% ELSE %][% item.created %][% END %]</td>
+<td><a href="member?action=edit&memberid=[% item.memberid %]">[% item.memberid %]</a></td>
+<td>[% item.bonusType %]</td>
+<td>[% item.weekid %]</td>
+<td>[% item.status %]</td>
+<td>[% item.amount %]</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+[% INCLUDE end.en %]

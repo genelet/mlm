@@ -1,0 +1,33 @@
+{
+	"actions" : {
+		"startnew":{"groups":["m"],"options":["no_db","no_method"]},
+		"topics"  :{"groups":["m"]},
+		"reply"   :{"groups":["m"], "validate":["subjectid"]},
+		"insert"  :{"groups":["m"],"validate":["description","memberid"]},
+		"delete"  :{"validate":["subjectid"]},
+		"edit"    :{"groups":["m"],"validate":["subjectid"]},
+		"update"  :{"groups":["m"],"validate":["subjectid"]}
+	},
+	"fks" : {
+		"m" : ["memberid",false,"subjectid","subjectmd5"]
+	},
+  "nextpages":{
+    "insert":[
+      {"model":"ttpost", "action":"insert"}
+	],
+    "reply":[
+      {"model":"ttpost", "action":"insert"}
+	],
+	"edit":[
+      {"model":"ttpost", "action":"topics", "relate_item":{"subjectid":"subjectid"}}
+	]
+  },
+
+	"current_table"   :"tt",
+	"current_key"     :"subjectid",
+	"current_id_auto" :"subjectid",
+	"insert_pars"     :["title","category","status","name","comm","memberid","created"],
+	"update_pars"     :["title","category","status","name","comm","memberid","created","subjectid"],
+	"topics_pars"     :["title","category","status","name","comm","memberid","created","subjectid"],
+	"edit_pars"       :["title","category","status","name","comm","memberid","created","subjectid"]
+}

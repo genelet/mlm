@@ -1,0 +1,14 @@
+[% INCLUDE start.en %]
+
+<link rel="stylesheet" type="text/css" href="/binary.css">
+
+<h2>My Binary Tree</h2>
+
+<div class=row>
+<div class="tree">
+    [% tree %]
+</div>
+
+    </div>
+
+[% INCLUDE end.en %]

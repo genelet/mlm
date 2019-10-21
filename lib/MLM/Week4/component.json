@@ -1,0 +1,12 @@
+{
+	"actions" : {
+		"topics"       :{}
+	},
+	"current_table"   :"cron_4week",
+	"current_key"     :"c4_id",
+
+	"insert_pars"     :["daily","status"        ],
+	"update_pars"     :["daily","status","c4_id"],
+	"topics_pars"     :["daily","status","c4_id"],
+	"edit_pars"       :["daily","status","c4_id"]
+}

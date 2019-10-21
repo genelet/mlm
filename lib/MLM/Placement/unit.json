@@ -1,0 +1,41 @@
+{
+"model":"MLM::Placement::Model",
+"filter":"MLM::Placement::Filter",
+"bb_preset": [
+	{
+		"input":{"g_role":"m","g_action":"view_binary","_gtime":"123","downid":"1","memberid":"1"},
+		"output":{"max_plevel":"6"}
+	},
+	{
+		"input":{"g_role":"a","g_action":"topics"},
+		"output":{"sortby":"level"}
+	}
+],
+"ca_makeparent": [
+	{
+		"input":{"pid":"0"},
+		"output":{"4444":["L","55555"]}
+	},
+	{
+		"input":{"pid":"0"},
+		"output":{"4444":["R","66666"]}
+	}
+],
+"cb_makefamily": [
+	{
+		"input":{"pid":"0"},
+		"output":{"parent":"22","leg":"L","child":"3333","level":"1"},
+		"expected":0
+	},
+	{
+		"input":{"pid":"0"},
+		"output":{"parent":"22","leg":"L","child":"3333","level":"2"},
+		"expected":1
+	},
+	{
+		"input":{"pid":"0"},
+		"output":{"parent":"1111","leg":"L","child":"11111","level":"1"},
+		"expected":1
+	}
+]
+}

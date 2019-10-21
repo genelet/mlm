@@ -1,0 +1,73 @@
+[% INCLUDE start.en %]
+
+<h4>Package No. [% packageid %]</h4>
+
+<form name=f1 method=post action=package>
+<input type=hidden name=action value=update>
+<input type=hidden name=packageid value=[% packageid %]>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>#</th>
+<th>Title</th>
+<th>Price</th>
+<th>BV</th>
+<th>SH</th>
+<th>Qty</th>
+<th> </th>
+</tr>
+</thead><tbody>[% FOREACH item=topics %]
+<tr>
+<td>[% item.galleryid %]</td>
+<td>[% item.title %]</td>
+<td>[% item.price %]</td>
+<td>[% item.bv %]</td>
+<td>[% item.sh %]</td>
+<td>[% item.num %]</td>
+<td><a class="btn btn-sm btn-danger" href="packagedetail?action=delete&ids=[% item.id %]">DEL</a></td>
+</tr>
+[% END %]<tr>
+<td colspan=2>Total:</td>
+<td><input name=price type=text size=4 value="[% price %]"></td>
+<td><input name=bv type=text size=4 value="[% bv %]"></td>
+<td><input name=sh type=text size=4 value="[% sh %]"></td>
+<td><input name=sumnum type=text size=2 value="[% sumnum %]"></td>
+<td><button class="btn btn-sm btn-primary" type=submit>Update</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+</form>
+
+<h6>Add Gallery to the Package</h6>
+<form name=f2 method=post action=packagedetail>
+<input type=hidden name=action value=insert>
+<input type=hidden name=packageid value=[% packageid %]>
+     <div class="row">
+        <div class="col-md-12 order-md-1">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="galleryid">Product:</label>
+                <select class="form-control" id="galleryid" name="galleryid">[% FOREACH g=gs %]<option value="[% g.galleryid %]">[% g.title %]</option>
+				[% END %]</select>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="num">Qty:</label>
+                <input type="text" class="form-control" id="num" name="num" placeholder="Number of Items" required>
+                <div class="invalid-feedback">
+                  Valid qty is required.
+                </div>
+              </div>
+			</div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <button type="submit" class="btn btn-primary">Add</button>
+              </div>
+			</div>
+		</div>
+	</div>
+</form>
+
+[% INCLUDE end.en %]

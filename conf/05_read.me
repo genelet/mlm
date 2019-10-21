@@ -1,0 +1,23 @@
+It's time to run unit tests.
+
+Under directory "SAMPLE_home":
+1) copy file "Beancon.pm" to "mlm/lib/MLM"
+2) copy file "admin.t" to "mlm/lib/MLM/Admin"
+3) copy file "placement.t" to "mlm/lib/MLM/Placement"
+
+So the directory structure for the three new files looks like
+
+mlm/lib/MLM
+           /Beacon.pm
+           /Admin
+                 /admin.t
+           /Placement
+                 /placement.t
+
+4) edit the files so "SAMPLE_home" points to the current top directory.
+5) go to "mlm/lib/MLM/Admin" and run
+$ perl admin.t
+to make sure the unit tests pass
+6) go to "mlm/lib/MLM/Placement" and run
+$ perl placement.t
+to make sure the unit tests pass

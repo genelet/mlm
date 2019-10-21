@@ -1,0 +1,17 @@
+All tests passed. It's time to launch the service!
+
+1) you should start over with a fresh database. Load 01_init.sql into the database using a client tool.
+2) modify 03_setup.sql to reflect your real business and accounts, and load it into the database. IMPORTANT! Don't forget to change the passwords (and usernames too) for the testing admin account and member account!
+3) run 08_weekly.pl to build weekly cron tables. You weekly and monthly compensations will be calculated on those specific days.
+4) the cron program is "run_daily.pl" under "bin" (make sure you have replaced SAMPLE_home), you should run it as a daily cron job like:
+$ crontab -e
+and add this entry to run it at 2am daily:
+0 2 * * * /usr/bin/perl /SAMPLE_home/mlm/bin/run_daily.pl
+5) copy "goto" in "SAMPLE_cgi-bin" to web server's CGI-BIN directory. Make sure to edit it.
+6) now you can lauch the service!
+6.1) new member signup:
+     http://SAMPLE_domain/cgi-bin/goto/p/en/member?action=startnew
+6.2) backend admin:
+     http://SAMPLE_domain/cgi-bin/goto/a/en/member?action=topics
+6.2) member portal:
+     http://SAMPLE_domain/cgi-bin/goto/m/en/member?action=dashboard

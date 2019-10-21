@@ -1,0 +1,33 @@
+{
+	"actions" : {
+		"topics"  :{},
+		"insert"  :{},
+		"delete"  :{},
+		"update"  :{}
+	},
+    "fks" : {
+        "m" : ["saleid","salemd5"]
+    },
+	"current_table"   :"sale_lineitem",
+	"current_key"     :"lineitemid",
+	"current_id_auto" :"lineitemid",
+	"insert_pars"     :[             "saleid","basketid","amount","credit"],
+	"update_pars"     :["lineitemid","saleid","basketid","amount","credit"],
+	"edit_pars"       :["lineitemid","saleid","basketid","amount","credit"],
+
+    "current_tables" : [
+        {"name":"sale_lineitem", "alias":"i"},
+        {"name":"sale_basket", "alias":"b", "type":"INNER", "using":"basketid"}
+    ],
+    "topics_pars" : {
+		"i.lineitemid":"lineitemid",
+		"i.saleid":"saleid",
+		"i.basketid":"basketid",
+		"i.amount":"amount",
+		"i.credit":"credit",
+		"b.classify":"classify",
+		"b.id":"id",
+		"b.qty":"qty",
+		"b.basketid":"basketid"
+	}
+}

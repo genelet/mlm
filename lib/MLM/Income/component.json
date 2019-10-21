@@ -1,0 +1,44 @@
+{
+	"actions" : {
+		"topics"       :{"groups" :["m"]},
+
+		"starttest"       :{"options":["no_method","no_db"]},
+		"week4_direct"    :{},
+		"week1_binary"    :{},
+		"week1_match"     :{},
+		"week1_affiliate" :{},
+		"run_to_yesterday":{},
+		"run_daily"       :{},
+		"run_all_tests"   :{}
+	},
+    "fks" : {
+        "m" : ["memberid"]
+    },
+	"current_table"   :"income",
+	"current_key"     :"incomeid",
+	"current_id_auto" :"incomeid",
+
+	"insert_pars"     :["classify","paystatus","memberid","weekid","amount","refid","lev","created"           ],
+	"update_pars"     :["classify","paystatus","memberid","weekid","amount","refid","lev","created","incomeid"],
+	"topics_pars"     :["classify","paystatus","memberid","weekid","amount","refid","lev","created","incomeid"],
+	"edit_pars"       :["classify","paystatus","memberid","weekid","amount","refid","lev","created","incomeid"],
+
+    "current_tables" : [
+        {"name":"income", "alias":"i"},
+        {"name":"cron_1week", "alias":"one",  "type":"LEFT", "on": "one.c1_id=i.weekid"},
+        {"name":"cron_4week", "alias":"four", "type":"LEFT", "on":"four.c4_id=i.weekid AND i.classify='direct'"}
+    ],
+    "topics_pars" : {
+        "i.incomeid":"incomeid",
+        "i.classify":"classify",
+        "i.weekid":"weekid",
+        "i.created":"created",
+        "i.paystatus":"paystatus",
+        "i.memberid":"memberid",
+        "i.refid":"refid",
+        "i.amount":"amount",
+        "i.lev":"lev",
+        "one.daily":"daily1",
+        "four.daily":"daily4"
+    }
+}

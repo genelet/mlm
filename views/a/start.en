@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Greetingland, LLC">
+    <title>MLM's Admin Backend</title>
+
+    <!-- Bootstrap core CSS -->
+<link href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      body { padding-top: 5rem; }
+
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">MLM Admin</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Membership</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown0">
+          <a class="dropdown-item" href="member">Member List</a>
+          <a class="dropdown-item" href="signup">New Signups</a>
+          <a class="dropdown-item" href="placement?action=startnew">Binary Tree</a>
+          <a class="dropdown-item" href="affiliate">Affiliates</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Product</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown1">
+          <a class="dropdown-item" href="category">Categories</a>
+          <a class="dropdown-item" href="gallery">Product Items</a>
+          <a class="dropdown-item" href="package">Packages</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sales</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown4">
+          <a class="dropdown-item" href="sale?paystatus=Pending">Pending Orders</a>
+          <a class="dropdown-item" href="sale?paystatus=Processing">In Processing</a>
+          <a class="dropdown-item" href="sale?paystatus=Delivered">Delivered</a>
+          <a class="dropdown-item" href="sale?paystatus=Cancel">Canceled</a>
+          <a class="dropdown-item" href="sale?paytype=Advanced">Repeating Sales</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Conpensation</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown2">
+          <a class="dropdown-item" href="income?action=topics&classify=direct">Direct Details</a>
+          <a class="dropdown-item" href="incomeamount?action=topics&bonusType=Direct">Direct Reward</a>
+          <a class="dropdown-item" href="income?action=topics&classify=binary">Pairing Details</a>
+          <a class="dropdown-item" href="incomeamount?action=topics&bonusType=Binary">Pairing Reward</a>
+          <a class="dropdown-item" href="income?action=topics&classify=matchup">Team Details</a>
+          <a class="dropdown-item" href="incomeamount?action=topics&bonusType=Up">Team Reward</a>
+          <a class="dropdown-item" href="incomeamount?action=topics&bonusType=Down">Affliate Reward</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ledger</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown3">
+          <a class="dropdown-item" href="ledger?status=Weekly">Weekly Income</a>
+          <a class="dropdown-item" href="ledger?status=Monthly">Monthly Income</a>
+          <a class="dropdown-item" href="ledger?status=Shopping">Shopping Expense</a>
+          <a class="dropdown-item" href="ledger?status=Withdraw">Withdraw</a>
+          <a class="dropdown-item" href="ledger?status=In">In</a>
+          <a class="dropdown-item" href="ledger?status=Other">Others</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ticket</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown7">
+          <a class="dropdown-item" href="tt">All Trouble Tickets</a>
+          <a class="dropdown-item" href="tt?status=Open">Open Tickets</a>
+          <a class="dropdown-item" href="tt?status=Close">Closed Tickets</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown8" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Others</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown8">
+[% IF adminid.search("ROOT") %]<a class="dropdown-item" href="admin?action=topics">Managing Managers</a>
+          [% END %]<a class="dropdown-item" href="income?action=starttest">Compensation Test</a>
+          <a class="dropdown-item" href="week1?action=topics">Weekly Table</a>
+          <a class="dropdown-item" href="week4?action=topics">Monthly Table</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="logout">Logout</a>
+      </li>
+    </ul>
+    <!-- form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-1" type="text" placeholder="Search" aria-label="Search">
+      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form -->
+  </div>
+</nav>
+
+<main role="main" class="container">

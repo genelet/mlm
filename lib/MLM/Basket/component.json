@@ -1,0 +1,25 @@
+{
+	"actions" : {
+		"topics" :{"groups":["p","m"]},
+		"insert" :{"groups":["p","m"], "validate":["classify","id"]},
+		"delete" :{"groups":["p","m"], "validate":["basketid"]},
+		"update" :{"groups":["p","m"], "validate":["basketid"]},
+		"edit"   :{"validate":["basketid"]}
+	},
+    "fks" : {
+        "m" : ["memberid"]
+    },
+	"nextpages":{
+		"topics":[
+			{"model":"ledger", "action":"currentBalance"}
+		]
+	},
+
+	"current_table"   :"sale_basket",
+	"current_key"     :"basketid",
+	"current_id_auto" :"basketid",
+	"insert_pars"     :["memberid","created","classify","id","inbasket","qty"],
+	"update_pars"     :["memberid","created","classify","id","inbasket","qty","basketid"],
+	"topics_pars"     :["memberid","created","classify","id","inbasket","qty","basketid"],
+	"edit_pars"       :["memberid","created","classify","id","inbasket","qty","basketid"]
+}

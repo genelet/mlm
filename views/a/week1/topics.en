@@ -1,0 +1,40 @@
+[% INCLUDE start.en %]
+To calculate all rewards up to yesterday: <a class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to run?\nThis operation cannot be reversed.')" href="income?action=run_to_yesterday">Emergency Run</a>
+
+<p> </p>
+
+    <div class="row">
+        <div class="col-sm-4"><h4>History of Weekly Runs</h4></div>
+        <div class="col-sm-8 text-right">[% SET from = ( pageno - 1 ) * rowcount + 1 %][% SET to = pageno * rowcount %]
+Between [% from %] and [% to %] among total [% totalno %].
+Page: [% SET i=1 %][% WHILE (i <= maxpageno) %]
+[% IF i==pageno %][% pageno %][% ELSE %]<a href="week1?action=topics&pageno=[% i %][% UNLESS i==1 %]&totalno=[% totalno %]&maxpageno=[% maxpageno %][% END %]">[% i %]</a>[% END %] &nbsp; [% SET i=i+1 %][% END %]
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>Week ID</th>
+<th>Starting</th>
+<th>#</th>
+<th>Pairing</th>
+<th>Team</th>
+<th>Affiliate</th>
+</tr>
+</thead>
+<tbody>[% FOREACH item=topics %]
+<tr>
+<td>[% item.c1_id %]</td>
+<td>[% item.daily %]</td>
+<td>[% item.weekly %]</td>
+<td>[% item.statusBinary %]</td>
+<td>[% item.statusUp %]</td>
+<td>[% item.statusAffiliate %]</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+[% INCLUDE end.en %]

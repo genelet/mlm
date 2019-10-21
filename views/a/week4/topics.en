@@ -1,0 +1,30 @@
+[% INCLUDE start.en %]
+
+    <div class="row">
+        <div class="col-sm-4"><h4>History of Monthly Runs</h4></div>
+        <div class="col-sm-8 text-right">[% SET from = ( pageno - 1 ) * rowcount + 1 %][% SET to = pageno * rowcount %]
+Between [% from %] and [% to %] among total [% totalno %].
+Page: [% SET i=1 %][% WHILE (i <= maxpageno) %]
+[% IF i==pageno %][% pageno %][% ELSE %]<a href="week4?action=topics&pageno=[% i %][% UNLESS i==1 %]&totalno=[% totalno %]&maxpageno=[% maxpageno %][% END %]">[% i %]</a>[% END %] &nbsp; [% SET i=i+1 %][% END %]
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>Week ID</th>
+<th>Starting</th>
+<th>Direct Rewards</th>
+</tr></thead>
+<tbody>[% FOREACH item=topics %]
+<tr>
+<td>[% item.c4_id %]</td>
+<td>[% item.daily %]</td>
+<td>[% item.status %]</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+[% INCLUDE end.en %]

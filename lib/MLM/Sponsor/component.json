@@ -1,0 +1,10 @@
+{
+	"actions" : {
+		"startnew"     :{},
+		"view_sponsor" :{"groups":["m"], "validate" :["memberid"]},
+		"topics"       :{"groups":["m"], "validate" :["memberid"]}
+	},
+
+	"current_table" : "member",
+	"current_key"   : "memberid"
+}

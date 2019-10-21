@@ -1,0 +1,135 @@
+[% INCLUDE start.en %]
+
+<form name=name1 action=member method=post>
+	<div class="row">
+		<div class="col-sm-1">Search:</div>
+		<div class="col-sm-11">
+<select name=u size=1 onchange="showQueryMem(this.value)" id="qSType">
+<option [% IF u=='memberid' %]selected[% END %] value='memberid'>Member ID</option>
+<option [% IF u=='loginm' %]selected[% END %] value='loginm'>Member Login</option>
+<option [% IF u=='lastname' %]selected[% END %] value='lastname'>Last Name</option>
+<option [% IF u=='firstname' %]selected[% END %] value='firstname'>First Name</option>
+<option [% IF u=='signuptime' %]selected[% END %] value='signuptime'>Signup Datetime</option>
+</select>
+<span id="qMem"><input type=text name=v value="[% v %]" size=10></span>
+<span id="qDate" style="display:none;">
+<select name=y1 size=1>
+<option value='2019' [% IF y1=='2019' %]selected[% END %] >2019</option>
+<option value='2020' [% IF y1=='2020' %]selected[% END %] >2020</option>
+<option value='2021' [% IF y1=='2021' %]selected[% END %] >2021</option>
+<option value='2022' [% IF y1=='2022' %]selected[% END %] >2022</option>
+<option value='2023' [% IF y1=='2023' %]selected[% END %] >2023</option>
+<option value='2024' [% IF y1=='2024' %]selected[% END %] >2024</option>
+<option value='2025' [% IF y1=='2025' %]selected[% END %] >2025</option>
+</select>
+- <select name=m1 size=1>
+<option [% IF m1=='1' %]selected[% END %] value='1'>01</option>
+<option [% IF m1=='2' %]selected[% END %] value='2'>02</option>
+<option [% IF m1=='3' %]selected[% END %] value='3'>03</option>
+<option [% IF m1=='4' %]selected[% END %] value='4'>04</option>
+<option [% IF m1=='5' %]selected[% END %] value='5'>05</option>
+<option [% IF m1=='6' %]selected[% END %] value='6'>06</option>
+<option [% IF m1=='7' %]selected[% END %] value='7'>07</option>
+<option [% IF m1=='8' %]selected[% END %] value='8'>08</option>
+<option [% IF m1=='9' %]selected[% END %] value='9'>09</option>
+<option [% IF m1=='10' %]selected[% END %] value='10'>10</option>
+<option [% IF m1=='11' %]selected[% END %] value='11'>11</option>
+<option [% IF m1=='12' %]selected[% END %] value='12'>12</option>
+</select>
+- <input type=text name=d1 size=2 maxlength=2 value=[% d1 %]>
+to
+<select name=y2 size=1>
+<option [% IF y2=='2019' %]selected[% END %] value='2019'>2019</option>
+<option [% IF y2=='2020' %]selected[% END %] value='2020'>2020</option>
+<option [% IF y2=='2021' %]selected[% END %] value='2021'>2021</option>
+<option [% IF y2=='2022' %]selected[% END %] value='2022'>2022</option>
+<option [% IF y2=='2023' %]selected[% END %] value='2023'>2023</option>
+<option [% IF y2=='2024' %]selected[% END %] value='2024'>2024</option>
+<option [% IF y2=='2025' %]selected[% END %] value='2025'>2025</option>
+</select>
+- <select name=m2 size=1>
+<option [% IF m2=='1' %]selected[% END %] value='1'>01</option>
+<option [% IF m2=='2' %]selected[% END %] value='2'>02</option>
+<option [% IF m2=='3' %]selected[% END %] value='3'>03</option>
+<option [% IF m2=='4' %]selected[% END %] value='4'>04</option>
+<option [% IF m2=='5' %]selected[% END %] value='5'>05</option>
+<option [% IF m2=='6' %]selected[% END %] value='6'>06</option>
+<option [% IF m2=='7' %]selected[% END %] value='7'>07</option>
+<option [% IF m2=='8' %]selected[% END %] value='8'>08</option>
+<option [% IF m2=='9' %]selected[% END %] value='9'>09</option>
+<option [% IF m2=='10' %]selected[% END %] value='10'>10</option>
+<option [% IF m2=='11' %]selected[% END %] value='11'>11</option>
+<option [% IF m2=='12' %]selected[% END %] value='12'>12</option>
+</select>
+- <input type=text name=d2 size=2 maxlength=2 value=[% d2 %]>
+</span>
+<span>
+<input type=hidden name=action value=topics><input type=submit value=" Run! " />
+</span>
+		</div>
+	</div>
+</form>
+
+<p> </p>
+	<div class="row">
+		<div class="col-sm-3"><h4>List of Members</h4></div>
+		<div class="col-sm-9 text-right">[% SET from = ( pageno - 1 ) * rowcount + 1 %][% SET to = pageno * rowcount %]
+Between [% from %] and [% to %] among total [% totalno %].
+Page: [% SET i=1 %][% WHILE (i <= maxpageno) %]
+[% IF i==pageno %][% pageno %][% ELSE %]<a href="member?action=topics&pageno=[% i %][% UNLESS i==1 %]&totalno=[% totalno %]&maxpageno=[% maxpageno %][% END %]">[% i %]</a>[% END %] &nbsp; [% SET i=i+1 %][% END %]
+		</div>
+	</div>
+
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead class="thead-dark">
+			<tr>
+			<th>ID</th>
+			<th>Login</th>
+			<th>Status</th>
+			<th>Type</th>
+			<th>Name</th>
+			<th>Since</th>
+			<th>Sponsor</th>
+			<th>Upline</th>
+			<th>Leg</th>
+			<th> </th>
+			<th> </th>
+			<th> </th>
+			</tr></thead><tbody>[% FOREACH item=topics %]
+			<tr>
+			<td><a href="member?action=edit&memberid=[% item.memberid %]">[% item.memberid %]</a></td>
+			<td>[% item.login %]</td>
+			<td>[% item.active %]</td>
+			<td>[% item.typename %]</td>
+			<td>[% item.firstname %] [% item.lastname %]</td>
+			<td>[% item.signuptime %]</td>
+			<td><a href="member?action=edit&memberid=[% item.sid %]">[% item.sid %]</a></td>
+			<td><a href="member?action=edit&memberid=[% item.pid %]">[% item.pid %]</a></td>
+			<td>[% item.leg %]</td>
+			<td><a class="btn btn-sm btn-outline-success" href="placement?action=view_binary&login=[% item.login %]&memberid=[% item.memberid %]">Pairing</a></td>
+			<td><a class="btn btn-sm btn-outline-info" href="sponsor?action=view_sponsor&login=[% item.login %]&memberid=[% item.memberid %]">Matrix</a></td>
+			<td><a class="btn btn-sm btn-primary" target=_blank href="member?action=enter&login=[% item.login %]&memberid=[% item.memberid %]">ENTER</a></td>
+			</tr>
+		[% END %]</tbody>
+		</table>
+	</div>
+
+
+<script language="javascript">
+function $_id(oId) {
+	return document.getElementById(oId);
+}
+function showQueryMem(sValue) {
+	if ("signuptime"==sValue) {
+		$_id("qMem").style.display="none";
+		$_id("qDate").style.display="inline";
+	} else {
+		$_id("qMem").style.display="inline";
+		$_id("qDate").style.display="none";
+	}
+}
+showQueryMem($_id("qSType").value);
+</script>
+
+[% INCLUDE end.en %]

@@ -1,0 +1,14 @@
+{
+	"actions" : {
+		"topics"  :{"groups":["p","m"]},
+		"insert"  :{},
+		"delete"  :{},
+		"update"  :{}
+	},
+	"current_table" :"def_type",
+	"current_key"   :"typeid",
+	"insert_pars"   :["typeid","short","name","bv","price","yes21","c_upper"],
+	"update_pars"   :["typeid","short","name","bv","price","yes21","c_upper"],
+	"edit_pars"     :["typeid","short","name","bv","price","yes21","c_upper"],
+	"topics_pars"   :["typeid","short","name","bv","price","yes21","c_upper"]
+}

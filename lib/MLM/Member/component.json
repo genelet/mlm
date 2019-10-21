@@ -1,0 +1,65 @@
+{
+	"actions" : {
+		"startnew": {"groups":["p","m"]},
+		"activate": { "groups": [ "p" ], "validate": [ "login", "secret" ] },
+		"retrieve_pass": { "groups": [ "p" ] },
+
+		"update"     :{"groups":["m"], "validate" :["memberid"]},
+		"startdef"   :{"groups":["m"]},
+		"changedef"  :{"groups":["m"]},
+		"changepass" :{"groups":["m"], "validate" :["passwd", "newpasswd"]},
+		"dashboard"  :{"groups":["m"], "validate" :["memberid"]},
+		"edit"       :{"groups":["m"], "validate" :["memberid"]},
+
+		"resetpass"  :{ "validate": [ "memberid", "newpasswd"] },
+		"insert"     :{},
+		"bulk"       :{},
+		"topics"     :{},
+		"delete"     :{},
+		"enter"      :{"options":["no_db", "no_method"]}
+	},
+
+    "fks" : {
+        "m" : ["memberid",false]
+    },
+
+  "nextpages":{
+    "startnew":[
+      {"model":"package", "action":"topics"}
+    ],
+    "insert":[
+      {"model":"basket",   "action":"insert"},
+      {"model":"sale",     "action":"insert"},
+      {"model":"lineitem", "action":"insert"},
+      {"model":"signup",   "action":"signup_update"},
+      {"model":"signup",   "action":"add_family"},
+      {"model":"signup",   "action":"add_miles"}
+    ]
+  },
+
+	"current_table"   :"member",
+	"current_key"     :"memberid",
+	"insert_pars"     :["affiliate","signuptime","city","typeid","miler","countl","countr","street","state","zip","comm","email","ip","country","top","leg","sid","defleg","memberid","active","pid","created","defpid","lastname","login","milel","firstname","passwd"],
+	"update_pars"     :["affiliate","signuptime","city","typeid","miler","countl","countr","street","state","zip","comm","email",     "country","top","leg","sid","defleg",           "active","pid",          "defpid","lastname","login","milel","firstname"],
+	"edit_pars"       :["affiliate","signuptime","city","typeid","miler","countl","countr","street","state","zip","comm","email","ip","country","top","leg","sid","defleg","memberid","active","pid","created","defpid","lastname","login","milel","firstname"],
+	"current_tables" : [
+		{"name":"member", "alias":"m"},
+		{"name":"def_type", "alias":"t", "using":"typeid"},
+		{"name":"member", "alias":"sp","type":"LEFT", "on":"m.sid=sp.memberid"},
+		{"name":"member", "alias":"p", "type":"LEFT", "on":"m.pid=p.memberid"}
+	],
+  "topics_pars": {
+    "t.short": "typename",
+    "m.memberid": "memberid",
+    "m.active": "active",
+    "m.pid": "pid",
+    "m.sid": "sid",
+    "m.leg": "leg",
+	"sp.login": "sp_login",
+	"p.login": "p_login",
+    "LEFT(m.signuptime,10)": "signuptime",
+    "m.login": "login",
+    "m.firstname": "firstname",
+    "m.lastname": "lastname"
+  }
+}

@@ -1,0 +1,60 @@
+[% INCLUDE start.en %]
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>Username</th>
+<th>Super</th>
+<th>Accounting</th>
+<th>Marketing</th>
+<th>Support</th>
+<th>Status</th>
+<th></th>
+</tr></thead>
+<tbody>[% FOREACH item=topics %]
+<tr>
+<td>[% item.login %]</td>
+<td align=center>[% IF item.adminid.search("ROOT") %]✔[% END %]</td>
+<td align=center>[% IF item.adminid.search("ACCOUNTING") %]✔[% END %]</td>
+<td align=center>[% IF item.adminid.search("MARKETING") %]✔[% END %]</td>
+<td align=center>[% IF item.adminid.search("SUPPORT") %]✔[% END %]</td>
+<td align=center>[% IF item.status.search("Yes") %]✔[% END %]</td>
+<td><a onclick="return confirm('Are you sure to delete [% item.login %]?\nThis operation can't be reversed.')" href="admin?action=delete&login=[% item.login %]">DEL</a></td>
+</tr>[% END %]
+</tbody></table>
+
+<p> &nbsp; </p>
+<h4>Add New Manager</h4>
+
+<form method=post action=admin>
+<input type=hidden name=action value=insert>
+     <div class="row">
+        <div class="col-md-12 order-md-1">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="title">Username:</label>
+                <input type="text" class="form-control" id="title" name="login" placeholder="Login name" required>
+                <div class="invalid-feedback">
+                  Valid first name is required.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8 mb-3">
+                <label for="description">Privileges:</label>
+<input type=checkbox name=groups value=ACCOUNTING>Accounting
+<input type=checkbox name=groups value=MARKETING>Marketing
+<input type=checkbox name=groups value=SUPPORT>Customer Support
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+<button class="btn btn-primary" type=submit>Add Now!</button>
+              </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+[% INCLUDE end.en %]

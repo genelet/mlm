@@ -1,0 +1,7 @@
+[% INCLUDE start.en %]
+
+<h4>Sign up all applicants at once</h2>
+
+[% IF counts>0 %][% counts %] in total. <a onclick="return confirm('Are you sure to run this?\nThis operation cannot be reversed.')" href="member?action=bulk">Run it!</a>[% ELSE %]Empty[% END %]
+
+[% INCLUDE end.en %]

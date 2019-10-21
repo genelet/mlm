@@ -1,0 +1,50 @@
+[% INCLUDE start.en %]
+
+<h2>Basket</h2>
+
+[% IF topics.0 %]<div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>Classify</th>
+<th>Title</th>
+<th>Price</th>
+<th>Qty</th>
+<th>S&H</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>[% FOREACH item=topics %]
+<tr>
+<td>[% IF (item.classify=='package') %]Package[% ELSE %]Item[% END %]</td>
+<td>[% item.title %]</td>
+<td>$[% item.price %]</td>
+<form name=basket[% item.basketid %] class="form-inline" action=basket method="post"><input type=hidden name="action" value="update"><input type=hidden name="basketid" value=[% item.basketid %]>
+<td><input type=text class="form-control-inline col-2" name="qty" value="[% item.qty %]"><button type=submit class="btn btn-sm btn-primary">Upd</button> <a class="btn btn-sm btn-info" href="basket?action=delete&basketid=[% item.basketid %]">Remove</a></td></form>
+<td align=right>$[% item.shipping %]</td>
+<td align=right>$[% item.amount %]</td>
+</tr>
+[% END %]<tr><td colspan=6 align=right>$[% amount %]</td></tr>
+</tbody>
+</table>
+
+[% SET need = amount + shipping %]
+[% SET shop = ledger_currentBalance.0.shop_balance %]
+[% SET balance = ledger_currentBalance.0.balance %]
+[% SET have = shop+balance %]
+<form class="form" method=post action="sale"><input type=hidden name="action" value="buy">
+<p>
+The total payment is $[% need %]. You have $[% have %] in your account, among which the shopping balance is $[% shop %] and the cash balance $[% balance %].
+</p>
+[% IF have < need %]You don't have enough money to pay for the products, please deposit or remove some items.[% ELSE %]
+[% IF shop<need %] <input class="form-control-inline" type=checkbox name=agreebalance value="Yes">I agree to use cash balance to pay.[% END %]
+<button type=submit class="btn btn-primary">Buy Now</button>
+[% END %]
+</form>
+
+
+[% ELSE %]
+<h4>Empty</h4>
+[% END %]
+
+[% INCLUDE end.en %]

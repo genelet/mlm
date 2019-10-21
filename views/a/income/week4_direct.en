@@ -1,0 +1,25 @@
+[% INCLUDE start.en %]
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>Member ID</th>
+<th>Classify</th>
+<th>Numbers</th>
+<th>Reference</th>
+<th>Level</th>
+</tr></thead>
+<tbody>[% FOREACH item=week4_direct %]
+<tr>
+<td><a href="member?action=edit&memberid=[% item.memberid %]">[% item.memberid %]</a></td>
+<td>[% item.classify %]</td>
+<td>[% item.amount %]</td>
+<td>[% item.refid %]</td>
+<td>[% item.lev %]</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+[% INCLUDE end.en %]

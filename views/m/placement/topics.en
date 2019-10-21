@@ -1,0 +1,35 @@
+[% INCLUDE start.en %]
+
+      <h2>Genealogy of [% downid %]</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Member ID</th>
+              <th>Login</th>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Type</th>
+              <th>Level</th>
+              <th># Left</th>
+              <th># Right</th>
+              <th>Since</th>
+            </tr>
+          </thead>
+          <tbody>[% FOREACH item=topics %]
+            <tr>
+              <td>[% item.memberid %]</td>
+              <td>[% item.login %]</td>
+              <td>[% item.firstname %] [% item.lastname %]</td>
+              <td>[% item.active %]</td>
+              <td>[% item.short %]</td>
+              <td>[% item.level %]</td>
+              <td>[% item.countl %]</td>
+              <td>[% item.countr %]</td>
+              <td>[% item.signuptime %]</td>
+            </tr>
+          [% END %]</tbody>
+        </table>
+      </div>
+
+[% INCLUDE end.en %]

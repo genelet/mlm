@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Genelet MLM Portal</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.0/examples/dashboard/dashboard.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" target=_blank href="/">Genelet MLM</a>
+      <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+           <a class="nav-link" href="category?action=topics">Store</a>
+        </li>  
+      </ul>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+           <a class="nav-link" href="basket"><span data-feather="shopping-cart"></span></a>
+        </li>  
+      </ul>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+           <a class="nav-link" href="member?action=edit">[% m_name %] [% m_lastname %]</a>
+        </li>  
+      </ul>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+           <a class="nav-link" href="logout">Sign out</a>
+        </li>  
+      </ul>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="member?action=edit">
+                  <span data-feather="home"></span>
+                  Dashboard <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="sponsor?action=topics">
+                  <span data-feather="folder-plus"></span>
+                  Unilevel
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="sponsor?action=view_sponsor">
+                  <span data-feather="align-right"></span>
+                  Unilevel Tree
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="placement?action=topics">
+                  <span data-feather="bar-chart-2"></span>
+                  Genealogy
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="placement?action=view_binary">
+                  <span data-feather="users"></span>
+                  Binary Tree
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="member?action=startdef">
+                  <span data-feather="droplet"></span>
+                  Auto Placement
+                </a>
+              </li>
+            </ul>
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Compensation</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+              <li class="nav-item">
+                <a class="nav-link" href="ledger?action=topics">
+                  <span data-feather="gift"></span>
+                  Trasactions
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="income?action=topics&classify=direct">
+                  <span data-feather="more-horizontal"></span>
+                  Direct Bonus
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="income?action=topics&classify=binary">
+                  <span data-feather="more-vertical"></span>
+                  Binary Bonus
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="income?action=topics&classify=matchup">
+                  <span data-feather="arrow-up-circle"></span>
+                  Team Bonus
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="income?action=topics&classify=affiliate">
+                  <span data-feather="radio"></span>
+                  Affiliate Bonus
+                </a>
+              </li>
+            </ul>
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Shopping</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+              <li class="nav-item">
+                <a class="nav-link" href="sale?action=topics">
+                  <span data-feather="archive"></span>
+                  History
+                </a>
+              </li>
+            </ul>
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Contact Us</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+              <li class="nav-item">
+                <a class="nav-link" href="tt">
+                  <span data-feather="help-circle"></span>
+                  Tickets
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">

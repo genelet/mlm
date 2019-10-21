@@ -1,0 +1,23 @@
+{
+	"actions" : {
+		"topics"  :{"groups":["p","m"]},
+		"startnew":{"options":["no_method", "no_db"]},
+		"insert"  :{},
+		"delete"  :{},
+		"edit"    :{},
+		"update"  :{}
+	},
+    "nextpages":{
+        "topics":[
+            {"model":"packagetype", "action":"topics"},
+            {"model":"packagetype", "action":"topics", "relate_item":{"typeid":"typeid"}}
+        ]
+    },
+	"current_table"   :"product_package",
+	"current_key"     :"packageid",
+	"current_id_auto" :"packageid",
+	"insert_pars"     :["description","sh","status","title","logo","typeid","created","price","bv","sumnum"            ],
+	"update_pars"     :["description","sh","status","title","logo","typeid","created","price","bv","sumnum","packageid"],
+	"topics_pars"     :["description","sh","status","title","logo","typeid","created","price","bv","sumnum","packageid"],
+	"edit_pars"       :["description","sh","status","title","logo","typeid","created","price","bv","sumnum","packageid"]
+}

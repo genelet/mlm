@@ -1,0 +1,41 @@
+[% INCLUDE start.en %]
+
+<h2>All Trasactions</h2>
+    <div class="row">
+        <div class="col-sm-12 text-right">[% SET from = ( pageno - 1 ) * rowcount + 1 %][% SET to = pageno * rowcount %]
+Between [% from %] and [% to %] among total [% totalno %].
+Page: [% SET i=1 %][% WHILE (i <= maxpageno) %]
+[% IF i==pageno %][% pageno %][% ELSE %]<a href="ledger?action=topics&status=[% status %]&pageno=[% i %][% UNLESS i==1 %]&totalno=[% totalno %]&maxpageno=[% maxpageno %][% END %]">[% i %]</a>[% END %] &nbsp; [% SET i=i+1 %][% END %]
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>When</th>
+<th>Week ID</th>
+<th>Status</th>
+<th>Amount</th>
+<th>Balance</th>
+<th>Advanced</th>
+<th>Status</th>
+<th>Created</th>
+</tr>
+</thead>
+<tbody>[% FOREACH item=topics %]
+<tr>
+<td>[% item.daily1 %]</td>
+<td>[% item.weekid %]</td>
+<td>[% item.status %]</td>
+<td>[% item.amount %]</td>
+<td>[% item.balance %]</td>
+<td>[% item.shop_balance %]</td>
+<td>[% item.status %]</td>
+<td>[% item.created %]</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+[% INCLUDE end.en %]

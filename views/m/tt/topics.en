@@ -1,0 +1,71 @@
+[% INCLUDE start.en %]
+
+<h2>Questions and Contacts</h2>
+
+<div class="table-responsive">
+<table class="table table-striped">
+	<thead class="thead-dark">
+<tr>
+<th>#</th>
+<th>Subject</th>
+<th>Category</th>
+<th>Status</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>[% FOREACH item=topics %]
+<tr>
+<td><a href="tt?action=edit&subjectid=[% item.subjectid %]">[% item.subjectid %]</a></td>
+<td>[% item.title %]</td>
+<td>[% item.category %]</td>
+<td>[% item.status %]</td>
+<td>[% item.created %]</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+<h2>Add New Ticket</h2>
+
+<form class="form" action=tt method=post>
+<input type=hidden name=action value='insert'>
+<div class=row>
+	<div class="col-2">Nickname:</div>
+	<div class="col-4"><input class="form-control" type=text name='name'></div>
+</div>
+<div class=row>
+	<div class="col-2">How to Reach You:</div>
+	<div class="col-4"><input class="form-control" type=text name='comm' placeholder="email or phone #"></div>
+</div>
+<div class=row>
+	<div class="col-2">Subject:</div>
+	<div class="col-4"><input type=text class="form-control" name=title></div>
+</div>
+
+<div class=row>
+	<div class="col-2">Category:</div>
+	<div class="col-4"><select class="form-control" name=category>
+<option value=''>- category -</option>
+<option value='Reward'>Rewards</option>
+<option value='Payment'>Payment</option>
+<option value='Account'>Account</option>
+<option value='Other'>Other</option>
+</select>
+</div>
+</div>
+
+<div class=row>
+	<div class="col-2">Detail:</div>
+	<div class="col-4">
+<textarea class="form-control" name=description rows=5></textarea>
+</div>
+</div>
+
+<div class=row>
+	<div class="col-2"><button type=submit class="btn btn-primary">Submit</button>
+	</div>
+</div>
+
+</form>
+
+[% INCLUDE end.en %]

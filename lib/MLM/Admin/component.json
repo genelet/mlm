@@ -1,0 +1,13 @@
+{
+	"actions" : {
+		"topics" :{},
+		"insert" :{"validate":["adminid","login","passwd"]},
+		"delete" :{"validate":["login"]}
+	},
+
+	"current_table"   :"admin",
+	"current_key"     :"login",
+	"insert_pars"     :["adminid","created","login","passwd","status"],
+	  "edit_pars"     :["adminid","created","login","passwd","status"],
+	"topics_pars"     :["adminid","created","login","passwd","status"]
+}

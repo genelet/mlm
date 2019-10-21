@@ -1,0 +1,31 @@
+[% INCLUDE start.en %]
+[% SET item=edit.0 %]
+
+<h2>Details of [% item.title %]</h2>
+
+<div class=row>
+	<div class="col-12">
+<img src="[% item.full %]" style="float: left">
+	</div>
+</div>
+<div class=row>
+	<div class="col-12">
+Price: $[% item.price %]
+BV: $[% item.bv %]
+	</div>
+	<div class="col-12">
+[% item.description %]
+	</div>
+</div>
+
+<form action="basket" method=post>
+<input type=hidden name="action" value="insert">
+<input type=hidden name="classify" value="gallery">
+<input type=hidden name="id" value="[% item.galleryid %]">
+<p>
+QTY: <input type=text name=qty size=4>
+</p>
+<button type=submit class="btn btn-primary"> BUY </button>
+</form>
+
+[% INCLUDE end.en %]

@@ -1,0 +1,124 @@
+[% INCLUDE start.en %]
+
+<form name=name1 action=tt method=post>
+    <div class="row">
+        <div class="col-sm-2">Search:</div>
+        <div class="col-sm-10">
+<select name=u onchange="showQueryMem(this.value)" id="qSType">
+<option [% IF u=='memberid' %]selected[% END %] value='memberid'>Member ID</option>
+<option [% IF u=='created' %]selected[% END %] value='created'>Datetime</option>
+</select>
+<span id="qMem"><input type=text name=v value="[% v %]" size=10></span>
+<span id="qDate" style="display:none;">
+<select name=y1>
+<option value='2019' [% IF y1=='2019' %]selected[% END %] >2019</option>
+<option value='2020' [% IF y1=='2020' %]selected[% END %] >2020</option>
+<option value='2021' [% IF y1=='2021' %]selected[% END %] >2021</option>
+<option value='2022' [% IF y1=='2022' %]selected[% END %] >2022</option>
+<option value='2023' [% IF y1=='2023' %]selected[% END %] >2023</option>
+<option value='2024' [% IF y1=='2024' %]selected[% END %] >2024</option>
+<option value='2025' [% IF y1=='2025' %]selected[% END %] >2025</option>
+</select>
+- <select name=m1>
+<option [% IF m1=='1' %]selected[% END %] value='1'>01</option>
+<option [% IF m1=='2' %]selected[% END %] value='2'>02</option>
+<option [% IF m1=='3' %]selected[% END %] value='3'>03</option>
+<option [% IF m1=='4' %]selected[% END %] value='4'>04</option>
+<option [% IF m1=='5' %]selected[% END %] value='5'>05</option>
+<option [% IF m1=='6' %]selected[% END %] value='6'>06</option>
+<option [% IF m1=='7' %]selected[% END %] value='7'>07</option>
+<option [% IF m1=='8' %]selected[% END %] value='8'>08</option>
+<option [% IF m1=='9' %]selected[% END %] value='9'>09</option>
+<option [% IF m1=='10' %]selected[% END %] value='10'>10</option>
+<option [% IF m1=='11' %]selected[% END %] value='11'>11</option>
+<option [% IF m1=='12' %]selected[% END %] value='12'>12</option>
+</select>
+- <input type=text name=d1 size=2 maxlength=2 value=[% d1 %]>
+to
+<select name=y2>
+<option [% IF y2=='2019' %]selected[% END %] value='2019'>2019</option>
+<option [% IF y2=='2020' %]selected[% END %] value='2020'>2020</option>
+<option [% IF y2=='2021' %]selected[% END %] value='2021'>2021</option>
+<option [% IF y2=='2022' %]selected[% END %] value='2022'>2022</option>
+<option [% IF y2=='2023' %]selected[% END %] value='2023'>2023</option>
+<option [% IF y2=='2024' %]selected[% END %] value='2024'>2024</option>
+<option [% IF y2=='2025' %]selected[% END %] value='2025'>2025</option>
+</select>
+- <select name=m2>
+<option [% IF m2=='1' %]selected[% END %] value='1'>01</option>
+<option [% IF m2=='2' %]selected[% END %] value='2'>02</option>
+<option [% IF m2=='3' %]selected[% END %] value='3'>03</option>
+<option [% IF m2=='4' %]selected[% END %] value='4'>04</option>
+<option [% IF m2=='5' %]selected[% END %] value='5'>05</option>
+<option [% IF m2=='6' %]selected[% END %] value='6'>06</option>
+<option [% IF m2=='7' %]selected[% END %] value='7'>07</option>
+<option [% IF m2=='8' %]selected[% END %] value='8'>08</option>
+<option [% IF m2=='9' %]selected[% END %] value='9'>09</option>
+<option [% IF m2=='10' %]selected[% END %] value='10'>10</option>
+<option [% IF m2=='11' %]selected[% END %] value='11'>11</option>
+<option [% IF m2=='12' %]selected[% END %] value='12'>12</option>
+</select>
+- <input type=text name=d2 size=2 maxlength=2 value=[% d2 %]>
+</span>
+<span>
+<input type=hidden name=status value=[% status %]>
+<input type=hidden name=action value=topics>
+<input type=submit value=" Run! " />
+</span>
+        </div>
+    </div>
+</form>
+
+<p> </p>
+
+
+    <div class="row">
+        <div class="col-sm-4"><h4>Trouble Ticket List[% IF status %]: [% status %][% END %]</h4></div>
+        <div class="col-sm-8 text-right">[% SET from = ( pageno - 1 ) * rowcount + 1 %][% SET to = pageno * rowcount %]
+Between [% from %] and [% to %] among total [% totalno %].
+Page: [% SET i=1 %][% WHILE (i <= maxpageno) %]
+[% IF i==pageno %][% pageno %][% ELSE %]<a href="tt?action=topics&u=[% u %]&v=[% v %]&y1=[% y1 %]&y2=[% y2 %]&m1=[% m1 %]&m2=[% m2 %]&d1=[% d1 %]&d2=[% d2 %]&status=[% status %]&pageno=[% i %][% UNLESS i==1 %]&totalno=[% totalno %]&maxpageno=[% maxpageno %][% END %]">[% i %]</a>[% END %] &nbsp; [% SET i=i+1 %][% END %]
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>#</th>
+<th>Member ID</th>
+<th>Subject</th>
+<th>Catgory</th>
+<th>Status</th>
+<th>Created</th>
+</tr></thead>
+<tbody>[% FOREACH item=topics %]
+<tr>
+<td><a href="tt?action=edit&subjectid=[% item.subjectid %]">[% item.subjectid %]</a></td>
+<td>[% item.memberid %]</td>
+<td>[% item.title %]</td>
+<td>[% item.category %]</td>
+<td>[% item.status %]</td>
+<td>[% item.created %]</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+<script language="javascript">
+function $_id(oId) {
+    return document.getElementById(oId);
+}
+function showQueryMem(sValue) {
+    if ("created"==sValue) {
+        $_id("qMem").style.display="none";
+        $_id("qDate").style.display="inline";
+    } else {
+        $_id("qMem").style.display="inline";
+        $_id("qDate").style.display="none";
+    }
+}
+showQueryMem($_id("qSType").value);
+</script>
+
+[% INCLUDE end.en %]

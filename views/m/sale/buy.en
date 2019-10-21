@@ -1,0 +1,5 @@
+[% INCLUDE start.en %]
+
+We received your order and will process it at earliest convenience.
+
+[% INCLUDE end.en %]

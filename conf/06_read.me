@@ -1,0 +1,23 @@
+It's time to run functional tests.
+
+1) make a new directory named "bin" under "mlm":
+$ mkdir ../bin
+2) copy all files under "SAMPLE_bin" to "bin":
+$ cp SAMPLE_bin/* ../bin
+3) go to "bin":
+$ cd ../bin
+4) edit the files. Replace "SAMPLE_home" by your real one.
+5) directory "SAMPLE_home/mlm/logs" saves debug messages. If it does not exist, you need to create it
+$ mkdir ../logs
+6) run 01_product.t to add some products:
+$ perl 01_product.t
+7) run 02_member.t to add some members:
+$ perl 02_member.t
+8) run 03_income.t to inspect if compensation calculations are correct:
+$ perl 03_income.t
+9) run 04_ledger.t to write the compensations to ledger book:
+$ perl 04_ledger.t
+10) run 05_shopping.t to make a shopping process:
+$ perl 05_shopping.t
+
+Make sure all the tests pass.

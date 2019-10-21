@@ -1,0 +1,54 @@
+{
+"model":"MLM::Admin::Model",
+"filter":"MLM::Admin::Filter",
+"aa_insert" : [
+	{"adminid":"ACCOUNTING","login":"x","passwd":"y","status":"Yes"},
+	{"adminid":"ACCOUNTING","login":"xx","passwd":"xy","status":"Yes"}
+],
+"ab_edit": [
+	{"login":"x"},
+	{"adminid":"ACCOUNTING","login":"x","passwd":"y","status":"Yes"}
+],
+"ac_topics": [
+	{"login":"x"},
+	{"adminid":"ACCOUNTING","login":"x","passwd":"y","status":"Yes"}
+],
+"ad_update": [
+	{"login":"x", "passwd":"z"},
+	{"adminid":"ACCOUNTING","login":"x","passwd":"z","status":"Yes"}
+],
+"ae_delete": [
+	{"login":"x"},
+	{"login":"xx"}
+],
+"ba_preset_fail": [
+	{
+		"input":{"adminid":"ACCOUNTING"},
+		"output":"3001"
+	},
+	{
+		"input":{"adminid":"ROOT","adminlogin":"x","login":"x","g_action":"insert"},
+		"output":"3002"
+	},
+	{
+		"input":{"adminid":"ROOT","adminlogin":"x","login":"y","groups":["ROOT,ACCOUNTING,SUPPORT"],"g_action":"insert"},
+		"output":"3001"
+	},
+	{
+		"input":{"adminid":"ROOT","adminlogin":"x","login":"y","groups":["ACCOUNTING,SUPPORT"],"passwd":"a_","g_action":"insert"},
+		"output":"3124"
+	}
+],
+"bb_preset": [
+	{
+		"input":{"adminid":"ROOT","login":"aaaa","passwd":"bbbbbbbbb","groups":["ACCOUNTING","SUPPORT"],"g_action":"insert"},
+		"output":{"adminid":"ACCOUNTING,SUPPORT"}
+	}
+],
+"bf_after": [
+	{
+		"input":{"g_action":"insert","old_adminid":"ROOT"},
+		"output":{"g_action":"insert","adminid":"ROOT"}
+	}
+]
+}

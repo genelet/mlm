@@ -1,0 +1,23 @@
+[% INCLUDE start.en %]
+
+<h2>Product Categories</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>Title</th>
+<th>Description</th>
+<th> </th>
+</tr>
+</thead><tbody>[% FOREACH item=topics %]
+<tr>
+<td>[% item.title %]</td>
+<td>[% item.description %]</td>
+<td><a class="btn btn-sm btn-info" href="gallery?action=topics&categoryid=[% item.categoryid %]">Enter</a></td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+[% INCLUDE end.en %]

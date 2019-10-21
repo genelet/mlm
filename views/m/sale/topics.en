@@ -1,0 +1,33 @@
+[% INCLUDE start.en %]
+
+<h2>Shopping History</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tr>
+<th>When</th>
+<th>Amount</th>
+<th>Pay Type</th>
+<th>Pay Status</th>
+<th>Trans</th>
+<th>Remark</th>
+<th>Tracking</th>
+<th>Signup?</th>
+</tr>
+</thead><tbody>[% FOREACH item=topics %]
+<tr>
+<td>[% item.created %]</td>
+<td>$[% item.amount %]</td>
+<td>[% item.paytype %]</td>
+<td>[% item.paystatus %]</td>
+<td>[% item.billingid %]</td>
+<td>[% item.remark %]</td>
+<td>[% item.trackingid %]</td>
+<td>[% item.signuptype %]</td>
+</tr>
+[% END %]</tbody>
+</table>
+</div>
+
+[% INCLUDE end.en %]

@@ -1,0 +1,8 @@
+[% INCLUDE start.en %]
+
+      <div class="py-5 text-center">
+        <h2>Application has been submitted successfully.</h2>
+        <p class="lead">Please wait for our email notification.</p>
+      </div>
+
+[% INCLUDE end.en %]

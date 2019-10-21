@@ -1,0 +1,9 @@
+logs
+conf/config.json
+bin/
+cgi-bin/
+lib/Gmarket/Beacon.pm
+lib/Admin/admin.t
+lib/Placement/placement.t
+www/product
+www/debug.log

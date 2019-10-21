@@ -1,0 +1,41 @@
+[% INCLUDE start.en %]
+[% SET item=edit.0 %]
+
+<h2>[% item.title %]</h2>
+
+<div class=row>
+<div class="col-12">
+Category: [% item.category %]; Status: <em>[% item.status %]</em>
+</div>
+</div>
+
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+<tbody>[% FOREACH atom=item.ttpost_topics %]
+<tr>
+<th>[% IF atom.party=='a' %]Replied[% ELSE %]Asked[% END %]</th>
+<td>[% atom.created %]</td>
+</tr>
+<tr><td colspan=2>[% atom.description %]</td></tr>
+[% END %]</tbody>
+</table>
+	</div>
+
+[% IF (item.status=='Open') %]<form action=tt method=post>
+<input type=hidden name=subjectid value='[% item.subjectid %]'>
+<input type=hidden name=action value='reply'>
+Add Content:
+<p>
+<textarea cols=50 rows=4 name=description></textarea>
+</p>
+<p>
+Status: <input type=radio checked name=status value='Open'>Open
+<input type=radio name=status value='Close'>Close
+</p>
+<button type=submit>Add</button>
+</form>
+[% END %]
+
+[% INCLUDE end.en %]

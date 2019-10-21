@@ -1,0 +1,36 @@
+{
+	"actions" : {
+		"startnew" :{"options":["no_db", "no_method"]},
+		"topics" :{},
+		"leave_tree": {"validate": ["memberid"]},
+		"join_tree": {"validate": ["memberid"]},
+
+        "topics" :{"groups":["m"], "validate" :["memberid"]},
+        "view_binary" :{"groups":["m"], "validate" :["memberid"]}
+	},
+
+	"current_table"   :"family",
+	"current_key"     :["parent","child"],
+	"insert_pars"     :["parent","child","leg","level","created"],
+	"update_pars"     :["parent","child","leg","level","created"],
+	"edit_pars"       :["parent","child","leg","level","created"],
+
+	"current_tables" : [
+		{"name":"family","alias":"f"},
+		{"name":"member","alias":"m","type":"INNER", "on":"f.child=m.memberid"},
+		{"name":"def_type","alias":"t", "type":"INNER", "using":"typeid"}
+	],
+	"topics_pars" : {
+        "m.memberid":"memberid",
+        "m.login":"login",
+        "m.firstname":"firstname",
+        "m.lastname":"lastname",
+        "m.typeid":"typeid",
+        "m.signuptime":"signuptime",
+        "m.active":"active",
+        "m.countl":"countl",
+        "m.countr":"countr",
+        "t.short":"short",
+        "f.level":"level"
+    }
+}

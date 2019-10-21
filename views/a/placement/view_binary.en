@@ -1,0 +1,14 @@
+[% INCLUDE start.en %]
+<link rel="stylesheet" type="text/css" href="/binary.css">
+
+	<div class="row">
+<h4>Binary Placement Tree of [% login %]</h4>
+	</div>
+
+	<div class="row">
+<div class="tree">
+	[% tree %]
+</div>
+	</div>
+	
+[% INCLUDE end.en %]

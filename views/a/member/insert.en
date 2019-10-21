@@ -1,0 +1,5 @@
+[% INCLUDE start.en %]
+
+New member added. Please go to Sales to manage.
+
+[% INCLUDE end.en %]
