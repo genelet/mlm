@@ -107,7 +107,7 @@ Page: [% SET i=1 %][% WHILE (i <= maxpageno) %]
 			<td><a href="member?action=edit&memberid=[% item.sid %]">[% item.sid %]</a></td>
 			<td><a href="member?action=edit&memberid=[% item.pid %]">[% item.pid %]</a></td>
 			<td>[% item.leg %]</td>
-			<td><a class="btn btn-sm btn-outline-success" href="placement?action=view_binary&login=[% item.login %]&memberid=[% item.memberid %]">Pairing</a></td>
+			<td><a class="btn btn-sm btn-outline-success" href="placement?action=view_binary&login=[% item.login %]&memberid=[% item.memberid %]">Binary</a></td>
 			<td><a class="btn btn-sm btn-outline-info" href="sponsor?action=view_sponsor&login=[% item.login %]&memberid=[% item.memberid %]">Matrix</a></td>
 			<td><a class="btn btn-sm btn-primary" target=_blank href="member?action=enter&login=[% item.login %]&memberid=[% item.memberid %]">ENTER</a></td>
 			</tr>

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>My Company</title>
+<title>Genelet</title>
 </head>
 <body>
 <div style="padding: 100px 0 0 250px;">
 
-<H2>GMarket Backend Login</H2>
+<H2>Genelet MLM Backend Login</H2>
 System admin, please login.
 
 <FORM METHOD='POST'>
