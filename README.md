@@ -82,8 +82,9 @@ $ perl placement.t
 
 ### 1.7) Run Functional Tests
 
-Follow instruction in *06_read.me* to create *bin* and associated files. You may also need to create an empty director *SAMPLE_home/mlm/logs* to save debug messages. Run the _Functional_ tests:
+Follow instruction in *06_read.me* to create *bin* and associated files. You may create an empty director *SAMPLE_home/mlm/logs* for debugging messages before run the _Functional_ tests:
 ```
+$ mkdir ../logs
 $ cd ../bin/
 $ perl 01_product.t
 $ perl 02_member.t
