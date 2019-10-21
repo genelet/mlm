@@ -8,7 +8,7 @@ The software is built on top of [Genelet](https://github.com/genelet/perl) (or t
 
 ## Chapter 1. INSTALLTION
 
-The software is written in Perl programming language. It can run as standard CGI-BIN program or Fast CGI (see section 1.10). Besides running CGI, you need to access MySQL database and run commands under shell. _MLM_ has built-in unit and functional testing suites, which you need to pass to make sure that installation is successful and compensation calculations are correct.
+The software is written in Perl programming language. It can run as standard CGI-BIN program or Fast CGI (see section 1.11). Besides running CGI, you need to access MySQL database and run commands under shell. _MLM_ has built-in unit and functional testing suites, which you need to pass to make sure that installation is successful and compensation calculations are correct.
 
 ### 1.1) Download Perl Package _Genelet_
 ```
@@ -52,13 +52,13 @@ Template                  sudo apt-get install libtemplate-perl
 CGI::Fast (optional)      sudo apt-get install libcgi-fast-perl
 ```
 
-### 1.4) Create Database _gmarket_
+### 1.4) Create MySQL Database
 
-File *01_init.sql* in *conf* is the database schedma. You need to load it into database system using a client tool. After that, please follow *02_read.me* to add test accounts and test products defined in *03_setup.sql*.
+Create a MySQL database, then username and password to access it. File *01_init.sql* in *conf* is the database schedma. You need to load it into the database using a client tool. After that, please follow *02_read.me* to add test accounts and test products defined in  *03_setup.sql*.
 
 ### 1.5) Build _config.json_
 
-Follow instruction in *04_read.me* to build your first config file, *config.json*, for tests.
+Follow instruction in *04_read.me* to build your first config file, *config.json*. Put the database information you created in 1.4) in the *"Db"* block.
 
 ### 1.6) Run Unit Tests
 
