@@ -230,7 +230,17 @@ In practice, members have very unbalanced sales volumes on two legs. So our syst
 
 The pairing bonus is calculated weekly on days defined in *cron_1week*.
 
-### 2.5) Affiliate Bonus
+
+### 2.5) Auto Placement and Power Line
+
+On member portal, one can assign an offspring and a leg, as the default upline for new signups in the pyramid tree. This is called *Auto Placement*. If the leg is already been occupied by a new signup, the same leg of the new signup will be used automatically as the new default placement.
+
+For example, Mary assigns John's left leg as her *Auto Placement*. If Henry joins and occupies John's left leg, Henry's left leg will become the new *Auto Placement* for Mary, and so on, until Mary changes the rule explicitely on her member portal. This feature helps to build one's *power line* automatically.
+
+In practice, most members will try to take advantage of powerful upline's power line, so they need only to build up the other lines. Member should adjust her *Auto Placement*, so as to optimize the balance of two sales volumes.
+
+
+### 2.6) Affiliate Bonus
 
 This type of bonus is usually applied to selected members in your system. Whether or not a member can become affiliate is managed in admin portal's *Membership/Affiliates*.
 
@@ -239,27 +249,18 @@ During the process to activate a new signup application, your manager can credit
 The affiliate bonus is calculated weekly on days defined in *cron_1week*.
 
 
-### 2.6) When to Calculate
+### 2.7) When to Calculate
 
 All the bonus calculations are automatically managed by the daily cronjob program *run_daily.pl*. Please check section 1.9).
 
 
-### 2.7) Limited Displays
+### 2.8) Limited Displays
 
 For securit reasons, you may limit the views of one's pyramid downlines and sponsorship offsprings to certain levels.  These are defined  in *config.json*:
 - *MAX_plevel*, maximal display level for downlines on admin portal
 - *MAX_mplevel*, maximal display level for downlines on member portal
 - *MAX_slevel*, maximal display level for offsprings on admin portal
 - *MAX_mslevel*, maximal display level for offsprings on member portal
-
-
-### 2.8) Auto Placement and Power Line
-
-On member portal, one can assign an offspring and a leg, as the default upline for new signups in the pyramid tree. This is called *Auto Placement*. If the leg is already been occupied by a new signup, the same leg of the new signup will be used automatically as the new default placement.
-
-For example, Mary assigns John's left leg as her *Auto Placement*. If Henry joins and occupies John's left leg, Henry's left leg will become the new *Auto Placement* for Mary, and so on, until Mary changes the rule explicitely on her member portal. This feature helps to build one's *power line* automatically.
-
-In practice, most members will try to take advantage of powerful upline's power line, so they need only to build up the other lines. Member should adjust her *Auto Placement*, so as to optimize the balance of two sales volumes.
 
 
 ##
