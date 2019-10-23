@@ -257,7 +257,7 @@ For securit reasons, you may limit the views of one's pyramid downlines and spon
 
 On member portal, one can assign an offspring and a leg, as the default upline for new signups in the pyramid tree. This is called *Auto Placement*. If the leg is already been occupied by a new signup, the same leg of the new signup will be used automatically as the new default placement.
 
-For example, Mary assigns John's left leg as her *Auto Placement*. If Henry joins and occupies John's left leg, Henry's left leg will become the new *Auto Placement*, and so on, until Mary changes the rule explicitely on her member portal. This feature helps to build one's *power line* automatically.
+For example, Mary assigns John's left leg as her *Auto Placement*. If Henry joins and occupies John's left leg, Henry's left leg will become the new *Auto Placement* for Mary, and so on, until Mary changes the rule explicitely on her member portal. This feature helps to build one's *power line* automatically.
 
 In practice, most members will try to take advantage of powerful upline's power line, so they need only to build up the other lines. Member should adjust her *Auto Placement*, so as to optimize the balance of two sales volumes.
 
