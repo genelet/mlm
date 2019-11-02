@@ -16,7 +16,7 @@ $ git clone https://github.com/genelet/perl.git
 ```
 Assume your current directory is *SAMPLE_home*. After the clone, directory *perl* will be created within *SAMPLE_home*.
 
-Note that in real environment, the home directory is definitely **not named as _SAMPLE_home_** so you should replace all the mentions of *SAMPLE_home* below by yours.
+Note that in real environment, the home directory is definitely **not** named as _SAMPLE_home_ so you should replace all the mentions of *SAMPLE_home* below by yours.
 
 ### 1.2) Download _mlm_
 ```
