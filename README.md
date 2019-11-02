@@ -1,6 +1,6 @@
 # MLM 
 
-is an open-source Multi-Level Market (MLM) software. It is a fully featured MLM package providing registration, membership, compensations, cronjobs, shopping, ticketing, backend administration and so on. Four types of bonus plans are implemented internally: unilevel, team, pairing and affiliate rewards, but developer can easily extend it to other customized plans. 
+It is a fully featured open-source Multi-Level Market (MLM) package, providing registration, membership, compensations, cronjobs, shopping, ticketing, backend administration and so on. Four types of bonus plans are implemented internally: unilevel, team, pairing and affiliate rewards, but developer can easily extend it to other customized plans. 
 
 The software is built on top of [Genelet](https://github.com/genelet/perl) (or the [main site](http://www.genelet.com)), which is a multilingual open-source web development framework for developing secure, scalable and high-performance web sites.
 
@@ -54,7 +54,7 @@ CGI::Fast (optional)      sudo apt-get install libcgi-fast-perl
 
 ### 1.4) Create MySQL Database
 
-Create a MySQL database, then username and password to access it. File *01_init.sql* in *conf* is the database schedma. You need to load it into the database using a client tool. After that, please follow *02_read.me* to add test accounts and test products defined in  *03_setup.sql*.
+Create a MySQL database, and username and password to access it. File *01_init.sql* in *conf* is the database schedma. You need to load it into the database using a client tool. After that, please follow *02_read.me* to add test accounts and test products defined in  *03_setup.sql*.
 
 ### 1.5) Build _config.json_
 
