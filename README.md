@@ -410,7 +410,7 @@ $ (cd SAMPLE_home/views; tar cvf - *) | (cd NEW_view_directory; tar xvf -)
 
 ### 4.4) JSON API
 
-Another useful feature of *Genelet* is to the JSON response by changing the tag name *en* to *json* in the URL. This can be used as API for other development like mobile apps.
+Another useful feature of *Genelet* is to get the JSON response by changing the tag name *en* to *json* in the URL. This can be used as API for other development like mobile apps.
 
 
 
