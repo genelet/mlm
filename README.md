@@ -384,12 +384,12 @@ If you are *ROOT*, you can view and run *Execute and Write* to actually run the 
 
 ### 4.1) Customization
 
-For new development, developers may check out the [Tutorial](http://www.genelet.com/index.php/tutorial-perl/) and [Manual](http://www.genelet.com/index.php/2017/02/08/perl-development-manual/) of *Genelet*. It is a very powerful framework, yet has a short learning-curve to develop products quickly.
+For new development, developers may check out the [Tutorial](http://www.genelet.com/index.php/tutorial-perl/) and [Manual](http://www.genelet.com/index.php/2017/02/08/perl-development-manual/) of *Genelet*. It is a very powerful framework, yet has a short learning-curve.
 
-If developers merely want to customize compensations, they should focus on programs in *lib/MLM/Income*. For example, to add a new compensation plan called *Bonus X*, what you may do is like the followings:
+If developers merely want to customize compensations, they should focus on programs in *lib/MLM/Income*. For example, to add a new compensation plan called *Bonus X*, what the minimal steps to do is like the followings:
 - add new column *statusX* to database table *cron_1week*
 - add new action name "*week1_x*" to the *actions* section in *lib/MLM/Income/component.json*
-- add associated plan parameters to *Custom* in *config.json*
+- add new plan's parameters to the *Custom* block in *config.json*
 - write new methods *is_week1_x*, *week1_x*, *done_week1_x* and *weekly_x* in *lib/MLM/Income/Model.pm*
 - add the bonus to methods *run_cron*, *run_daily* and *run_all_tests* of *Model.pm*
 - add it to the daily cronjob *bin/run_daily.pl*.
