@@ -338,7 +338,7 @@ Then go to *Product/Produc Items* to manage physical product items. For example,
 
 In many cases, such as the initial signup, you may sell products in *Packages*. A pre-defined package consists of fixed items with discount price. Go to *Product/Packages* to create a new empty package by specifying its name and membership type. Then fill it in with real items. The total price of a package does not have to be the sum of the included items because of discount.
 
-For the initial signup package, the system will always use the **intrinsic price** defined in *def_type* to calculate the BV. I.e., the BV will be fixed for a specific membership, whatever package's sales price is. Because you may adjust package's items and discount price at any time, but the BV must be kept the same in the compensation calculation.
+For the initial signup package, the system will always use the **intrinsic price** defined in *def_type* to calculate the BV. I.e., the BV will be fixed for a specific membership, whatever package's sales price is. You may adjust package's items and discount price at any time, but the BV must be kept the same in the compensation calculation.
 
 #### 3.3.4) retail shopping
 
@@ -368,7 +368,7 @@ Occassionally, you may cut a member off her upline's left or right leg in pyrami
 
 The backend managers who can login to the backend admin portal,are classified into 4 groups. The *ROOT* group can manage anything including other managers. The other three groups are *ACCOUNTING*, *SUPPORT*, and *MARKETING*, who can run selected sets of tasks. 
 
-### 4.8) Compensation Tests
+### 3.8) Compensation Tests
 
 The *Compensation Test* allows managers to calculate different bonus. These are harmless actions since they only show you what bonus would be, they don't actually put the dollars into the bonus tables and leger.
 
