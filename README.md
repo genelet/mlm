@@ -271,7 +271,7 @@ In this chapter, we explain how to use the backend management system to build pr
 
 So either you process money offline (and put markers in tables), or you implement your own online credit card processing. For the later solution, we believe there are many other software available.
 
-*MLM* is not aimed to be an eCommerce package too, so it impements only limited product and shopping-and-handling features. However, they are good enough to run the core MLM functions. You can combine the 3rd party ecommerce software with this *MLM*, by coordinating the tables.
+*MLM* is not aimed to be an eCommerce package too, so it impements only limited product and shopping-and-handling features. However, they are good enough to run the core MLM functions. You can combine a 3rd party eCommerce software with this *MLM*, by coordinating the tables.
 
 ### 3.1) New Applicants
 
