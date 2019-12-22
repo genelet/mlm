@@ -267,17 +267,17 @@ For securit reasons, you may limit the views of one's pyramid downlines and spon
 
 ## Chapter 3. MANAGEMENT AND ACCOUNTING
 
-In this chapter, we explain how to use the backend management system including to build product packages, to process orders and to keep ledger books etc. Note that *MLM* **does not** actually charge credit/debt card nor to do any online money processing. It depends on you or your accounting department to **put markers into relevant ledger tables** to proceed. 
+In this chapter, we explain how to use the backend management system to build product packages, to process orders and to keep ledger books etc. Note that *MLM* **does not** actually charge credit/debt card nor process online money transaction. It depends on your accounting department to **put markers into relevant ledger tables** to proceed. 
 
-So either you process money offline (and put markers in ledger), or you have to implement your own online credit card processing. For the later solution, we believe there are many other software available.
+So either you process money offline (and put markers in ledger), or you implement your own online credit card processing. For the later solution, we believe there are many other software available.
 
-*MLM* is not aimed to be a eCommerce package too, so it impements only limited product and shopping features but they are good enough to run the core MLM functions.
+*MLM* is not aimed to be an eCommerce package too, so it impements only limited product and shopping-and-handling features. However, they are good enough to run the core MLM functions.
 
 ### 3.1) New Applicants
 
 #### 3.1.1) On public website
 
-On the public signup page, a new candidate fills in the application form and submits it to your system:
+On the public signup page, new candidate fills in the application form and submits it to your system:
 ```
 http://SAMPLE_domain/cgi-bin/goto/p/en/member?action=startnew
 ```
@@ -288,13 +288,13 @@ Method 1, put sponsor's username as an additional query:
 http://SAMPLE_domain/cgi-bin/goto/p/en/member?action=startnew&sidlongin=MeMeMe
 ```
 
-Method 2, put the username in URL path, and let the web server to redirect:
+Method 2, put the username as sub-domain or in URL path, and let the web server to redirect:
 ```
-http://SAMPLE_domain/MeMeMe
+http://MeMeMe.SAMPLE_domain/
 ```
 or
 ```
-http://MeMeMe.SAMPLE_domain/
+http://SAMPLE_domain/MeMeMe
 ```
 The system would redirect it to 
 ```
@@ -302,45 +302,43 @@ http://SAMPLE_domain/cgi-bin/goto/p/en/member?action=startnew&sidlongin=MeMeMe
 ```
 You need to use *Redirect* functions of your web server to set the above methods up.  
 
-Meanwhile, the new applicant, with the help of sponsor, may also specify his pyramid upline by filling in upline's member ID and leg. This is just an option. We have implemented an rule to do *automatical pyramid placement*. Please see section 4.5).
+Meanwhile, the new applicant, with the help of sponsor, may also specify his pyramid upline by filling in upline's member ID and leg. This is just an option. We have implemented an rule to do *auto pyramid placement*. Please see section 4.5).
 
-#### 3.1.2) On backend
+#### 3.1.2) Backend
 
-The backend shows the list of new applicants in *Membership/New Signups*. Manager can execute two actions on each new application: activate the application, or delete it. If activating, he should put a money transaction ID on it. So in case you can track back where the money came from. Meanwhile, our system will record manager's username into the *member_signup* table.
+On backend, new applicants are listed in *Membership/New Signups*. Manager can activate it, or delete it. If activating, the backend manager who works on this page, should put a transaction ID so as to track where the money came from. Meanwhile, our system will record the time and manager's name in the *member_signup* table.
 
-Again, *mlm* does not process real trasactions. It depends on your manager to put markers to fulfil transactions and shipping etc.
+Again, *mlm* does not process real trasactions. It depends on your manager to put markers to proceed.
 
-After the signup is activated, a new record appears as *Pending Order* in *Sales*.
+After the signup is activated, the new member will fully engage in all compensation plans. (Because the payment is completed.)
 
 ### 3.2) Process Sales Orders
 
-What *Pending Order* means, is that you already have charged the singup fee from the member, but you haven't shipped the initial package. At this moment, the one is already a full, active member and participates in all bonus calculations.
+At the same time, a new *Pending Order* is generated in *Sales*, meaning that you have charged the new member but need to package and ship the order.
 
-The next step to process a sales order is *Processing*, which means the order is sent to your shipping-and-handling department to process. You may put optional messages here as a remark.
+After your warehouse has packaged the order, you should come to this page again, to turn the order status to *Processing*, meaning the order is now in your shipping department. 
 
-The last step is to put it into status "Delivered", which means the prouduct is delivered. Put a tracking ID here.
+The last step is to turn it into status "Delivered", which means the prouduct is delivered. Put a tracking ID here.
 
-We provide only brief shipping-and-handling features, which are good enough for your to run bonus calculations and track orders. Developers may implement own logistic or EPR software system to do a fullly-featured management.
+You may implement your own logistic or EPR software system to track orders.
 
-### 3.3) Product and Retail Shopping
+### 3.3) Online Shopping
 
-Just as sales orders, we provide only a limited shopping experience. You may enhance it, or implement another eCommerce package.
+Just as sales orders, we provide only a limited shopping function. You may enhance it, or implement another eCommerce package.
 
 #### 3.3.1) category
 
-Your products are grouped into different categories by natures. Go to *Product/Categories* to manage categories e.g. to create a new category.
+Products are grouped into different categories by natures. Go to *Product/Categories* to manage categories e.g. to create a new category.
 
 #### 3.3.2) item
 
-Then you go to *Product/Produc Items* to manage physical product items. Here you can name it, put description on it, or upload thumbnail and full image etc. 
+Then go to *Product/Produc Items* to manage physical product items. For example, you can create a new item with price, BV, description, thumbnail and full image etc. 
 
-#### 3.3.3) package
+#### 3.3.3) product package
 
-You would sell to your signups with pre-defined *Packages* of fixed items and fixed price and BV, intead of to let customers to shop around randomly. Go to *Product/Packages* to create a new empty package, by specifying its name and membership type. Then fill it in with real items. 
+In many cases, such as the initial signup, you may sell products in *Packages*. A pre-defined package consists of fixed items with discount price. Go to *Product/Packages* to create a new empty package by specifying its name and membership type. Then fill it in with real items. The total price of a package does not have to be the sum of the included items because of discount. So you have option to specify the price.
 
-The total price of a package does not have to be the sum of the items, since you may have discount. So specify a price here. However, when calculating bonuses, we will use **intrincic price** defined in *def_type*. Why? Because your discount may change often during the time, but the bonus calculation need to be kept consistently.
-
-Note that package is only for specific member type, so you can't change BV here.
+For the initial signup package, the system will always use the **intrincic price** defined in *def_type* to calculate the BV. I.e., the BV will be fixed for a specific membership, whatever package's sales price is. Because you may adjust package's items and discount price at any time, but the BV must be kept the same in the compensation calculation.
 
 #### 3.3.4) retail shopping
 
@@ -348,35 +346,33 @@ Members can shop individual items on member portal:
 ```
      http://SAMPLE_domain/cgi-bin/goto/m/en/member?action=dashboard
 ```
-Clicking on *Shop* on top will take her to the shopping mall starting with categories. She can use her shopping money and bonuses to buy products. If the balance is not enough, she shoud send money to the company by offline and a manager can add the dollar amount to her ledger.
+Clicking on *Shop* on top will take the member to the shopping mall. She can only use her money in the ledger book to buy product. If there is no enough balance, she shoud send money to your company by an offline means, and have it to be added to the ledger. See below.
 
 ### 3.4) Compensation and Ledgerbooks
 
-Every week, *MLM* generates bonuses for members, which are fully tracked. Go to *Compensations* you will find all types of bonus calculations in details.
+Every week, *MLM* generates reward bonuses for members. Go to backend's *Compensations* you will find all types of bonus calculations in details.
 
-The explanations of *Details* and *Rewards* in each compensation type is straightforward. For example, in *Direct Bonus*, we list how many sales, grouped by membership types, sponsors have made in a week. In *Direct Reward*, we show actual *unilevel* dollar amount these sales have been converted to.
+The explanations of *Details* and *Rewards* in each compensation type is straightforward. For example, in *Direct Bonus*, we list the numbers of sales, grouped by membership types, which *sponsors* have made within a week. In *Direct Reward*, we show actual *unilevel* dollar amounts these sales have been converted to.
 
 ### 3.5) Ledgerbook
 
-The last step in compensation calculations is to put the compensations into ledgerbook *income_ledger*. However, the bonus will be divided into two banks: one (*balance*) for withdraw and one (*shop_balance*) for retail shopping. *RATE_shop* in *config.json* is the percentage for shopping (and so *1 - RATE_shop* for withdraw). 
+The last step in compensation calculations is to put the dollar amounts into ledgerbook *income_ledger*. The dollars will be divided into two banks: one (*balance*) for withdraw and the other (*shop_balance*) for retail shopping. *RATE_shop* in *config.json* is the percentage for retail shopping (and so *1 - RATE_shop* for withdraw). 
 
-A tag is used to mark different types of transactions in the ledger. The weekly and monthly compensations are marked as types *Weekly* and *Monthly*, the shopping fee as *Shopping* and the money withdraw as *Withdraw*. In addition, *In* is for member to send offline money. Different types of transactions will put the money differently into *shop_balance* and *balance* according to their nature.
+The weekly and monthly compensations are marked as types *Weekly* and *Monthly*, the shopping fee as *Shopping*, and the money withdraw as *Withdraw* in the ledger book. In addition, *In* is for member to send in offline money. 
 
 ### 3.6) Cut-Off or Re-Join the Pyramid
 
-Occassionally, you may want to cut member's (small) pyramid off her upline's left or right leg.  Later, you re-joint the losen tree to a leg of different member. You can do those actions in *Membership/Binary Tree*. Internally, when cutting off a small pyramid, we actually place it under a non-existent system upline, defined to be *TOP_memberid*.
+Occassionally, you may cut a member off her upline's left or right leg in pyramid tree. Later, you may re-join the small, separated tree to a different member. You can do those operations in *Membership/Binary Tree* on backend. (Internally, a cutted pyramid is actually placed under a disabled system account *TOP_memberid* in *config.json*.)
 
 ### 3.7) Manage Managers
 
-Those who can login to the admin portal, are classified into 4 manager groups. The *ROOT* group can manage anything including other managers. The others are *ACCOUNTING*, *SUPPORT*, and *MARKETING* for different department tasks. If you login as *ROOT*, you are able to see the *Manage Managers* button.
+The backend managers who can login to the backend admin portal,are classified into 4 groups. The *ROOT* group can manage anything including other managers. The other three groups are *ACCOUNTING*, *SUPPORT*, and *MARKETING*, who can run selected sets of tasks. 
 
+### 4.8) Compensation Tests
 
-### 3.8) Run Online Tests
+The *Compensation Test* allows managers to calculate different bonus. These are harmless actions since they only show you what bonus would be, they don't actually put the dollars into the bonus tables and leger.
 
-The *Compensation Test* allows one to see different types of bonus within a day range. These are harmless actions since they only show you what bonus would be, they don't actually caculate the bonuses nor put into the bonus tables and leger.
-
-If you are *ROOT*, you can view and run *Execute and Write* to actually run the whole bonus calculation process. Nomarlly this should be avoided, since the bonuses are not revertable. But during early testing phases, it can be a very powerful tool to let you calculate and test.
-
+If you are *ROOT*, you can view and run *Execute and Write*, which actually run the whole bonus calculation process! Nomarlly this should be avoided, since the executions are not revertable. However, during early development phases, you may need it for bonus testings.
 
 ##
 
@@ -411,6 +407,8 @@ $ (cd SAMPLE_home/views; tar cvf - *) | (cd NEW_view_directory; tar xvf -)
 ### 4.4) JSON API
 
 Another useful feature of *Genelet* is to get the JSON response by changing the tag name *en* to *json* in the URL. This can be used as API for other development like mobile apps.
+
+
 
 
 
