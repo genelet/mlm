@@ -267,11 +267,11 @@ For securit reasons, you may limit the views of one's pyramid downlines and spon
 
 ## Chapter 3. MANAGEMENT AND ACCOUNTING
 
-In this chapter, we explain how to use the backend management system to build product packages, to process orders and to keep ledger books etc. Note that *MLM* **does not** actually charge credit/debt card nor process online money transaction. It depends on your accounting department to **put markers into relevant ledger tables** to proceed. 
+In this chapter, we explain how to use the backend management system to build product packages, to process orders and to keep ledger books etc. Note that *MLM* **does not** actually charge credit/debt card nor process online money transaction. It depends on your accounting department to **put markers into relevant sales and ledger tables** to proceed. 
 
-So either you process money offline (and put markers in ledger), or you implement your own online credit card processing. For the later solution, we believe there are many other software available.
+So either you process money offline (and put markers in tables), or you implement your own online credit card processing. For the later solution, we believe there are many other software available.
 
-*MLM* is not aimed to be an eCommerce package too, so it impements only limited product and shopping-and-handling features. However, they are good enough to run the core MLM functions.
+*MLM* is not aimed to be an eCommerce package too, so it impements only limited product and shopping-and-handling features. However, they are good enough to run the core MLM functions. You can combine the 3rd party ecommerce software with this *MLM*, by coordinating the tables.
 
 ### 3.1) New Applicants
 
