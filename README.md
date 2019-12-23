@@ -135,8 +135,9 @@ For most system, running _mlm_ as a CGI program is both fast and more secure. Ho
 $ SAMPLE_home/mlm/cgi-bin/goto
 ```
 to be a Fast CGI **handler** in control panel. To do this, 
-- copy *goto* to the home directory "/SAMPLE_home/www", and have your Apache to run it as a *Fcgid* handler.
-- add digit 1 as the forth argument in _Genelet::Dispatch::run_ of _goto_. So it becomes:
+- copy *goto* to the home directory "/SAMPLE_home/mlm/www", and config your Apache to run it as a *Fcgid* handler.
+- Modify *Script* in */SAMPLE_home/mlm/conf/config.json* to replace */cgi-bin/goto* by */goto* in *Script*.
+- add digit 1 as the forth argument in function *Genelet::Dispatch::run* of _goto_. Explicitely:
 ```
 Genelet::Dispatch::run("/SAMPLE_home/mlm/conf/config.json","/SAMPLE_home/mlm/lib",["Admin","Affiliate","Signup","Member","Sponsor","Placement","Category","Gallery","Package", "Packagedetail","Packagetype","Sale","Basket","Lineitem","Income","Incomeamount","Ledger","Tt","Ttpost","Week1","Week4","Affiliate"], 1);
 
