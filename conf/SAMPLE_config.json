@@ -1,13 +1,13 @@
 {
-    "Document_root" : "/SAMPLE_home/mlm/www",
-	"Server_url"    : "http://SAMPLE_domain",
+    "Document_root" : "/var/www/mlm/www",
+	"Server_url"    : "http://10.11.1.184",
     "Project"       : "MLM",
     "Script"        : "/cgi-bin/goto",
-    "Template"      : "/SAMPLE_home/mlm/views",
-    "Uploaddir"     : "/SAMPLE_home/mlm/www/product",
+    "Template"      : "/var/www/mlm/views",
+    "Uploaddir"     : "/var/www/mlm/www/product",
     "Pubrole"       : "p",
-    "Secret"   : "SAMPLE_random_SAMPLE_random_SAMPLE_random_SAMPLE_random",
-    "Custom"   : {"SHOP_typeid":100, "TOP_memberid":1, "BIN":{"unit":200, "rate":0.1, "rate21":0.15}, "RATE_shop":0.1, "RATE_affiliate":0.02, "RATE_matchdown":0.25, "MAX_plevel":6, "MAX_slevel":10, "MAX_mplevel":6, "MAX_mslevel":10, "ENTER":"/m/en/member?action=edit"},
+    "Secret"   : "biotiquin_random_SAMPLE1234",
+    "Custom"   : {"SHOP_typeid":100, "TOP_memberid":1, "BIN":{"unit":200, "rate":0.1, "rate21":0.15}, "RATE_shop":0.1, "RATE_affiliate":0.02, "RATE_matchdown":0.25, "MAX_plevel":3, "MAX_slevel":3, "MAX_mplevel":3, "MAX_mslevel":3, "ENTER":"/m/en/member?action=edit"},
     "Chartags" : {
         "html" : {"Content_type":"text/html; charset='UTF-8'", "Short":"html"},
         "en"   : {"Content_type":"text/html; charset='UTF-8'", "Short":"html"},
@@ -24,22 +24,22 @@
     },
 
     "Log" : {
-        "filename": "/SAMPLE_home/mlm/logs/debug.log",
+        "filename": "/var/www/mlm/logs/debug.log",
         "minlevel": 0,
         "maxlevel": "info"
     },
 
-    "Db" : ["dbi:mysql:SAMPLE_dbname:SAMPLE_host:3306", "SAMPLE_user", "SAMPLE_password"],
+    "Db" : ["dbi:mysql:mlm:127.0.0.1:3306", "root", "D21By23!"],
 
     "Roles" : {
         "m": {
             "Id_name": "memberid",
             "Type_id": 2,
             "Attributes": ["login", "memberid", "m_active", "m_type", "m_email", "m_firstname", "m_lastname", "m_sid", "m_pid", "m_top", "m_leg"],
-            "Secret": "SAMPLE_random_SAMPLE_random_SAMPLE_random_SAMPLE_random",
+            "Secret": "biotiquin_random_SAMPLE1234",
             "Coding": "SAMPLE_random_SAMPLE_random_SAMPLE_random_SAMPLE_random",
             "Surface": "cm",
-            "Domain": "SAMPLE_domain",
+            "Domain": "10.11.1.184",
             "Duration": 86400,
             "Max_age": 86400,
             "Logout": "/",
@@ -60,10 +60,10 @@
             "Attributes" : ["adminlogin","adminid"],
             "Type_id" : 1,
             "Surface" : "ca",
-            "Domain" : "SAMPLE_domain",
+            "Domain" : "10.11.1.184",
             "Duration" : 86400,
             "Max_age"  : 86400,
-            "Secret": "SAMPLE_random_SAMPLE_random_SAMPLE_random_SAMPLE_random",
+            "Secret": "biotiquin_random_SAMPLE1234",
             "Coding": "SAMPLE_random_SAMPLE_random_SAMPLE_random_SAMPLE_random",
             "Logout" : "/",
             "Issuers" : {

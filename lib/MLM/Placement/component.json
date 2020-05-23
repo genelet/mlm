@@ -6,7 +6,7 @@
 		"join_tree": {"validate": ["memberid"]},
 
         "topics" :{"groups":["m"], "validate" :["memberid"]},
-        "view_binary" :{"groups":["m"], "validate" :["memberid"]}
+        "view_binary" :{"groups":["m"]}
 	},
 
 	"current_table"   :"family",

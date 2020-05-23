@@ -8,7 +8,7 @@
 		"startdef"   :{"groups":["m"]},
 		"changedef"  :{"groups":["m"]},
 		"changepass" :{"groups":["m"], "validate" :["passwd", "newpasswd"]},
-		"dashboard"  :{"groups":["m"], "validate" :["memberid"]},
+		"dashboard"  :{"groups":["m"]},
 		"edit"       :{"groups":["m"], "validate" :["memberid"]},
 
 		"resetpass"  :{ "validate": [ "memberid", "newpasswd"] },
