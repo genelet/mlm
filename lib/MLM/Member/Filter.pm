@@ -31,7 +31,7 @@ sub preset {
       delete $ARGS->{confirm};
     }
   } elsif ($who eq 'a' && $action eq 'topics') {
-    $ARGS->{sortby} = 'created';
+    $ARGS->{sortby} = 'm.created';
   }
 
 	return;
