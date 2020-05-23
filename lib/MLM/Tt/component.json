@@ -2,7 +2,7 @@
 	"actions" : {
 		"startnew":{"groups":["m"],"options":["no_db","no_method"]},
 		"topics"  :{"groups":["m"]},
-		"reply"   :{"groups":["m"], "validate":["subjectid"]},
+		"reply"   :{"groups":["m"], "validate":["subjectid"], "method":["GET"]},
 		"insert"  :{"groups":["m"],"validate":["description","memberid"]},
 		"delete"  :{"validate":["subjectid"]},
 		"edit"    :{"groups":["m"],"validate":["subjectid"]},

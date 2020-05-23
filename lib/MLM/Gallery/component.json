@@ -4,16 +4,16 @@
 		"startnew":{"options":["no_method", "no_db"]},
 		"insert"  :{"validate":["categoryid"],
 			"upload":{
-				"logoupload":["logo","/var/www/mlm/www/product"],
-				"fullupload":["full","/var/www/mlm/www/product"]
+				"logoupload":["logo","/product"],
+				"fullupload":["full","/product"]
 			}
 		},
 		"delete"  :{"validate" :["galleryid"]},
 		"edit"    :{"groups":["p","m"], "validate" :["galleryid"]},
 		"update"  :{"validate" :["galleryid"],
 			"upload":{
-				"logoupload":["logo","/var/www/mlm/www/product"],
-				"fullupload":["full","/var/www/mlm/www/product"]
+				"logoupload":["logo","/product"],
+				"fullupload":["full","/product"]
 			}
 		}
 	},

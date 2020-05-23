@@ -2,10 +2,10 @@
 	"actions" : {
 		"topics"  :{"groups":["m"]},
 		"startnew":{"groups":["m"], "options":["no_method","no_db"]},
-		"buy"  :{"groups":["m"]},
+		"buy"  :{"groups":["m"], "method":["GET"]},
 		"insert"  :{},
 		"edit"    :{"groups":["m"], "validate":["saleid"]},
-		"myInvoice":{"groups":["m"], "validate":["saleid"]},
+		"myInvoice":{"groups":["m"], "validate":["saleid"], "method":["GET"]},
 		"update"  :{}
 	},
     "fks" : {

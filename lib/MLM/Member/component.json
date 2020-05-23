@@ -1,22 +1,22 @@
 {
 	"actions" : {
 		"startnew": {"groups":["p","m"]},
-		"activate": { "groups": [ "p" ], "validate": [ "login", "secret" ] },
-		"retrieve_pass": { "groups": [ "p" ] },
+		"activate": {"groups":["p"], "validate":["login","secret"], "method":["GET"]},
+		"retrieve_pass": {"groups":["p"], "method":["GET"]},
 
 		"update"     :{"groups":["m"], "validate" :["memberid"]},
-		"startdef"   :{"groups":["m"]},
-		"changedef"  :{"groups":["m"]},
-		"changepass" :{"groups":["m"], "validate" :["passwd", "newpasswd"]},
-		"dashboard"  :{"groups":["m"]},
+		"startdef"   :{"groups":["m"], "method":["GET"]},
+		"changedef"  :{"groups":["m"], "method":["GET"]},
+		"changepass" :{"groups":["m"], "validate" :["passwd", "newpasswd"], "method":["GET"]},
+		"dashboard"  :{"groups":["m"], "validate" :["memberid"], "method":["GET"]},
 		"edit"       :{"groups":["m"], "validate" :["memberid"]},
 
-		"resetpass"  :{ "validate": [ "memberid", "newpasswd"] },
+		"resetpass"  :{"validate": [ "memberid", "newpasswd"] },
 		"insert"     :{},
-		"bulk"       :{},
+		"bulk"       :{"method":["GET"]},
 		"topics"     :{},
 		"delete"     :{},
-		"enter"      :{"options":["no_db", "no_method"]}
+		"enter"      :{"options":["no_db", "no_method"], "method":["GET"]}
 	},
 
     "fks" : {
