@@ -60,7 +60,7 @@ Create a MySQL database, and username and password to access it. File *01_init.s
 
 Follow instruction in *04_read.me* to build your first config file, *config.json*. Put the database information you created in 1.4) in the *"Db"* block.
 
-Note that authentication cookie's *Domain* should match exactly the website you are serving in *config.json*. For example, if your site uses no subdomain name *www*, i.e. [http://noniland.com](http://noniland.com), then *Domain* should be _noniland.com_. If your site uses *www*, i.e. [http://www.noniland.com](http://www.noniland.com), then *Domain* should be _www.noniland.com_.
+Note that authentication cookies' *Domain* should match exactly the website you are serving in *config.json*, otherwise it would report login error code 1036. For example, if your site uses no *www*, i.e. [http://noniland.com](http://noniland.com), then *Domain* should be _noniland.com_. If your site uses *www*, i.e. [http://www.noniland.com](http://www.noniland.com), then *Domain* should be _www.noniland.com_.
 
 ### 1.6) Run Unit Tests
 
