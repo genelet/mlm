@@ -2,7 +2,7 @@ Options -Indexes
 
 RewriteEngine On
 
-RewriteRule ^([\-0-9a-zA-Z]+)$ /cgi-bin/goto/p/gb/member?action=startnew&slogin=$1 [R]
+RewriteRule ^([\-0-9a-zA-Z]+)$ /cgi-bin/goto/p/en/member?action=startnew&slogin=$1 [R]
 #RewriteRule ^/?$ cgi-bin/goto/p/gb/home?action=aboutus&Sponsor=www
 #RewriteRule ^([\-0-9a-zA-Z]+)$ cgi-bin/b.cgi/p/gb/home?action=aboutus&Sponsor=$1 [L]
 
