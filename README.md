@@ -60,7 +60,11 @@ Create a MySQL database, and username and password to access it. File *01_init.s
 
 Follow instruction in *04_read.me* to build your first config file, *config.json*. Put the database information you created in 1.4) in the *"Db"* block.
 
+#### 1.5.1) Domain
+
 Note that authentication cookies' *Domain* should match exactly the website you are serving in *config.json*, otherwise it would report login error code 1036. For example, if your site uses no *www*, i.e. [http://noniland.com](http://noniland.com), then *Domain* should be _noniland.com_. If your site uses *www*, i.e. [http://www.noniland.com](http://www.noniland.com), then *Domain* should be _www.noniland.com_.
+
+#### 1.5.2) Uploading
 
 By default, files will be uploaded into _Uploaddir_. You can override this behavior by assigning a specific folder for the action in *component.json*. For example, the _Product_ photos are uploaded to *Document_root*/product as showing in *SAMPLE_home/lib/MLM/Gallery/component.js*:
 ```
@@ -71,6 +75,10 @@ By default, files will be uploaded into _Uploaddir_. You can override this behav
     }
   }
 ```
+
+#### 1.5.3) GET
+
+For security reasons, Http *GET* method is permitted only for RESTful actions *topics*, *edit*, *delete* and *startnew*. If you create your own *action* (class' subroutine), and allow it to run under *GET*, then please specifically add _"method":["GET"]_ to *component.js*.
 
 ### 1.6) Run Unit Tests
 
