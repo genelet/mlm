@@ -2,11 +2,11 @@
 	"actions" : {
 		"startnew" :{"options":["no_db", "no_method"]},
 		"topics" :{},
-		"leave_tree": {"validate": ["memberid"]},
-		"join_tree": {"validate": ["memberid"]},
+		"leave_tree": {"validate": ["memberid"], "method":["GET"]},
+		"join_tree": {"validate": ["memberid"], "method":["GET"]},
 
         "topics" :{"groups":["m"], "validate" :["memberid"]},
-        "view_binary" :{"groups":["m"], "validate" :["memberid"]}
+        "view_binary" :{"groups":["m"], "validate" :["memberid"], "method":["GET"]}
 	},
 
 	"current_table"   :"family",
