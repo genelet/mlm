@@ -60,6 +60,8 @@ Create a MySQL database, and username and password to access it. File *01_init.s
 
 Follow instruction in *04_read.me* to build your first config file, *config.json*. Put the database information you created in 1.4) in the *"Db"* block.
 
+Note that authentication cookies' *Domain* should match exactly the website you are serving in *config.json*, otherwise it would report login error code 1036. For example, if your site uses no *www*, i.e. [http://noniland.com](http://noniland.com), then *Domain* should be _noniland.com_. If your site uses *www*, i.e. [http://www.noniland.com](http://www.noniland.com), then *Domain* should be _www.noniland.com_.
+
 ### 1.6) Run Unit Tests
 
 Follow instruction in *05_read.me* to add *Beacon.pm*, *admin.t* and *placement.t* to *lib/MLM*, *lib/MLM/Admin* and *lib/MLM/Placement*:
@@ -84,8 +86,11 @@ $ perl placement.t
 
 Follow instruction in *06_read.me* to create *bin* and associated files. You may create an empty director *SAMPLE_home/mlm/logs* for debugging messages before run the _Functional_ tests:
 ```
-$ mkdir ../logs
-$ cd ../bin/
+$ cd SAMPLE_home
+$ mkdir logs bin
+$ cp conf/SAMPLE_bin/* bin/
+(please change word 'SAMPE_home' to be yours in the files in 'bin/' ) 
+$ cd bin
 $ perl 01_product.t
 $ perl 02_member.t
 $ perl 03_income.t
