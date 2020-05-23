@@ -62,6 +62,16 @@ Follow instruction in *04_read.me* to build your first config file, *config.json
 
 Note that authentication cookies' *Domain* should match exactly the website you are serving in *config.json*, otherwise it would report login error code 1036. For example, if your site uses no *www*, i.e. [http://noniland.com](http://noniland.com), then *Domain* should be _noniland.com_. If your site uses *www*, i.e. [http://www.noniland.com](http://www.noniland.com), then *Domain* should be _www.noniland.com_.
 
+By default, files will be uploaded into _Uploaddir_. You can override this behavior by assigning a specific folder for the action in *component.json*. For example, the _Product_ photos are uploaded to *Document_root*/product as showing in *SAMPLE_home/lib/MLM/Gallery/component.js*:
+```
+  "insert"  :{"validate":["categoryid"],
+    "upload":{
+      "logoupload":["logo","/product"],
+      "fullupload":["full","/product"]
+    }
+  }
+```
+
 ### 1.6) Run Unit Tests
 
 Follow instruction in *05_read.me* to add *Beacon.pm*, *admin.t* and *placement.t* to *lib/MLM*, *lib/MLM/Admin* and *lib/MLM/Placement*:
