@@ -1,9 +1,7 @@
 INSERT INTO def_type (typeid,short,name,bv,price,yes21,c_upper)
-VALUES (1,'Platinum','Platinum Level Member',1000,1000,'Yes',10000),
-       (2,'Gold',    'Gold Level Member',     600, 600,'Yes',10000),
-       (3,'Silver',  'Silver Level Member',   400, 400, 'No',10000),
-       (4,'Standard','Standard Level Member', 200, 200, 'No',10000),
-       (5,'Visitor', 'Visitor Level Member',  100, 100, 'No',    0);
+VALUES (1,'Distributor','Distributor Level Member',100,1000,'No',10000),
+       (2,'Sub-Distributor',    'Sub-Distributor Level Member',     10, 600,'No',10000),
+       (3,'Customer',  'Customer',   0, 400, 'No',10000);
 INSERT INTO def_direct (directid,typeid,whoid,bonus)
 VALUES ( 1,1,1,500),( 2,1,2,300),( 3,1,3,200),( 4,1,4,100),( 5,1,5,0),
        ( 6,2,1,400),( 7,2,2,200),( 8,2,3,100),( 9,2,4, 50),(10,2,5,0),
