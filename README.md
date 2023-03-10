@@ -66,7 +66,7 @@ Note that authentication cookies' *Domain* should match exactly the website you 
 
 #### 1.5.2) Uploading in _component.json_
 
-By default, files will be uploaded into _Uploaddir_. You can override this behavior by assigning a specific folder for the action in *component.json*. For example, the _Product_ photos are uploaded to *Document_root*/product as showing in SAMPLE_home/mlm/lib/MLM/Gallery/component.json:
+By default, files will be uploaded into _Uploaddir_. You can override this behavior by assigning a specific folder in *component.json*. For example, the _Product_ photos are uploaded to *Document_root*/product as showing in *SAMPLE_home/mlm/lib/MLM/Gallery/component.json*:
 ```
   "insert"  :{"validate":["categoryid"],
     "upload":{
