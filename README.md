@@ -211,7 +211,7 @@ The unilevel bonus is calculated every 4 weeks, or _monthly_, on days defined in
 
 ### 2.3) Team Bonus (or Match Bonus)
 
-Besides referring new member directly, for who there is a unilevel bonus, sponsor gains referring bonus over generations called *Match-Up Bonus*. For example, if your direct offspring referes a new member, not only the offspring, who is rewarded the unilevel bonus, but also you as the 2nd-generation sponsor gains the 2nd generation match-up bonus. This can go up to many generations.
+Besides referring new member directly, for who there is a unilevel bonus, sponsor gains referring bonus over generations called *Match-Up Bonus*. For example, if your direct offspring referes a new member, not only the sponsor, who is rewarded the unilevel bonus, but also you as the 2nd-generation sponsor, gain the 2nd generation match-up bonus. This can go up to many generations.
 
 Meanwhile, just because one's sponsor gets match-up bonus, all of her direct offsprings will share additional percentage of the bonus issued by the system, which is called *Match-Down Bonus*. In our system, we put the two types of bonus together as *Team Bonus*, because it helps one build up her sales team.
 
