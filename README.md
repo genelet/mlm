@@ -1,28 +1,28 @@
 # MLM 
 
-It is a fully featured open-source Multi-Level Market (MLM) package, providing registration, membership, compensations, cronjobs, shopping, ticketing, backend administration and so on. Four types of bonus plans are implemented internally: unilevel, team, pairing and affiliate rewards, but developer can easily extend it to other customized plans. 
+This is a comprehensive open-source Multi-Level Marketing (MLM) package. It offers features such as registration, membership management, compensation structures, automated tasks, shopping capabilities, ticketing systems, and backend administration. The package includes four built-in bonus plans: unilevel, team, pairing, and affiliate rewards. Developers can easily extend these to include other customized bonus plans.
 
-The software is built on top of [Genelet](https://github.com/genelet/perl) (or the [main site](http://www.genelet.com)), which is a multilingual open-source web development framework for developing secure, scalable and high-performance web sites.
+The software is built on [Genelet](https://github.com/genelet/perl) (or the [main site](http://www.genelet.com)), an open-source web development framework designed for creating secure, scalable, and high-performance websites.
 
 ##
 
 ## Chapter 1. INSTALLTION
 
-The software is written in Perl programming language. It can run as standard CGI-BIN program or Fast CGI (see section 1.11). Besides running CGI, you need to access MySQL database and run commands under shell. _MLM_ has built-in unit and functional testing suites, which you need to pass to make sure that installation is successful and compensation calculations are correct.
+The software is developed using the Perl programming language. It can operate as a standard CGI-BIN program or Fast CGI (refer to section 1.11 for more details). In addition to running CGI, you need to access the MySQL database and execute commands under the shell, if you want to run built-in unit and functional testing suites. You should pass these tests to ensure successful installation and accurate compensation calculations.
 
 ### 1.1) Download Perl Package _Genelet_
 ```
 $ git clone https://github.com/genelet/perl.git
 ```
-Assume your current directory is *SAMPLE_home*. After the clone, directory *perl* will be created within *SAMPLE_home*.
+Assume your current directory is named *SAMPLE_home*. After cloning, a new directory named *perl* will be created within *SAMPLE_home*.
 
-Note that in real environment, the home directory is definitely **not** named as _SAMPLE_home_ so you should replace all the mentions of *SAMPLE_home* below by yours.
+Please note that in a real environment, the home directory will not be named *SAMPLE_home*. Therefore, you should replace all mentions of *SAMPLE_home* in the instructions below with the name of your actual home directory.
 
 ### 1.2) Download _mlm_
 ```
 $ git clone https://github.com/genelet/mlm.git
 ```
-After the clone, directory _mlm_ will be created to contain 4 directories: *lib*, *conf*, *www* and *views*. The file structure will look like this:
+After the clone, directory _mlm_ will be created with 4 sub directories: *lib*, *conf*, *www* and *views*. The file structure will look like this:
 
 ```
 SAMPLE_home /
@@ -38,11 +38,11 @@ SAMPLE_home /
 
 ### 1.3) Prepare Web Server
 
-Have your web server to point website's document root to *www*. Optionally, you may assign both *SAMPLE_home/perl* and *SAMPLE_home/mlm/lib* to the Perl path:
+Please have your web server to assign website's document_root to be *www*. You should also assign both *SAMPLE_home/perl* and *SAMPLE_home/mlm/lib* to be in the Perl path:
 ```
 $ export PERL5LIB=/SAMPLE_home/perl:/SAMPLE_home/mlm/lib
 ```
-_Genelet_ and _mlm_ use only basic 3rd-party modules, which your server may already have. You may need to install the following modules. The corresponding packages in Ubuntu are marked too:
+_Genelet_ and _mlm_ use only basic 3rd-party modules, which your server may already have. Here is the list of the modules and the corresponding packages in Ubuntu:
 ```
 Test::Class               sudo apt-get install libtest-class-perl
 Digest::HMAC_SHA1         sudo apt-get install libdigest-hmac-perl
@@ -54,19 +54,21 @@ CGI::Fast (optional)      sudo apt-get install libcgi-fast-perl
 
 ### 1.4) Create MySQL Database
 
-Create a MySQL database, and username and password to access it. File *01_init.sql* in *conf* is the database schedma. You need to load it into the database using a client tool. After that, please follow *02_read.me* to add test accounts and test products defined in  *03_setup.sql*.
+Create a MySQL database, and have username and password to access it. 
+
+File *01_init.sql* in *conf* is the database schedma. You need to load it into the database using a client tool. After that, please follow *02_read.me* to add testing accounts and testing products which are defined in  *03_setup.sql*.
 
 ### 1.5) Build _config.json_ and _component.json_
 
-Follow instruction in *04_read.me* to build your first config file, *config.json*. Put the database information you created in 1.4) in the *"Db"* block.
+Follow instruction in *04_read.me* to build your first config file, *config.json*. Put the database information you created in 1.4) in the *Db* block.
 
-#### 1.5.1) Domain
+#### 1.5.1) Domain name in cookies
 
 Note that authentication cookies' *Domain* should match exactly the website you are serving in *config.json*, otherwise it would report login error code 1036. For example, if your site uses no *www*, i.e. [http://noniland.com](http://noniland.com), then *Domain* should be _noniland.com_. If your site uses *www*, i.e. [http://www.noniland.com](http://www.noniland.com), then *Domain* should be _www.noniland.com_.
 
 #### 1.5.2) Uploading in _component.json_
 
-By default, files will be uploaded into _Uploaddir_. You can override this behavior by assigning a specific folder in *component.json*. For example, the _Product_ photos are uploaded to *Document_root*/product as showing in *SAMPLE_home/mlm/lib/MLM/Gallery/component.json*:
+By default, uploading files will be saved in _Uploaddir_. You can override this behavior by assigning a specific folder in *component.json*. For example, the _Product_ photos are uploaded to *Document_root*/product as showing in *SAMPLE_home/mlm/lib/MLM/Gallery/component.json*:
 ```
   "insert"  :{"validate":["categoryid"],
     "upload":{
@@ -153,7 +155,7 @@ Member portal:
 
 ### 1.11) Run as Fast CGI program
 
-For most system, running _mlm_ as a CGI program is both fast and more secure. However, if you have a large customer base, a tight system resource or on a virtual host enrionment, you may want to run it as a Fast CGI to gain extra speed. In particular, many virtual-host services are running PHP under Apache's mod_fcgid module. So you may just modify the existing
+For most systems, running _mlm_ as a CGI program is both fast and secure. However, if you have a large customer base, limited system resources, or are operating in a virtual host environment, you might want to run it as a Fast CGI to gain extra speed. In particular, many virtual-host services run PHP under Apache's mod_fcgid module. You can simply modify the existing
 ```
 $ SAMPLE_home/mlm/cgi-bin/goto
 ```
@@ -170,11 +172,12 @@ Genelet::Dispatch::run("/SAMPLE_home/mlm/conf/config.json","/SAMPLE_home/mlm/lib
 
 ## Chapter 2. COMPENSATION PLANS
 
-We have internally built 4 compensation plans. The parameters in the plans are defined in the *Custom* data block of *config.json*, and 3 tables: *def_type*, *def_direct* and *def_match*. You may use them as basic blocks to build your own compensation plans. 
+We have internally developed four compensation plans. The parameters for these plans are defined in the *Custom* data block of *config.json*, as well as in three tables: *def_type*, *def_direct*, and *def_match*. 
+You can use these as building blocks to create your own compensation plans.
 
 ### 2.1) Membership
 
-Members who joint your MLM system are classified into different types defined in *def_type*:
+Members who joint your MLM system are classified into different membership types, defined in *def_type*:
 ```
 CREATE TABLE def_type (
   typeid tinyint(3) unsigned NOT NULL,
@@ -189,11 +192,11 @@ CREATE TABLE def_type (
 ```
 in which *typeid* is the unique ID; *name* the membership name such as "Gold Membership"; *short* its abbreation; *price* the minimal price of this membership's initial sign-up package, and *bv* the _Bonus Value_ of the package. *yes21* and *c_upper* are put there for *Pairing* bonus only: *yes21* means whether or not the membership allows *2:1* type of pairing in additional to *1:1*, and *c_upper* the upper limit in dollar amount for each pairing.
 
-Note that signup is not the only type of shopping packages in your system. Customers who already have joint as members, may shop your other products sporadically. This retail shopping will be assigned with *typeid* of value *SHOP_typeid* defined in *config.json*. 
+Note that signup is not the only type of shopping packages in your system. Customers who already have been joint as members, may shop your other products sporadically. This retail shopping will be assigned with *typeid* of value *SHOP_typeid* defined in *config.json*. 
 
 ### 2.2) Unilevel Bonus (or Direct Bonus)
 
-Every time, when an existing member refers a new member to join your MLM system, she will be rewarded with *Unilevel Bonus*. She is called _sponsor_, and the new member her _offspring_. The dollar amount of the bonus is defined in table *def_direct*:
+Every time, when an existing member refers a new member to join the MLM system, she will be rewarded with *Unilevel Bonus*. She is called _sponsor_, and the new member her _offspring_. The dollar amount of the bonus is defined in table *def_direct*, which enables you to define privileges for various membership types
 ```
 CREATE TABLE def_direct (
   directid tinyint(3) unsigned NOT NULL,
@@ -205,15 +208,15 @@ CREATE TABLE def_direct (
   KEY whoid (whoid)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
-in which *directid* is the unique ID; *typeid* sponsor's *typeid*, and *who* offspring's *typeid*. *bonus* is the dollar amount rewarded to the sponsor. This table will allow you to define privileges for different membership types. 
+in which *directid* is the unique ID; *typeid* sponsor's *typeid*, and *who* offspring's *typeid*. *bonus* is the dollar amount rewarded to the sponsor.
 
 The unilevel bonus is calculated every 4 weeks, or _monthly_, on days defined in the *cron_4week* table.
 
 ### 2.3) Team Bonus (or Match Bonus)
 
-Besides referring new member directly, for who there is a unilevel bonus, sponsor gains referring bonus over generations called *Match-Up Bonus*. For example, if your direct offspring referes a new member, not only the sponsor, who is rewarded the unilevel bonus, but also you as the 2nd-generation sponsor, gain the 2nd generation match-up bonus. This can go up to many generations.
+In addition to the unilevel bonus earned from directly referring a new member, sponsors can also earn a *Match-Up Bonus* from their referrals' activities. For example, if your direct referral sponsors a new member, you, as the 2nd-generation sponsor, receive a 2nd generation match-up bonus. This can extend to many generations.
 
-Meanwhile, just because one's sponsor gets match-up bonus, all of her direct offsprings will share additional percentage of the bonus issued by the system, which is called *Match-Down Bonus*. In our system, we put the two types of bonus together as *Team Bonus*, because it helps one build up her sales team.
+At the same time, when a sponsor earns a match-up bonus, all of their direct referrals share an additional percentage of the bonus issued by the system. This is known as the *Match-Down Bonus*. In our system, we combine these two types of bonuses into a *Team Bonus* because it encourages individuals to build their sales teams.
 
 The match-up bonus plan is defined in *def_match*:
 ```
@@ -234,50 +237,56 @@ The team bonus is calculated weekly on days defined in *cron_1week*.
 
 ### 2.4) Pairing Bonus (or Binary Bonus)
 
-It is another type of popular MLM bonus. Besides the above *sponsor* tree, member can place another member, called _downline_ to her *pyramid* tree, starting with two direct downlines on her left and right legs. Each leg can and only can have one downline. As you image, this builds up a private pyramid for each member. 
+Another popular type of MLM bonus is the pyramid bonus. In addition to the *sponsor* tree, a member can add another member, known as a _downline_, to their *pyramid* tree. 
+This starts with two direct downlines on their left and right legs. Each leg can only have one downline. As you can imagine, this creates a private pyramid for each member.
 
-We use words *sponsor* and *offspring* in the sponsorship tree, and word *upline* and *downline* in the pyramid tree.
+We use the terms *sponsor* and *offspring* in the sponsorship tree, and *upline* and *downline* in the pyramid tree.
 
-Downlines in one's pyramid tree, are offsprings of her **direct sponsor and up-generation sponsors** in the sponsor tree (till the first sponsor in the MLM system). This means, any of her up-generation sponsors can place a downline to her left or right leg. Thus, the up-generation sponsor (in the sponsor tree) becomes new downline's up-generation upline (in the pyramid tree).
+Downlines in one's pyramid tree are offsprings of their **direct sponsor and up-generation sponsors** in the sponsor tree (up to the first sponsor in the MLM system). 
+This means that any of their up-generation sponsors can place a downline on their left or right leg. Thus, the up-generation sponsor (in the sponsor tree) becomes the new downline's up-generation upline (in the pyramid tree).
 
-Here is a typical example: a sponsor named Mary refers an offspring to the MLM system. Because Mary's two legs are already filled up so she places the offspring under a open leg of downline "John". The new member is 
-- Mary's direct offspring, sponsorship tree
-- John's direct downline, pyramid tree
-- Mary's multi-generation downline, pyramid tree
-- John and the new member have no relationship in the sponsorship tree.
+For instance, suppose Mary refers a new member, Karl, to the MLM system. 
+Since Mary's two legs are already filled in the pyramid tree, 
+she places Karl under John's left leg, who is a multi-generation offspring of Mary. Therefore, Karl is:
+- Mary's direct offspring in the sponsorship tree;
+- John's direct downline in the pyramid tree;
+- Mary's multi-generation downline in the pyramid tree;
+- John and Karl have no relationship in the sponsorship tree.
 
-In the pyramid tree, a newly joint downline will add his package's BV to **all up-generation uplines' relevant legs**. The BV values accumulated are called one's *points* or *sales volume*.
 
-If one gets enough points on both the legs, they will be paired and flushed out, sometimes call *collission*, and then a paring bonus will be generated. *Custom->{BIN}* in *config.json* defines what these parameters are: *unit* is the base unit in *bv*, *rate* for rate to convert BV to dollar amount. For example, if someone has 500 bv on the left leg and 400 bv on the right leg, and *unit=200*, the collission will involve 2 units, which is then converted to *$40* (*rate=0.1*) as dollar amount. After the flushing, her left leg has 100 bv and right 0 bv. 
 
-Note that if *c_upper=30* is defined in *def_type*, the real compensation she receives will be *$30* instead of *$40*.
-
-In practice, members have very unbalanced sales volumes on two legs. So our system implements another *2:1* type of pairing so as to flush out one's points as fast as possible. Whether or not a membership can execute *2:1* is defined in *def_type* as a privilege. For example, if one has 1,000 bv on left and 400 bv on right, our system will pair at *800:400*, or 2 units of *2:1*, instead of 2 units of *400:400*. After the paring, her points are *200:0*. *rate21* is the rate for this type of pairing.
 
 The pairing bonus is calculated weekly on days defined in *cron_1week*.
+
+If a member accumulates enough points on both legs, they will be paired and cleared, sometimes referred to as a *collision*, and a pairing bonus will be generated. The parameters for this process are defined in *Custom->{BIN}* in *config.json*: *unit* is the base unit in *bv*, and *rate* is the rate used to convert BV to a dollar amount. For example, if a member has 500 bv on the left leg and 400 bv on the right leg, and *unit=200*, the collision will involve 2 units, which is then converted to *$40* (*rate=0.1*) as a dollar amount. After the clearing, the member's left leg has 100 bv and the right leg has 0 bv. 
+
+Note that if *c_upper=30* is defined in *def_type*, the actual compensation the member receives will be *$30* instead of *$40*.
+
+In practice, members often have very unbalanced sales volumes on their two legs. Therefore, our system implements a *2:1* type of pairing to clear one's points as quickly as possible. Whether a membership can execute *2:1* is defined in *def_type* as a privilege. For example, if a member has 1,000 bv on the left and 400 bv on the right, our system will pair at *800:400*, or 2 units of *2:1*, instead of 2 units of *400:400*. After the pairing, the member's points are *200:0*. *rate21* is the rate for this type of pairing.
+
+The pairing bonus is calculated weekly on the days defined in *cron_1week*.
 
 
 ### 2.5) Auto Placement and Power Line
 
-On member portal, one can assign an offspring and a leg, as the default upline for new signups in the pyramid tree. This is called *Auto Placement*. If the leg is already been occupied by a new signup, the same leg of the new signup will be used automatically as the new default placement.
+On the member portal, one can assign an offspring and a leg as the default upline for new signups in the pyramid tree. This is known as *Auto Placement*. If the assigned leg is already occupied by a new signup, the same leg of the new signup will automatically be used as the new default placement.
 
-For example, Mary assigns John's left leg as her *Auto Placement*. If Henry joins and occupies John's left leg, Henry's left leg will become the new *Auto Placement* for Mary, and so on, until Mary changes the rule explicitely on her member portal. This feature helps to build one's *power line* automatically.
+For example, if Mary assigns John's left leg as her *Auto Placement* and Henry joins, occupying John's left leg, Henry's left leg will become the new *Auto Placement* for Mary. This will continue until Mary explicitly changes the rule on her member portal. This feature helps to build one's *power line* automatically.
 
-In practice, most members will try to take advantage of powerful upline's power line, so they need only to build up the other lines. Member should adjust her *Auto Placement*, so as to optimize the balance of two sales volumes.
-
+In practice, most members will try to leverage the power line of a strong upline, focusing on building up their other lines. Members should adjust their *Auto Placement* to optimize the balance of sales volumes between the two lines.
 
 ### 2.6) Affiliate Bonus
 
-This type of bonus is usually applied to selected members in your system. Whether or not a member can become affiliate is managed in admin portal's *Membership/Affiliates*.
+This type of bonus is typically applied to privileged members within your system. The ability for a member to become an affiliate is managed in the admin portal's *Membership/Affiliates* section.
 
-During the process to activate a new signup application, your manager can credit the signup to an affiliate. The dollar amount the affiliate gets is defined in *Custom->{RATE_affiliate}*. For example, if the new signup buys a package of *$1000* and the rate *0.02*, the system will reward *$20* to the affiliate.
+During the process of activating a new signup application, your manager can attribute the signup to an affiliate. The dollar amount the affiliate receives is defined in *Custom->{RATE_affiliate}*. For example, if the new signup purchases a package worth *$1000* and the rate is *0.02*, the system will reward *$20* to the affiliate.
 
-The affiliate bonus is calculated weekly on days defined in *cron_1week*.
+The affiliate bonus is calculated weekly on the days defined in *cron_1week*.
 
 
 ### 2.7) When to Calculate
 
-All the bonus calculations are automatically managed by the daily cronjob program *run_daily.pl*. Please check section 1.9).
+All bonus calculations are automatically handled by the daily cron job program, *run_daily.pl*. Please refer to section 1.9 for more details.
 
 
 ### 2.8) Limited Displays
@@ -293,28 +302,29 @@ For securit reasons, you may limit the views of one's pyramid downlines and spon
 
 ## Chapter 3. MANAGEMENT AND ACCOUNTING
 
-In this chapter, we explain how to use the backend management system to build product packages, to process orders and to keep ledger books etc. Note that *MLM* **does not** actually charge credit/debt card nor process online money transaction. It depends on your accounting department to **put markers into relevant sales and ledger tables** to proceed. 
+In this chapter, we explain how to use the backend management system to build product packages, process orders, and maintain ledger books, among other tasks. Please note that *MLM* **does not** handle credit/debit card charges or process online money transactions. Instead, it relies on your accounting department to **insert markers into the relevant sales and ledger tables** to proceed. 
 
-So either you process money offline (and put markers in tables), or you implement your own online credit card processing. For the later solution, we believe there are many other software available.
+You can either process payments offline (and insert markers in tables) or implement your own online credit card processing. For the latter solution, there are many other software options available.
 
-*MLM* is not aimed to be an eCommerce package too, so it impements only limited product and shopping-and-handling features. However, they are good enough to run the core MLM functions. You can combine a 3rd party eCommerce software with this *MLM*, by coordinating the tables.
+*MLM* is not designed to be a comprehensive eCommerce package, so it only implements limited product and shopping-and-handling features. However, these are sufficient to run the core MLM functions. You can integrate a third-party eCommerce software with this *MLM* by coordinating the tables.
 
 ### 3.1) New Applicants
 
 #### 3.1.1) On public website
 
-On the public signup page, new candidate fills in the application form and submits it to your system:
+On the public signup page, a new candidate fills in the application form and submits it to your system:
+
 ```
 http://SAMPLE_domain/cgi-bin/goto/p/en/member?action=startnew
 ```
-On this page, the applicant can specify his sponsor username. In practice, the sponsor should give a specific URL to candidates with her username being automatically filled in.
+On this page, the applicant can specify their sponsor's username. In practice, the sponsor should provide a specific URL to candidates with their username automatically filled in.
 
-Method 1, put sponsor's username as an additional query:
+Method 1, add the sponsor's username as an additional query:
 ```
 http://SAMPLE_domain/cgi-bin/goto/p/en/member?action=startnew&sidlongin=MeMeMe
 ```
 
-Method 2, put the username as sub-domain or in URL path, and let the web server to redirect:
+Method 2, put the username as a sub-domain or in the URL path, and let the web server redirect:
 ```
 http://MeMeMe.SAMPLE_domain/
 ```
@@ -326,79 +336,159 @@ The system would redirect it to
 ```
 http://SAMPLE_domain/cgi-bin/goto/p/en/member?action=startnew&sidlongin=MeMeMe
 ```
-You need to use *Redirect* functions of your web server to set the above methods up.  
+You need to use the *Redirect* functions of your web server to set up the above methods.  
 
-Meanwhile, the new applicant, with the help of sponsor, may also specify his pyramid upline by filling in upline's member ID and leg. This is just an option. We have implemented an rule to do *auto pyramid placement*. Please see section 4.5).
+Meanwhile, the new applicant, with the help of the sponsor, may also specify their pyramid upline by filling in the upline's member ID and leg. This is optional. We have implemented a rule for *auto pyramid placement*. Please see section 4.5).
 
 #### 3.1.2) Backend
 
-On backend, new applicants are listed in *Membership/New Signups*. Manager can activate it, or delete it. If activating, the backend manager who works on this page, should put a transaction ID so as to track where the money came from. Meanwhile, our system will record the time and manager's name in the *member_signup* table.
+On the backend, new applicants are listed in *Membership/New Signups*. The manager can activate or delete these. If activating, the backend manager working on this page should input a transaction ID to track the source of the money. Meanwhile, our system will record the time and manager's name in the *member_signup* table.
 
-Again, *mlm* does not process real trasactions. It depends on your manager to put markers to proceed.
+Again, *mlm* does not process real transactions. It depends on your manager to input markers to proceed.
 
 After the signup is activated, the new member will fully engage in all compensation plans. (Because the payment is completed.)
 
 ### 3.2) Process Sales Orders
 
-At the same time, a new *Pending Order* is generated in *Sales*, meaning that you have charged the new member but need to package and ship the order.
+At the same time, a new *Pending Order* is generated in *Sales*, indicating that you have charged the new member but need to package and ship the order.
 
-After your warehouse has packaged the order, you should come to this page again, to turn the order status to *Processing*, meaning the order is now in your shipping department. 
+After your warehouse has packaged the order, you should return to this page to change the order status to *Processing*, indicating that the order is now in your shipping department. 
 
-The last step is to turn it into status "Delivered", which means the prouduct is delivered. Put a tracking ID here.
+The final step is to change the status to "Delivered", which means the product has been delivered. Input a tracking ID here.
 
-You may implement your own logistic or EPR software system to track orders.
+You may implement your own logistic or ERP software system to track orders.
 
 ### 3.3) Online Shopping
 
-Just as sales orders, we provide only a limited shopping function. You may enhance it, or implement another eCommerce package.
+Just like sales orders, we provide only a limited shopping function. You may enhance it, or implement another eCommerce package.
 
 #### 3.3.1) category
 
-Products are grouped into different categories by natures. Go to *Product/Categories* to manage categories e.g. to create a new category.
+Products are grouped into different categories by nature. Go to *Product/Categories* to manage categories, e.g., to create a new category.
 
 #### 3.3.2) item
 
-Then go to *Product/Produc Items* to manage physical product items. For example, you can create a new item with price, BV, description, thumbnail and full image etc. 
+Then go to *Product/Product Items* to manage physical product items. For example, you can create a new item with price, BV, description, thumbnail, and full image, etc. 
 
 #### 3.3.3) product package
 
-In many cases, such as the initial signup, you may sell products in *Packages*. A pre-defined package consists of fixed items with discount price. Go to *Product/Packages* to create a new empty package by specifying its name and membership type. Then fill it in with real items. The total price of a package does not have to be the sum of the included items because of discount.
+In many cases, such as the initial signup, you may sell products in *Packages*. A pre-defined package consists of fixed items with a discounted price. Go to *Product/Packages* to create a new empty package by specifying its name and membership type. Then fill it in with real items. The total price of a package does not have to be the sum of the included items because of the discount.
 
-For the initial signup package, the system will always use the **intrinsic price** defined in *def_type* to calculate the BV. I.e., the BV will be fixed for a specific membership, whatever package's sales price is. You may adjust package's items and discount price at any time, but the BV must be kept the same in the compensation calculation.
+For the initial signup package, the system will always use the **intrinsic price** defined in *def_type* to calculate the BV. That is, the BV will be fixed for a specific membership, regardless of the package's sales price. You may adjust the package's items and discount price at any time, but the BV must remain the same for the compensation calculation.
 
 #### 3.3.4) retail shopping
 
-Members can shop individual items on member portal:
+Members can shop for individual items on the member portal:
 ```
      http://SAMPLE_domain/cgi-bin/goto/m/en/member?action=dashboard
 ```
-Clicking on *Shop* on top will take the member to the shopping mall. She can only use her money in the ledger book to buy product. If there is no enough balance, she shoud send money to your company by an offline means, and have it to be added to the ledger. See below.
+Sure, I can suggest some improvements to make the selected excerpt from the article more clear and engaging. Here's the revised version:
+
+```plaintext
+### 3.1) New Applicants
+
+#### 3.1.1) On public website
+
+On the public signup page, a new candidate fills in the application form and submits it to your system:
+```
+http://SAMPLE_domain/cgi-bin/goto/p/en/member?action=startnew
+```
+On this page, the applicant can specify their sponsor's username. In practice, the sponsor should provide a specific URL to candidates with their username automatically filled in.
+
+Method 1, add the sponsor's username as an additional query:
+```
+http://SAMPLE_domain/cgi-bin/goto/p/en/member?action=startnew&sidlongin=MeMeMe
+```
+
+Method 2, put the username
+
+ as
+
+ a sub-domain or in the URL path, and let the web server redirect:
+```
+http://MeMeMe.SAMPLE_domain/
+```
+or
+```
+http://SAMPLE_domain/MeMeMe
+```
+The system would redirect it to 
+```
+http://SAMPLE_domain/cgi-bin/goto/p/en/member?action=startnew&sidlongin=MeMeMe
+```
+You need to use the *Redirect* functions of your web server to set up the above methods.  
+
+Meanwhile, the new applicant, with the help of the sponsor, may also specify their pyramid upline by filling in the upline's member ID and leg. This is optional. We have implemented a rule for *auto pyramid placement*. Please see section 4.5).
+
+#### 3.1.2) Backend
+
+On the backend, new applicants are listed in *Membership/New Signups*. The manager can activate or delete these. If activating, the backend manager working on this page should input a transaction ID to track the source of the money. Meanwhile, our system will record the time and manager's name in the *member_signup* table.
+
+Again, *mlm* does not process real transactions. It depends on your manager to input markers to proceed.
+
+After the signup is activated, the new member will fully engage in all compensation plans. (Because the payment is completed.)
+
+### 3.2) Process Sales Orders
+
+At the same time, a new *Pending Order* is generated in *Sales*, indicating that you have charged the new member but need to package and ship the order.
+
+After your warehouse has packaged the order, you should return to this page to change the order status to *Processing*, indicating that the order is now in your shipping department. 
+
+The final step is to change the status to "Delivered", which means the product has been delivered. Input a tracking ID here.
+
+You may implement your own logistic or ERP software system to track orders.
+
+### 3.3) Online Shopping
+
+Just like sales orders, we provide only a limited shopping function. You may enhance it, or implement another eCommerce package.
+
+#### 3.3.1) category
+
+Products are grouped into different categories by nature. Go to *Product/Categories* to manage categories, e.g., to create a new category.
+
+#### 3.3.2) item
+
+Then go to *Product/Product Items* to manage physical product items. For example, you can create a new item with price, BV, description, thumbnail, and full image, etc. 
+
+#### 3.3.3) product package
+
+In many cases, such as the initial signup, you may sell products in *Packages*. A pre-defined package consists of fixed items with a discounted price. Go to *Product/Packages* to create a new empty package by specifying its name and membership type. Then fill it in with real items. The total price of a package does not have to be the sum of the included items because of the discount.
+
+For the initial signup package, the system will always use the **intrinsic price** defined in *def_type* to calculate the BV. That is, the BV will be fixed for a specific membership, regardless of the package's sales price. You may adjust the package's items and discount price at any time, but the BV must remain the same for the compensation calculation.
+
+#### 3.3.4) retail shopping
+
+Members can shop for individual items on the member portal:
+```
+     http://SAMPLE_domain/cgi-bin/goto/m/en/member?action=dashboard
+```
+Clicking on *Shop* at the top navigates the member to the shopping mall. They can only use their funds in the ledger book to purchase products. If the balance is insufficient, they should send money to your company through offline methods, which will then be added to the ledger.
 
 ### 3.4) Compensation and Ledgerbooks
 
-Every week, *MLM* generates reward bonuses for members. Go to backend's *Compensations* you will find all types of bonus calculations in details.
+Every week, *MLM* generates reward bonuses for members. Navigate to the backend's *Compensations* to find detailed calculations for all types of bonuses.
 
-The explanations of *Details* and *Rewards* in each compensation type is straightforward. For example, in *Direct Bonus*, we list the numbers of sales, grouped by membership types, which *sponsors* have made within a week. In *Direct Reward*, we show actual *unilevel* dollar amounts these sales have been converted to.
+The *Details* and *Rewards* for each compensation type are straightforward. For instance, in *Direct Bonus*, we list the number of sales, grouped by membership types, made by *sponsors* within a week. In *Direct Reward*, we display the actual *unilevel* dollar amounts these sales have been converted to.
 
 ### 3.5) Ledgerbook
 
-The last step in compensation calculations is to put the dollar amounts into ledgerbook *income_ledger*. The dollars will be divided into two banks: one (*balance*) for withdraw and the other (*shop_balance*) for retail shopping. *RATE_shop* in *config.json* is the percentage for retail shopping (and so *1 - RATE_shop* for withdraw). 
+The final step in compensation calculations is to deposit the dollar amounts into the ledger book *income_ledger*. The funds will be split into two banks: one (*balance*) for withdrawal and the other (*shop_balance*) for retail shopping. *RATE_shop* in *config.json* is the percentage allocated for retail shopping (and so *1 - RATE_shop* for withdrawal). 
 
-The weekly and monthly compensations are marked as types *Weekly* and *Monthly*, the shopping fee as *Shopping*, and the money withdraw as *Withdraw* in the ledger book. In addition, *In* is for member to send in offline money. 
+The weekly and monthly compensations are marked as *Weekly* and *Monthly* types, the shopping fee as *Shopping*, and the money withdrawal as *Withdraw* in the ledger book. Additionally, *In* is for members to deposit offline money. 
 
 ### 3.6) Cut-Off or Re-Join the Pyramid
 
-Occassionally, you may cut a member off her upline's left or right leg in pyramid tree. Later, you may re-join the small, separated tree to a different member. You can do those operations in *Membership/Binary Tree* on backend. (Internally, a cutted pyramid is actually placed under a disabled system account *TOP_memberid* in *config.json*.)
+Occasionally, you may need to disconnect a member from their upline's left or right leg in the pyramid tree. Later, you may re-join the small, separated tree to a different member. These operations can be performed in *Membership/Binary Tree* on the backend. (Internally, a cut pyramid is actually placed under a disabled system account *TOP_memberid* in *config.json*.)
 
 ### 3.7) Manage Managers
 
-The backend managers who can login to the backend admin portal,are classified into 4 groups. The *ROOT* group can manage anything including other managers. The other three groups are *ACCOUNTING*, *SUPPORT*, and *MARKETING*, who can run selected sets of tasks. 
+Backend managers who can log in to the backend admin portal are classified into four groups. The *ROOT* group can manage everything, including other managers. The other three groups are *ACCOUNTING*, *SUPPORT*, and *MARKETING*, who can perform selected sets of tasks. 
 
 ### 3.8) Compensation Tests
 
-The *Compensation Test* allows managers to calculate different bonus. These are harmless actions since they only show you what bonus would be, they don't actually put the dollars into the bonus tables and leger.
+The *Compensation Test* allows managers to calculate different bonuses. These are harmless actions since they only display what the bonus would be, they don't actually deposit the funds into the bonus tables and ledger.
 
-If you are *ROOT*, you can view and run *Execute and Write*, which actually run the whole bonus calculation process! Nomarlly this should be avoided, since the executions are not revertable. However, during early development phases, you may need it for bonus testings.
+If you are a *ROOT* user, you can view and run *Execute and Write*, which actually runs the entire bonus calculation process! Normally, this should be avoided, since the executions are irreversible. However, during the early development phases, you may need it for bonus testing.
 
 ##
 
