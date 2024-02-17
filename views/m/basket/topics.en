@@ -36,9 +36,7 @@
 <p>
 The total payment is $[% need %]. You have $[% have %] in your account, among which the shopping balance is $[% shop %] and the cash balance $[% balance %].
 </p>
-[% IF have < need %]You don't have enough money to pay for the products, please deposit or remove some items.[% ELSE %]
-[% IF shop<need %] <input class="form-control-inline" type=checkbox name=agreebalance value="Yes">I agree to use cash balance to pay.[% END %]
-<button type=submit class="btn btn-primary">Buy Now</button>
+[% IF have < need %]You don't have enough money to pay for the products, please deposit or remove some items.
 [% END %]
 </form>
 

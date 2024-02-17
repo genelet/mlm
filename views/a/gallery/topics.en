@@ -98,7 +98,7 @@
 
               <div class="col-md-4 mb-3">
                 <label for="fullupload">Full Logo Upload</label>
-                <input type="file" class="form-control-file" id="fullupload" name="logoupload">
+                <input type="file" class="form-control-file" id="fullupload" name="fullupload">
               </div>
 
               <div class="col-md-4 mb-3">
