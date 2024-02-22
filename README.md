@@ -56,11 +56,29 @@ CGI::Fast (optional)      sudo apt-get install libcgi-fast-perl
 
 Create a MySQL database, and have username and password to access it. 
 
-File *01_init.sql* in *conf* is the database schedma. You need to load it into the database using a client tool. After that, please follow *02_read.me* to add testing accounts and testing products which are defined in  *03_setup.sql*.
+#### 1.4.1) Migrate the database schema
+
+File *01_init.sql* in *conf* is the database schedma. You need to load it into the database using a client tool. 
+
+#### 1.4.2) Migrate data
+
+Let's build one compensation plans, add one backend admin user and one new member into the database, so we can launch the initial website.
+
+Load 03_setup.sql into the database using a client tool.
 
 ### 1.5) Build _config.json_ and _component.json_
 
-Follow instruction in *04_read.me* to build your first config file, *config.json*. Put the database information you created in 1.4) in the *Db* block.
+Copy the sample config to config.json in this directory. i.e. $ cp SAMPLE_config.json config.json . Edit config.json, make sure
+ - replace SAMPLE_homme to your top directory hosting "mlm" and "perl"
+ - replace SAMPLE_domain by your real domain name (or sub-domain name)
+ - choose random security codes. A typical string is about 80 chars.
+ - replace the sample MySQL access parameters in the *Db* block
+
+If you are in Bash, you may include "perl" and "mlm/lib" into your shell by
+```bash
+$ export PERL5LIB=/SAMPLE_home/perl:/SAMPLE_home/mlm/lib
+(replace SAMPLE_home by the real one)
+```
 
 #### 1.5.1) Domain name in cookies
 
