@@ -2,7 +2,7 @@
 
 A comprehensive open-source Multi-Level Marketing (MLM) package offering registration, membership management, compensation structures, automated tasks, shopping capabilities, ticketing systems, and backend administration. The package includes four built-in bonus plans: Unilevel, Team, Pairing, and Affiliate. Developers can easily extend these to create custom bonus plans.
 
-The software is built on [Genelet](https://github.com/genelet/perl) ([main site](http://www.genelet.com)), an open-source web development framework designed for creating secure, scalable, and high-performance websites.
+The software is built on [Genelet](https://github.com/genelet/perl), an open-source web development framework designed for creating secure, scalable, and high-performance websites.
 
 > **Note:** The legacy codebase is preserved in the `master` branch.
 
@@ -505,8 +505,6 @@ ROOT users can access Execute and Write, which runs the actual bonus calculation
 ## Chapter 4. Additional Topics
 
 ### 4.1) Customization
-
-For development, refer to the Genelet [Tutorial](http://www.genelet.com/index.php/tutorial-perl/) and [Manual](http://www.genelet.com/index.php/2017/02/08/perl-development-manual/).
 
 To add a custom compensation plan (e.g., "Bonus X"):
 
