@@ -521,7 +521,7 @@ To add a custom compensation plan (e.g., "Bonus X"):
 
 ### 4.2) Java and Go Development
 
-Genelet supports Java and Go in addition to Perl. Contact [genelet@gmail.com](mailto:genelet@gmail.com) for details.
+Genelet supports Java and Go in addition to Perl. Contact [greetingland@gmail.com](mailto:greetingland@gmail.com) for details.
 
 ### 4.3) CSS Bootstrap Template
 
