@@ -1,12 +1,12 @@
 package Unit;
 
 use strict;
+use warnings;
 use Genelet::Test;
 use MLM::Admin::Model;
 use MLM::Admin::Filter;
 
-use vars qw(@ISA);
-@ISA = qw(Genelet::Test);
+use parent 'Genelet::Test';
 
 sub initialize {
   my $self = shift;

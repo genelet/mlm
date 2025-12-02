@@ -1,0 +1,1623 @@
+openapi: 3.0.3
+info:
+  title: MLM API
+  description: |
+    Multi-Level Marketing (MLM) REST API built on the Genelet framework.
+
+    ## URL Structure
+    All endpoints follow the pattern:
+    ```
+    /{script}/{role}/{format}/{module}?action={action}
+    ```
+
+    - **script**: `/cgi-bin/goto` (or `/goto` for FastCGI)
+    - **role**: `p` (public), `m` (member), `a` (admin)
+    - **format**: `en` (HTML), `json` (JSON API)
+    - **module**: Resource name (member, signup, sale, etc.)
+    - **action**: Operation to perform
+
+    ## Authentication
+    Authentication is cookie-based. Login endpoints return session cookies that must be included in subsequent requests.
+
+    - **Admin authentication**: Cookie name `ca`
+    - **Member authentication**: Cookie name `cm`
+
+    ## JSON API
+    Replace `en` with `json` in any URL to get JSON response instead of HTML.
+  version: 1.0.0
+  contact:
+    email: genelet@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://{domain}/cgi-bin/goto
+    description: CGI Server
+    variables:
+      domain:
+        default: localhost
+        description: Your domain name
+  - url: http://{domain}/goto
+    description: FastCGI Server
+    variables:
+      domain:
+        default: localhost
+        description: Your domain name
+
+tags:
+  - name: Authentication
+    description: Login and session management
+  - name: Public
+    description: Public endpoints (no authentication required)
+  - name: Member
+    description: Member portal endpoints (member authentication required)
+  - name: Admin
+    description: Backend admin endpoints (admin authentication required)
+  - name: Membership
+    description: Member management operations
+  - name: Signup
+    description: New member registration
+  - name: Placement
+    description: Binary tree (pyramid) management
+  - name: Sponsor
+    description: Sponsor tree management
+  - name: Sales
+    description: Sales and order management
+  - name: Shopping
+    description: Shopping cart and checkout
+  - name: Income
+    description: Compensation calculations
+  - name: Ledger
+    description: Financial ledger operations
+  - name: Products
+    description: Product and package management
+  - name: Tickets
+    description: Support ticket system
+
+paths:
+  # ==================== AUTHENTICATION ====================
+  /a/json/member:
+    post:
+      tags: [Authentication]
+      summary: Admin login
+      description: Authenticate as backend administrator
+      operationId: adminLogin
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [login, passwd]
+              properties:
+                login:
+                  type: string
+                  description: Admin username
+                passwd:
+                  type: string
+                  format: password
+                  description: Admin password
+      responses:
+        '200':
+          description: Login successful
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+              description: Session cookie (ca)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /m/json/member:
+    post:
+      tags: [Authentication]
+      summary: Member login
+      description: Authenticate as member
+      operationId: memberLogin
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [login, passwd]
+              properties:
+                login:
+                  type: string
+                  description: Member username
+                passwd:
+                  type: string
+                  format: password
+                  description: Member password
+      responses:
+        '200':
+          description: Login successful
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+              description: Session cookie (cm)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Authentication failed
+
+  # ==================== PUBLIC ENDPOINTS ====================
+  /p/json/member:
+    get:
+      tags: [Public, Signup]
+      summary: Get signup form data
+      description: Retrieve data needed for new member signup form
+      operationId: getSignupForm
+      parameters:
+        - name: action
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [startnew]
+        - name: sidlogin
+          in: query
+          description: Sponsor's username (optional)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Signup form data with available packages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignupFormResponse'
+
+  /p/json/signup:
+    post:
+      tags: [Public, Signup]
+      summary: Submit new member application
+      description: Create a new member signup application
+      operationId: createSignup
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+      responses:
+        '200':
+          description: Signup submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # ==================== MEMBER ENDPOINTS ====================
+  /m/json/member?action=dashboard:
+    get:
+      tags: [Member, Membership]
+      summary: Get member dashboard
+      description: Retrieve member's dashboard data including profile and statistics
+      operationId: getMemberDashboard
+      security:
+        - memberAuth: []
+      responses:
+        '200':
+          description: Dashboard data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardResponse'
+        '401':
+          description: Not authenticated
+
+  /m/json/member?action=edit:
+    get:
+      tags: [Member, Membership]
+      summary: Get member profile
+      description: Retrieve member's profile for editing
+      operationId: getMemberProfile
+      security:
+        - memberAuth: []
+      responses:
+        '200':
+          description: Member profile data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberProfile'
+
+  /m/json/member?action=update:
+    post:
+      tags: [Member, Membership]
+      summary: Update member profile
+      description: Update member's profile information
+      operationId: updateMemberProfile
+      security:
+        - memberAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MemberUpdateRequest'
+      responses:
+        '200':
+          description: Profile updated successfully
+
+  /m/json/member?action=changepass:
+    post:
+      tags: [Member, Membership]
+      summary: Change password
+      description: Change member's password
+      operationId: changeMemberPassword
+      security:
+        - memberAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [passwd, newpasswd]
+              properties:
+                passwd:
+                  type: string
+                  format: password
+                  description: Current password
+                newpasswd:
+                  type: string
+                  format: password
+                  description: New password
+
+      responses:
+        '200':
+          description: Password changed successfully
+        '400':
+          description: Password validation failed
+
+  /m/json/member?action=startdef:
+    get:
+      tags: [Member, Placement]
+      summary: Get auto placement settings
+      description: Retrieve current auto placement configuration
+      operationId: getAutoPlacement
+      security:
+        - memberAuth: []
+      responses:
+        '200':
+          description: Auto placement settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutoPlacementResponse'
+
+  /m/json/member?action=changedef:
+    post:
+      tags: [Member, Placement]
+      summary: Update auto placement
+      description: Configure auto placement for new downlines
+      operationId: updateAutoPlacement
+      security:
+        - memberAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [defpid, defleg]
+              properties:
+                defpid:
+                  type: integer
+                  description: Default placement member ID
+                defleg:
+                  type: string
+                  enum: [L, R]
+                  description: Default leg (Left or Right)
+      responses:
+        '200':
+          description: Auto placement updated
+
+  /m/json/placement?action=topics:
+    get:
+      tags: [Member, Placement]
+      summary: View binary tree
+      description: Get member's binary tree (downlines)
+      operationId: getMemberBinaryTree
+      security:
+        - memberAuth: []
+      responses:
+        '200':
+          description: Binary tree data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BinaryTreeResponse'
+
+  /m/json/sponsor?action=topics:
+    get:
+      tags: [Member, Sponsor]
+      summary: View sponsor tree
+      description: Get member's sponsor tree (offspring)
+      operationId: getMemberSponsorTree
+      security:
+        - memberAuth: []
+      responses:
+        '200':
+          description: Sponsor tree data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SponsorTreeResponse'
+
+  /m/json/income?action=topics:
+    get:
+      tags: [Member, Income]
+      summary: View income history
+      description: Get member's income/compensation history
+      operationId: getMemberIncome
+      security:
+        - memberAuth: []
+      responses:
+        '200':
+          description: Income history
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncomeListResponse'
+
+  /m/json/ledger?action=topics:
+    get:
+      tags: [Member, Ledger]
+      summary: View ledger
+      description: Get member's financial ledger
+      operationId: getMemberLedger
+      security:
+        - memberAuth: []
+      responses:
+        '200':
+          description: Ledger entries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LedgerListResponse'
+
+  /m/json/sale?action=topics:
+    get:
+      tags: [Member, Sales]
+      summary: View orders
+      description: Get member's order history
+      operationId: getMemberOrders
+      security:
+        - memberAuth: []
+      responses:
+        '200':
+          description: Order list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SaleListResponse'
+
+  /m/json/basket?action=topics:
+    get:
+      tags: [Member, Shopping]
+      summary: View shopping cart
+      description: Get member's shopping cart contents
+      operationId: getShoppingCart
+      security:
+        - memberAuth: []
+      responses:
+        '200':
+          description: Shopping cart contents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasketResponse'
+
+  /m/json/category?action=topics:
+    get:
+      tags: [Member, Products]
+      summary: Browse product categories
+      description: Get product categories for shopping
+      operationId: getMemberCategories
+      security:
+        - memberAuth: []
+      responses:
+        '200':
+          description: Category list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryListResponse'
+
+  /m/json/gallery?action=topics:
+    get:
+      tags: [Member, Products]
+      summary: Browse products
+      description: Get products available for purchase
+      operationId: getMemberProducts
+      security:
+        - memberAuth: []
+      parameters:
+        - name: categoryid
+          in: query
+          schema:
+            type: integer
+          description: Filter by category
+      responses:
+        '200':
+          description: Product list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'
+
+  /m/json/tt?action=topics:
+    get:
+      tags: [Member, Tickets]
+      summary: View support tickets
+      description: Get member's support tickets
+      operationId: getMemberTickets
+      security:
+        - memberAuth: []
+      responses:
+        '200':
+          description: Ticket list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketListResponse'
+
+  /m/json/tt?action=insert:
+    post:
+      tags: [Member, Tickets]
+      summary: Create support ticket
+      description: Submit a new support ticket
+      operationId: createMemberTicket
+      security:
+        - memberAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [subject, category]
+              properties:
+                subject:
+                  type: string
+                  description: Ticket subject
+                category:
+                  type: string
+                  description: Ticket category
+      responses:
+        '200':
+          description: Ticket created
+
+  # ==================== ADMIN ENDPOINTS ====================
+  /a/json/member?action=topics:
+    get:
+      tags: [Admin, Membership]
+      summary: List all members
+      description: Get paginated list of all members
+      operationId: listMembers
+      security:
+        - adminAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PageNo'
+        - $ref: '#/components/parameters/RowCount'
+        - name: u
+          in: query
+          description: Search field (loginm, firstname, lastname, created)
+          schema:
+            type: string
+        - name: v
+          in: query
+          description: Search value
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Member list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberListResponse'
+
+  /a/json/member?action=edit:
+    get:
+      tags: [Admin, Membership]
+      summary: Get member details
+      description: Get detailed information about a specific member
+      operationId: getMemberDetails
+      security:
+        - adminAuth: []
+      parameters:
+        - name: memberid
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Member details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberProfile'
+
+  /a/json/member?action=resetpass:
+    post:
+      tags: [Admin, Membership]
+      summary: Reset member password
+      description: Reset a member's password (admin only)
+      operationId: resetMemberPassword
+      security:
+        - adminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [memberid, newpasswd]
+              properties:
+                memberid:
+                  type: integer
+                newpasswd:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Password reset successfully
+
+  /a/json/member?action=enter:
+    get:
+      tags: [Admin, Membership]
+      summary: Impersonate member
+      description: Login as a member (admin impersonation)
+      operationId: impersonateMember
+      security:
+        - adminAuth: []
+      parameters:
+        - name: login
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Member's login username
+      responses:
+        '303':
+          description: Redirect to member portal
+
+  /a/json/signup?action=topics:
+    get:
+      tags: [Admin, Signup]
+      summary: List pending signups
+      description: Get list of pending signup applications
+      operationId: listPendingSignups
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Pending signup list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignupListResponse'
+
+  /a/json/member?action=insert:
+    post:
+      tags: [Admin, Signup]
+      summary: Activate signup
+      description: Activate a pending signup application
+      operationId: activateSignup
+      security:
+        - adminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [signupid]
+              properties:
+                signupid:
+                  type: integer
+                  description: Signup application ID
+                billingid:
+                  type: string
+                  description: Transaction/billing ID for tracking
+      responses:
+        '200':
+          description: Member activated
+
+  /a/json/member?action=bulk:
+    get:
+      tags: [Admin, Signup]
+      summary: Bulk activate signups
+      description: Activate all pending bulk signups
+      operationId: bulkActivateSignups
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Bulk activation completed
+
+  /a/json/placement?action=topics:
+    get:
+      tags: [Admin, Placement]
+      summary: View binary tree
+      description: View any member's binary tree
+      operationId: getAdminBinaryTree
+      security:
+        - adminAuth: []
+      parameters:
+        - name: memberid
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Binary tree data
+
+  /a/json/placement?action=leave_tree:
+    post:
+      tags: [Admin, Placement]
+      summary: Cut member from pyramid
+      description: Disconnect a member from their upline in the pyramid tree
+      operationId: cutFromPyramid
+      security:
+        - adminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [memberid]
+              properties:
+                memberid:
+                  type: integer
+      responses:
+        '200':
+          description: Member disconnected from pyramid
+
+  /a/json/placement?action=join_tree:
+    post:
+      tags: [Admin, Placement]
+      summary: Rejoin pyramid tree
+      description: Connect a member to a new upline in the pyramid tree
+      operationId: rejoinPyramid
+      security:
+        - adminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [memberid, pid, leg]
+              properties:
+                memberid:
+                  type: integer
+                pid:
+                  type: integer
+                  description: New upline member ID
+                leg:
+                  type: string
+                  enum: [L, R]
+      responses:
+        '200':
+          description: Member rejoined pyramid
+
+  /a/json/sponsor?action=topics:
+    get:
+      tags: [Admin, Sponsor]
+      summary: View sponsor tree
+      description: View any member's sponsor tree
+      operationId: getAdminSponsorTree
+      security:
+        - adminAuth: []
+      parameters:
+        - name: memberid
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Sponsor tree data
+
+  /a/json/sale?action=topics:
+    get:
+      tags: [Admin, Sales]
+      summary: List all orders
+      description: Get paginated list of all sales orders
+      operationId: listAllOrders
+      security:
+        - adminAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PageNo'
+        - $ref: '#/components/parameters/RowCount'
+        - name: paystatus
+          in: query
+          schema:
+            type: string
+            enum: [Pending, Processing, Delivered]
+      responses:
+        '200':
+          description: Order list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SaleListResponse'
+
+  /a/json/sale?action=update:
+    post:
+      tags: [Admin, Sales]
+      summary: Update order status
+      description: Update order status (Pending → Processing → Delivered)
+      operationId: updateOrderStatus
+      security:
+        - adminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [saleid, paystatus]
+              properties:
+                saleid:
+                  type: integer
+                paystatus:
+                  type: string
+                  enum: [Pending, Processing, Delivered]
+                trackingid:
+                  type: string
+                  description: Shipping tracking ID
+      responses:
+        '200':
+          description: Order updated
+
+  /a/json/income?action=topics:
+    get:
+      tags: [Admin, Income]
+      summary: List income records
+      description: Get paginated list of income records
+      operationId: listIncomeRecords
+      security:
+        - adminAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PageNo'
+        - $ref: '#/components/parameters/RowCount'
+        - name: classify
+          in: query
+          schema:
+            type: string
+            enum: [direct, binary, matchup, affiliate]
+      responses:
+        '200':
+          description: Income records
+
+  /a/json/income?action=run_daily:
+    get:
+      tags: [Admin, Income]
+      summary: Run daily compensation
+      description: Execute daily compensation calculation job
+      operationId: runDailyCompensation
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Daily compensation executed
+
+  /a/json/income?action=run_all_tests:
+    get:
+      tags: [Admin, Income]
+      summary: Run compensation tests
+      description: Execute all compensation calculations (ROOT only, irreversible!)
+      operationId: runCompensationTests
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Compensation tests executed
+        '403':
+          description: ROOT permission required
+
+  /a/json/income?action=week1_binary:
+    get:
+      tags: [Admin, Income]
+      summary: Preview binary bonus
+      description: Preview binary/pairing bonus calculation
+      operationId: previewBinaryBonus
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Binary bonus preview
+
+  /a/json/income?action=week1_match:
+    get:
+      tags: [Admin, Income]
+      summary: Preview team bonus
+      description: Preview team/match bonus calculation
+      operationId: previewTeamBonus
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Team bonus preview
+
+  /a/json/income?action=week1_affiliate:
+    get:
+      tags: [Admin, Income]
+      summary: Preview affiliate bonus
+      description: Preview affiliate bonus calculation
+      operationId: previewAffiliateBonus
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Affiliate bonus preview
+
+  /a/json/income?action=week4_direct:
+    get:
+      tags: [Admin, Income]
+      summary: Preview unilevel bonus
+      description: Preview unilevel/direct bonus calculation
+      operationId: previewUnilevelBonus
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Unilevel bonus preview
+
+  /a/json/ledger?action=topics:
+    get:
+      tags: [Admin, Ledger]
+      summary: List ledger entries
+      description: Get paginated list of ledger entries
+      operationId: listLedgerEntries
+      security:
+        - adminAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PageNo'
+        - $ref: '#/components/parameters/RowCount'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [Weekly, Monthly, Shopping, Withdraw, In, Offline]
+      responses:
+        '200':
+          description: Ledger entries
+
+  /a/json/ledger?action=addShopping:
+    post:
+      tags: [Admin, Ledger]
+      summary: Add offline deposit
+      description: Add offline money deposit to member's ledger
+      operationId: addOfflineDeposit
+      security:
+        - adminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [memberid, amount, remark]
+              properties:
+                memberid:
+                  type: integer
+                amount:
+                  type: number
+                  format: double
+                remark:
+                  type: string
+      responses:
+        '200':
+          description: Deposit added
+
+  /a/json/category?action=topics:
+    get:
+      tags: [Admin, Products]
+      summary: List categories
+      description: Get all product categories
+      operationId: listCategories
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Category list
+
+  /a/json/category?action=insert:
+    post:
+      tags: [Admin, Products]
+      summary: Create category
+      description: Create a new product category
+      operationId: createCategory
+      security:
+        - adminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                short:
+                  type: string
+      responses:
+        '200':
+          description: Category created
+
+  /a/json/gallery?action=topics:
+    get:
+      tags: [Admin, Products]
+      summary: List products
+      description: Get all product items
+      operationId: listProducts
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Product list
+
+  /a/json/gallery?action=insert:
+    post:
+      tags: [Admin, Products]
+      summary: Create product
+      description: Create a new product item
+      operationId: createProduct
+      security:
+        - adminAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [categoryid, name, price, bv]
+              properties:
+                categoryid:
+                  type: integer
+                name:
+                  type: string
+                price:
+                  type: number
+                bv:
+                  type: integer
+                  description: Bonus Value
+                logoupload:
+                  type: string
+                  format: binary
+                  description: Thumbnail image
+                fullupload:
+                  type: string
+                  format: binary
+                  description: Full-size image
+      responses:
+        '200':
+          description: Product created
+
+  /a/json/package?action=topics:
+    get:
+      tags: [Admin, Products]
+      summary: List packages
+      description: Get all product packages
+      operationId: listPackages
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Package list
+
+  /a/json/package?action=insert:
+    post:
+      tags: [Admin, Products]
+      summary: Create package
+      description: Create a new product package
+      operationId: createPackage
+      security:
+        - adminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [name, typeid, price, bv]
+              properties:
+                name:
+                  type: string
+                typeid:
+                  type: integer
+                  description: Membership type ID
+                price:
+                  type: number
+                bv:
+                  type: integer
+      responses:
+        '200':
+          description: Package created
+
+  /a/json/affiliate?action=topics:
+    get:
+      tags: [Admin, Membership]
+      summary: List affiliates
+      description: Get all affiliate members
+      operationId: listAffiliates
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Affiliate list
+
+  /a/json/admin?action=topics:
+    get:
+      tags: [Admin]
+      summary: List administrators
+      description: Get all backend administrators (ROOT only)
+      operationId: listAdmins
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Admin list
+        '403':
+          description: ROOT permission required
+
+  /a/json/admin?action=insert:
+    post:
+      tags: [Admin]
+      summary: Create administrator
+      description: Create a new backend administrator (ROOT only)
+      operationId: createAdmin
+      security:
+        - adminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [login, passwd, groups]
+              properties:
+                login:
+                  type: string
+                passwd:
+                  type: string
+                  format: password
+                groups:
+                  type: string
+                  enum: [ACCOUNTING, SUPPORT, MARKETING]
+      responses:
+        '200':
+          description: Admin created
+        '403':
+          description: ROOT permission required
+
+  /a/json/tt?action=topics:
+    get:
+      tags: [Admin, Tickets]
+      summary: List all tickets
+      description: Get all support tickets
+      operationId: listAllTickets
+      security:
+        - adminAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [Open, Closed]
+        - name: category
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ticket list
+
+  /a/json/week1?action=topics:
+    get:
+      tags: [Admin, Income]
+      summary: View weekly schedule
+      description: Get weekly compensation schedule (cron_1week)
+      operationId: getWeeklySchedule
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Weekly schedule
+
+  /a/json/week4?action=topics:
+    get:
+      tags: [Admin, Income]
+      summary: View monthly schedule
+      description: Get monthly compensation schedule (cron_4week)
+      operationId: getMonthlySchedule
+      security:
+        - adminAuth: []
+      responses:
+        '200':
+          description: Monthly schedule
+
+components:
+  securitySchemes:
+    adminAuth:
+      type: apiKey
+      in: cookie
+      name: ca
+      description: Admin session cookie
+    memberAuth:
+      type: apiKey
+      in: cookie
+      name: cm
+      description: Member session cookie
+
+  parameters:
+    PageNo:
+      name: pageno
+      in: query
+      description: Page number (1-based)
+      schema:
+        type: integer
+        default: 1
+    RowCount:
+      name: rowcount
+      in: query
+      description: Results per page
+      schema:
+        type: integer
+        default: 100
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Error message
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+
+    LoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        memberid:
+          type: integer
+        login:
+          type: string
+
+    SignupRequest:
+      type: object
+      required:
+        - sidlogin
+        - login
+        - passwd
+        - email
+        - firstname
+        - lastname
+        - packageid
+      properties:
+        sidlogin:
+          type: string
+          description: Sponsor's username
+        login:
+          type: string
+          description: Desired username
+        passwd:
+          type: string
+          format: password
+          description: Password (min 6 chars, must contain letters and numbers)
+        email:
+          type: string
+          format: email
+        firstname:
+          type: string
+        lastname:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        country:
+          type: string
+        packageid:
+          type: integer
+          description: Selected signup package ID
+        pid:
+          type: integer
+          description: Pyramid upline member ID (optional)
+        leg:
+          type: string
+          enum: [L, R]
+          description: Pyramid leg (optional)
+
+    SignupFormResponse:
+      type: object
+      properties:
+        sidlogin:
+          type: string
+          description: Pre-filled sponsor username
+        packages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Package'
+
+    MemberProfile:
+      type: object
+      properties:
+        memberid:
+          type: integer
+        login:
+          type: string
+        email:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        country:
+          type: string
+        typeid:
+          type: integer
+        typename:
+          type: string
+        active:
+          type: string
+          enum: [Yes, No]
+        signuptime:
+          type: string
+          format: date-time
+        sid:
+          type: integer
+          description: Sponsor ID
+        pid:
+          type: integer
+          description: Pyramid upline ID
+        leg:
+          type: string
+          enum: [L, R]
+        milel:
+          type: integer
+          description: Left leg BV
+        miler:
+          type: integer
+          description: Right leg BV
+
+    MemberUpdateRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        firstname:
+          type: string
+        lastname:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        country:
+          type: string
+
+    DashboardResponse:
+      type: object
+      properties:
+        member:
+          $ref: '#/components/schemas/MemberProfile'
+        balance:
+          type: number
+          format: double
+          description: Withdrawal balance
+        shop_balance:
+          type: number
+          format: double
+          description: Shopping balance
+        counts:
+          type: integer
+          description: Direct offspring count
+
+    AutoPlacementResponse:
+      type: object
+      properties:
+        defpid:
+          type: integer
+          description: Default placement member ID
+        defleg:
+          type: string
+          enum: [L, R]
+          description: Default leg
+
+    MemberListResponse:
+      type: object
+      properties:
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemberProfile'
+        total:
+          type: integer
+        pageno:
+          type: integer
+        rowcount:
+          type: integer
+
+    SignupListResponse:
+      type: object
+      properties:
+        signups:
+          type: array
+          items:
+            type: object
+            properties:
+              signupid:
+                type: integer
+              sidlogin:
+                type: string
+              login:
+                type: string
+              email:
+                type: string
+              firstname:
+                type: string
+              lastname:
+                type: string
+              packageid:
+                type: integer
+              signuptime:
+                type: string
+
+    BinaryTreeResponse:
+      type: object
+      properties:
+        members:
+          type: array
+          items:
+            type: object
+            properties:
+              memberid:
+                type: integer
+              login:
+                type: string
+              firstname:
+                type: string
+              lastname:
+                type: string
+              level:
+                type: integer
+              countl:
+                type: integer
+              countr:
+                type: integer
+
+    SponsorTreeResponse:
+      type: object
+      properties:
+        members:
+          type: array
+          items:
+            type: object
+            properties:
+              memberid:
+                type: integer
+              login:
+                type: string
+              firstname:
+                type: string
+              lastname:
+                type: string
+              level:
+                type: integer
+
+    IncomeListResponse:
+      type: object
+      properties:
+        income:
+          type: array
+          items:
+            type: object
+            properties:
+              incomeid:
+                type: integer
+              classify:
+                type: string
+                enum: [direct, binary, matchup, affiliate]
+              amount:
+                type: number
+              weekid:
+                type: integer
+              created:
+                type: string
+
+    LedgerListResponse:
+      type: object
+      properties:
+        ledger:
+          type: array
+          items:
+            type: object
+            properties:
+              ledgerid:
+                type: integer
+              amount:
+                type: number
+              balance:
+                type: number
+              shop_balance:
+                type: number
+              status:
+                type: string
+                enum: [Weekly, Monthly, Shopping, Withdraw, In, Offline]
+              created:
+                type: string
+
+    SaleListResponse:
+      type: object
+      properties:
+        sales:
+          type: array
+          items:
+            type: object
+            properties:
+              saleid:
+                type: integer
+              memberid:
+                type: integer
+              amount:
+                type: number
+              credit:
+                type: integer
+              paystatus:
+                type: string
+                enum: [Pending, Processing, Delivered]
+              trackingid:
+                type: string
+              created:
+                type: string
+
+    BasketResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              basketid:
+                type: integer
+              galleryid:
+                type: integer
+              name:
+                type: string
+              price:
+                type: number
+              quantity:
+                type: integer
+
+    CategoryListResponse:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            type: object
+            properties:
+              categoryid:
+                type: integer
+              name:
+                type: string
+              short:
+                type: string
+
+    ProductListResponse:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              galleryid:
+                type: integer
+              categoryid:
+                type: integer
+              name:
+                type: string
+              price:
+                type: number
+              bv:
+                type: integer
+              logo:
+                type: string
+              full:
+                type: string
+
+    Package:
+      type: object
+      properties:
+        packageid:
+          type: integer
+        name:
+          type: string
+        typeid:
+          type: integer
+        typename:
+          type: string
+        price:
+          type: number
+        bv:
+          type: integer
+
+    TicketListResponse:
+      type: object
+      properties:
+        tickets:
+          type: array
+          items:
+            type: object
+            properties:
+              subjectid:
+                type: integer
+              subject:
+                type: string
+              category:
+                type: string
+              status:
+                type: string
+                enum: [Open, Closed]
+              created:
+                type: string

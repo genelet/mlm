@@ -1,11 +1,11 @@
 package MLM::Admin::Filter;
 
 use strict;
+use warnings;
 use Digest::SHA qw(sha1_hex);
 use MLM::Filter;
-use vars qw(@ISA);
 
-@ISA=('MLM::Filter');
+use parent 'MLM::Filter';
 
 sub preset {
 	my $self = shift;

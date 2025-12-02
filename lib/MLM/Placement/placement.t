@@ -1,9 +1,10 @@
 package Unit;
 
 use strict;
+use warnings;
 use Test::More;
 use Data::Dumper;
-use base qw(Genelet::Test);
+use parent 'Genelet::Test';
 use MLM::Placement::Model;
 use MLM::Placement::Filter;
 

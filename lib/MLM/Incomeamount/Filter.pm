@@ -1,10 +1,10 @@
 package MLM::Incomeamount::Filter;
 
 use strict;
+use warnings;
 use MLM::Filter;
-use vars qw(@ISA);
 
-@ISA=('MLM::Filter');
+use parent 'MLM::Filter';
 
 sub preset {
 	my $self = shift;
@@ -36,10 +36,18 @@ sub before {
 	my $who    = $ARGS->{g_role};
 	my $action = $ARGS->{g_action};
 
-  if ($action eq 'topics' && $ARGS->{u} && $ARGS->{bonusType}) {
-    $extra->{"_gsql"} = $ARGS->{u} ." LIKE '" . $ARGS->{v} . "\%' AND i.bonusType='" . $ARGS->{bonusType} . "'";
-  } elsif ($action eq 'topics' && $ARGS->{u}) {
-    $extra->{"_gsql"} = $ARGS->{u} ." LIKE '" . $ARGS->{v} . "\%'";
+  if ($action eq 'topics' && $ARGS->{u}) {
+    # Whitelist allowed column names
+    my $col = $self->validate_column($ARGS->{u}, [qw(login firstname lastname email)]);
+    if ($col && $ARGS->{v}) {
+      my $like_sql = $self->build_like_sql($col, $ARGS->{v}, 1);
+      if ($ARGS->{bonusType}) {
+        my $bonus_escaped = $self->escape_like_value($ARGS->{bonusType});
+        $extra->{"_gsql"} = "$like_sql AND i.bonusType='$bonus_escaped'";
+      } else {
+        $extra->{"_gsql"} = $like_sql;
+      }
+    }
   } elsif ($action eq 'topics' && $ARGS->{bonusType}) {
     $extra->{"i.bonusType"} = $ARGS->{bonusType};
   }

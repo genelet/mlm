@@ -1,11 +1,11 @@
 package MLM::Beacon;
 
 use strict;
+use warnings;
 use Genelet::Dispatch;
 use Genelet::Beacon;
 
-use vars qw(@ISA);
-@ISA = qw(Genelet::Beacon);
+use parent 'Genelet::Beacon';
 
 __PACKAGE__->setup_accessors(
   config => Genelet::Dispatch::get_hash("/home/open/mlm/conf/config.json"),

@@ -1,11 +1,12 @@
 package MLM::Placement::Model;
 
 use strict;
+use warnings;
 use Data::Dumper;
 use MLM::Model;
-use vars qw($AUTOLOAD @ISA);
+our $AUTOLOAD;
 
-@ISA=('MLM::Model');
+use parent 'MLM::Model';
 
 my $name = sub {
 	my $item = shift;

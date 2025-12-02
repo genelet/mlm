@@ -1,10 +1,10 @@
 package MLM::Member::Filter;
 
 use strict;
+use warnings;
 use MLM::Filter;
-use vars qw(@ISA);
 
-@ISA=('MLM::Filter');
+use parent 'MLM::Filter';
 
 sub preset {
 	my $self = shift;
@@ -68,17 +68,24 @@ sub before {
   if ($who eq 'a' && $action eq 'topics' && $ARGS->{u}) {
     if ($ARGS->{u} eq 'created') {
       return 3005 unless ($ARGS->{d1} && $ARGS->{d2});
-      $extra->{"_gsql"} = "created >= '$ARGS->{y1}-$ARGS->{m1}-$ARGS->{d1} 00:00:01' AND created <= '$ARGS->{y2}-$ARGS->{m2}-$ARGS->{d2} 23:59:59'";
+      my $date_sql = $self->build_date_range_sql('created',
+        $ARGS->{y1}, $ARGS->{m1}, $ARGS->{d1},
+        $ARGS->{y2}, $ARGS->{m2}, $ARGS->{d2});
+      return 3005 unless $date_sql;
+      $extra->{"_gsql"} = $date_sql;
     } else {
       return 3006 unless $ARGS->{v};
       if ($ARGS->{u} eq 'loginm') {
-        $extra->{"_gsql"} = "m.login LIKE '" .$ARGS->{v} ."\%'";
+        $extra->{"_gsql"} = $self->build_like_sql('m.login', $ARGS->{v}, 1);
       } elsif ($ARGS->{u} eq 'firstname') {
-        $extra->{"_gsql"} = "(m.firstname LIKE '\%" .$ARGS->{v} ."\%')";
+        $extra->{"_gsql"} = '(' . $self->build_like_sql('m.firstname', $ARGS->{v}, 0) . ')';
       } elsif ($ARGS->{u} eq 'lastname') {
-        $extra->{"_gsql"} = "(m.lastname LIKE  '\%" .$ARGS->{v} ."\%')";
+        $extra->{"_gsql"} = '(' . $self->build_like_sql('m.lastname', $ARGS->{v}, 0) . ')';
       } else {
-        $extra->{"_gsql"} = "m.".$ARGS->{u} ." LIKE '" .$ARGS->{v} ."\%'";
+        # Whitelist allowed column names
+        my $col = $self->validate_column($ARGS->{u}, [qw(login email phone ssn)]);
+        return 3006 unless $col;
+        $extra->{"_gsql"} = $self->build_like_sql("m.$col", $ARGS->{v}, 1);
       }
     }
   }

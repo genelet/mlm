@@ -1,10 +1,11 @@
 package MLM::Gallery::Model;
 
 use strict;
+use warnings;
 use MLM::Model;
-use vars qw($AUTOLOAD @ISA);
+our $AUTOLOAD;
 
-@ISA=('MLM::Model');
+use parent 'MLM::Model';
 
 sub delete {
   my $self = shift;

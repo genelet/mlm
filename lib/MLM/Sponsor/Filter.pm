@@ -1,10 +1,10 @@
 package MLM::Sponsor::Filter;
 
 use strict;
+use warnings;
 use MLM::Filter;
-use vars qw(@ISA);
 
-@ISA=('MLM::Filter');
+use parent 'MLM::Filter';
 
 sub preset {
 	my $self = shift;

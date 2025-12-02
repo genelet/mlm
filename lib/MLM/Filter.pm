@@ -1,13 +1,13 @@
 package MLM::Filter;
 
 use strict;
+use warnings;
 use Genelet::Utils;
 use Genelet::Filter;
 use Genelet::Template;
 
-use vars qw(@ISA);
 
-@ISA = qw(Genelet::Filter Genelet::Template);
+use parent qw(Genelet::Filter Genelet::Template);
 
 #__PACKAGE__->setup_accessors(
 #    'total_force' => 1,
@@ -87,6 +87,54 @@ sub get_lb_ip {
     $ENV{REMOTE_ADDR} =~ /(\d+\.\d+\.\d+\.\d+)$/;
     return $1;
   }
+}
+
+# Escape a value for use in SQL LIKE queries to prevent SQL injection
+sub escape_like_value {
+  my ($self, $value) = @_;
+  return '' unless defined $value;
+  $value =~ s/\\/\\\\/g;  # escape backslashes first
+  $value =~ s/'/\\'/g;    # escape single quotes
+  $value =~ s/%/\\%/g;    # escape LIKE wildcards
+  $value =~ s/_/\\_/g;    # escape LIKE wildcards
+  return $value;
+}
+
+# Validate column name against whitelist to prevent SQL injection
+sub validate_column {
+  my ($self, $column, $allowed) = @_;
+  return unless defined $column;
+  for my $col (@$allowed) {
+    return $column if $column eq $col;
+  }
+  return;
+}
+
+# Validate date component is numeric
+sub validate_date_part {
+  my ($self, $value) = @_;
+  return unless defined $value && $value =~ /^\d+$/;
+  return $value;
+}
+
+# Build safe LIKE SQL clause
+sub build_like_sql {
+  my ($self, $column, $value, $prefix_match) = @_;
+  my $escaped = $self->escape_like_value($value);
+  if ($prefix_match) {
+    return "$column LIKE '$escaped\%'";
+  }
+  return "$column LIKE '\%$escaped\%'";
+}
+
+# Build safe date range SQL clause
+sub build_date_range_sql {
+  my ($self, $column, $y1, $m1, $d1, $y2, $m2, $d2) = @_;
+  # Validate all date parts are numeric
+  for my $part ($y1, $m1, $d1, $y2, $m2, $d2) {
+    return unless $self->validate_date_part($part);
+  }
+  return "$column >= '$y1-$m1-$d1 00:00:01' AND $column <= '$y2-$m2-$d2 23:59:59'";
 }
 
 1;

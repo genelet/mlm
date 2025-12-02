@@ -1,10 +1,11 @@
 package MLM::Income::Model;
 
 use strict;
+use warnings;
 use MLM::Model;
-use vars qw($AUTOLOAD @ISA);
+our $AUTOLOAD;
 
-@ISA=('MLM::Model');
+use parent 'MLM::Model';
 
 sub inserts {
   my $self = shift;
@@ -23,10 +24,18 @@ VALUES (?,?,?,?,?,?,NOW())",$item->{memberid}, $item->{classify},
 sub run_to_yesterday {
   my $self = shift;
   my $ARGS = $self->{ARGS};
-  my $join = ($ARGS->{from} && $ARGS->{to}) ? "'".$ARGS->{to}."'" : "DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
-  my $yesterday = ($ARGS->{from} && $ARGS->{to})
-    ? "w1.daily BETWEEN '".$ARGS->{from}."' AND '".$ARGS->{to}."'"
-    : "w1.daily<=DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
+
+  my ($join, $yesterday);
+  my $from_valid = $self->validate_date($ARGS->{from});
+  my $to_valid = $self->validate_date($ARGS->{to});
+
+  if ($from_valid && $to_valid) {
+    $join = "'$to_valid'";
+    $yesterday = "w1.daily BETWEEN '$from_valid' AND '$to_valid'";
+  } else {
+    $join = "DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
+    $yesterday = "w1.daily<=DATE_SUB(CURDATE(), INTERVAL 1 DAY)";
+  }
 
   my $arr = [];
 
@@ -138,9 +147,12 @@ sub week1_affiliate {
   my $self = shift;
   my $ARGS = $self->{ARGS};
 
+  my $weekid = $self->validate_int($ARGS->{c1_id});
+  return 3005 unless defined $weekid;
+
   $self->{LISTS} = [];
   return $self->select_sql($self->{LISTS},
-"SELECT 'affiliate' AS classify, '".$ARGS->{c1_id}."' AS weekid,
+"SELECT 'affiliate' AS classify, ? AS weekid,
 	COUNT(*) AS amount, t.typeid AS refid, 1 AS lev,
 	s.memberid AS memberid
 FROM member m
@@ -148,7 +160,7 @@ INNER JOIN member_affiliate s ON (m.affiliate=s.memberid)
 INNER JOIN def_type t USING (typeid)
 WHERE m.active='Yes'
 AND (DATE(m.signuptime) BETWEEN ? AND ?)
-GROUP BY s.memberid, t.typeid", $ARGS->{start_daily}, $ARGS->{end_daily});
+GROUP BY s.memberid, t.typeid", $weekid, $ARGS->{start_daily}, $ARGS->{end_daily});
 }
  
 sub done_week1_affiliate {
@@ -391,15 +403,18 @@ sub week4_direct {
   my $self = shift;
   my $ARGS = $self->{ARGS};
 
+  my $weekid = $self->validate_int($ARGS->{c4_id});
+  return 3005 unless defined $weekid;
+
   $self->{LISTS} = [];
   return $self->select_sql($self->{LISTS},
 "SELECT m.sid AS memberid, m.typeid AS refid, 1 AS lev,
-	COUNT(*) AS amount, '".$ARGS->{c4_id}."' AS weekid, 'direct' AS classify
+	COUNT(*) AS amount, ? AS weekid, 'direct' AS classify
 FROM member m
 INNER JOIN def_type t ON (m.typeid=t.typeid)
 INNER JOIN member s ON (m.sid=s.memberid)
 WHERE (DATE(m.signuptime) BETWEEN ? AND ?) AND m.active='Yes'
-GROUP BY m.sid, m.typeid", $ARGS->{start_monthly}, $ARGS->{end_daily});
+GROUP BY m.sid, m.typeid", $weekid, $ARGS->{start_monthly}, $ARGS->{end_daily});
 }
 
 sub done_week4_direct {
@@ -413,17 +428,20 @@ sub monthly_direct {
   my $self = shift;
   my $ARGS = $self->{ARGS};
 
+  my $weekid = $self->validate_int($ARGS->{c4_id});
+  return 3005 unless defined $weekid;
+
   return $self->do_sql(
 "INSERT INTO income_amount (memberid, amount, weekid, bonusType, created)
-SELECT i.memberid, SUM(i.amount*d.bonus), '".$ARGS->{c4_id}."', 'Direct', NOW()
+SELECT i.memberid, SUM(i.amount*d.bonus), ?, 'Direct', NOW()
 FROM income i
 INNER JOIN member m USING (memberid)
 INNER JOIN def_direct d ON (m.typeid=d.typeid AND i.refid=d.whoid)
 WHERE i.classify='direct' AND i.paystatus='new' AND i.weekid=?
-GROUP BY i.memberid", $ARGS->{c4_id}) || $self->do_sql(
+GROUP BY i.memberid", $weekid, $weekid) || $self->do_sql(
 "UPDATE income SET paystatus='paid'
 WHERE classify='direct' AND paystatus='new'
-AND weekid=?", $ARGS->{c4_id});
+AND weekid=?", $weekid);
 }
 
 1;
