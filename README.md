@@ -6,6 +6,8 @@ The software is built on [Genelet](https://github.com/genelet/perl), an open-sou
 
 > **Note:** The legacy codebase is preserved in the `master` branch.
 
+> **Note:** For app development or other extensions, refer to `openapi.yaml` for the complete OpenAPI 3.0 specification documenting all available endpoints, authentication methods, and request/response schemas.
+
 ---
 
 ## Chapter 1. Installation
