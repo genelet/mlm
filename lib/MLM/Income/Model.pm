@@ -71,7 +71,8 @@ ORDER BY c1_id");
     if ($item->{statusAffiliate} eq 'No') {
       $ARGS->{to_run_affiliate} = 1;  
     }
-    return $self->run_cron();
+    $err = $self->run_cron();
+    return $err if $err;
   }
 
   return;
@@ -148,7 +149,7 @@ sub week1_affiliate {
   my $ARGS = $self->{ARGS};
 
   my $weekid = $self->validate_int($ARGS->{c1_id});
-  return 3005 unless defined $weekid;
+  return ERR_WRONG_DATE_RANGE unless defined $weekid;
 
   $self->{LISTS} = [];
   return $self->select_sql($self->{LISTS},
@@ -304,6 +305,8 @@ sub week1_match {
     $ARGS->{MAX} = $item->{lev} if ($ARGS->{MAX} < $item->{lev});
   }
 
+  # TODO: For very large datasets, consider using a recursive CTE or 
+  # fetching sponsors on-demand rather than loading all active members.
   my $parent = {};
   $tmp = [];
   $err = $self->select_sql($tmp,
@@ -331,7 +334,7 @@ AND m.active='Yes'", $ARGS->{start_daily}, $ARGS->{end_daily}) and return $err;
       my $sid = $ref->{sid};
       last if ($sid==$ARGS->{top_memberid});
       $childid = $sid;
-      next if ($i==1); # the direct bonus is already in week4_direct
+      next if ($i==1); # direct bonus handled in week4_direct
       next unless (($ref->{active} eq 'Yes') and $ref_match->{$ref->{typeid}} and $ref_match->{$ref->{typeid}}->{$i});
       $counts->{$sid}->{$item->{typeid}}->{$i} += 1;
     }
@@ -404,7 +407,7 @@ sub week4_direct {
   my $ARGS = $self->{ARGS};
 
   my $weekid = $self->validate_int($ARGS->{c4_id});
-  return 3005 unless defined $weekid;
+  return ERR_WRONG_DATE_RANGE unless defined $weekid;
 
   $self->{LISTS} = [];
   return $self->select_sql($self->{LISTS},
@@ -429,7 +432,7 @@ sub monthly_direct {
   my $ARGS = $self->{ARGS};
 
   my $weekid = $self->validate_int($ARGS->{c4_id});
-  return 3005 unless defined $weekid;
+  return ERR_WRONG_DATE_RANGE unless defined $weekid;
 
   return $self->do_sql(
 "INSERT INTO income_amount (memberid, amount, weekid, bonusType, created)

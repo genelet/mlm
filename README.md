@@ -6,7 +6,12 @@ The software is built on [Genelet](https://github.com/genelet/perl), an open-sou
 
 > **Note:** The legacy codebase is preserved in the `master` branch.
 
-> **Note:** For app development or other extensions, refer to `openapi.yaml` for the complete OpenAPI 3.0 specification documenting all available endpoints, authentication methods, and request/response schemas.
+## Mobile and API Development
+
+This project provides a comprehensive JSON API for building mobile and external applications.
+
+- **OpenAPI Specification**: Refer to [`openapi.yaml`](openapi.yaml) for the complete OpenAPI 3.0 specification documenting all available endpoints, authentication methods, and schemas.
+- **Mobile App Guide**: See [`REACT_NATIVE.md`](REACT_NATIVE.md) for a detailed roadmap on building a native mobile application using React Native and the JSON API.
 
 ---
 
@@ -306,7 +311,7 @@ CREATE TABLE def_match (
 
 The match-down rate is defined in `RATE_matchdown` in `config.json`. If a sponsor with 5 direct offspring earns $10 in match-up bonus and the match-down rate is 0.25, each offspring receives $0.50.
 
-The Team Bonus is calculated weekly on days defined in `cron_1week`.
+The Team Bonus is calculated weekly on days defined in `cron_1week`. For large-scale deployments, the calculation engine is optimized for memory efficiency when processing multi-generation relationships.
 
 ### 2.4) Pairing Bonus (Binary Bonus)
 
@@ -358,9 +363,17 @@ The Affiliate Bonus is calculated weekly on days defined in `cron_1week`.
 
 ### 2.7) Calculation Schedule
 
-All bonus calculations are handled automatically by the daily cronjob `run_daily.pl` (see Section 1.9).
+All bonus calculations are handled automatically by the daily cronjob `run_daily.pl` (see Section 1.9). The system includes a robust catch-up mechanism (`run_to_yesterday`) that ensures all pending compensation cycles are processed sequentially if the service is interrupted.
 
-### 2.8) Display Limits
+### 2.8) Data Integrity and Transactions
+
+Critical financial operations, such as purchasing and ledger updates, are protected by database transactions to ensure data consistency. This prevents partial data writes in the event of system failures.
+
+### 2.9) Error Handling
+
+The system uses a centralized error constant module (`MLM::Constants`) to provide consistent error reporting across all modules.
+
+### 2.10) Display Limits
 
 For security, you can limit the display depth of pyramid downlines and sponsor offspring in `config.json`:
 

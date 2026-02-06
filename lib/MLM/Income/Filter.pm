@@ -3,6 +3,7 @@ package MLM::Income::Filter;
 use strict;
 use warnings;
 use MLM::Filter;
+use MLM::Constants qw(ERR_WRONG_PRIVILEGE);
 
 use parent 'MLM::Filter';
 
@@ -17,7 +18,7 @@ sub preset {
 	my $action = $ARGS->{g_action};
 
     if ($action eq 'run_all_tests' and $ARGS->{adminid} !~ /ROOT/) {
-        return 3001,
+        return ERR_WRONG_PRIVILEGE,
     }
 
 	$ARGS->{BIN} = $self->{CUSTOM}->{BIN};

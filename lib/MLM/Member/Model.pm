@@ -3,6 +3,14 @@ package MLM::Member::Model;
 use strict;
 use warnings;
 use MLM::Model;
+use MLM::Constants qw(
+    ERR_LOGIN_EXISTS
+    ERR_SPONSOR_NOT_FOUND
+    ERR_PID_NOT_EXISTS
+    ERR_PLACEMENT_NOT_UNDER_SPONSOR
+    ERR_POSITION_TAKEN
+    ERR_SID_IS_SELF
+);
 our $AUTOLOAD;
 
 use parent 'MLM::Model';
@@ -106,40 +114,40 @@ sub sponsor_top_pid {
   my $err = $self->get_args($ARGS,
 "SELECT 1 AS one FROM member WHERE login=?", $ARGS->{login});
   return $err if $err;
-  return 3103 if $ARGS->{one}; # new account already exists
+  return ERR_LOGIN_EXISTS if $ARGS->{one}; # new account already exists
 
   $err = $self->get_args($ARGS,
 "SELECT memberid AS sid, defpid AS defdefpid, defleg AS defdefleg
 FROM member
 WHERE login=? AND active='Yes'", $ARGS->{sidlogin});
   return $err if $err;
-  return 3100 unless $ARGS->{sid}; # this assigned upline does exists
+  return ERR_SPONSOR_NOT_FOUND unless $ARGS->{sid}; # this assigned upline does exists
 
   if ($ARGS->{pid}) { # if binary upline is given
 	$err = $self->get_args($ARGS,
 "SELECT 1 AS is_pid FROM member WHERE memberid=?", $ARGS->{pid});
 	return $err if $err;
-	return [3116, $ARGS->{pid}] unless $ARGS->{is_pid};
+	return [ERR_PID_NOT_EXISTS, $ARGS->{pid}] unless $ARGS->{is_pid};
     
     unless ($ARGS->{sid} == $ARGS->{pid}) {
       $err = $self->get_args($ARGS,
 "SELECT 1 AS two FROM family WHERE parent=? and child=?",
 		$ARGS->{sid}, $ARGS->{pid});
       return $err if $err;
-      return 3117 unless $ARGS->{two}; # the b-upline must be a child of sponsor
+      return ERR_PLACEMENT_NOT_UNDER_SPONSOR unless $ARGS->{two}; # the b-upline must be a child of sponsor
     }
     $err = $self->get_args($ARGS,
 "SELECT 1 AS three FROM member WHERE pid=? AND leg=?",
 		$ARGS->{pid}, $ARGS->{leg});
     return $err if $err;
-    return 3106 if $ARGS->{three}; # it already has child on that leg
+    return ERR_POSITION_TAKEN if $ARGS->{three}; # it already has child on that leg
   } elsif ($ARGS->{defdefpid}) { # use whoever the sponsor assigned by himself
     unless ($ARGS->{sid} == $ARGS->{defdefpid}) {
       $err = $self->get_args($ARGS,
 "SELECT 1 AS four FROM family WHERE parent=? and child=?",
 		$ARGS->{sid}, $ARGS->{defdefpid});
       return $err if $err;
-      return 3117 unless $ARGS->{four};  # the b-upline must be a child in b-tree
+      return ERR_PLACEMENT_NOT_UNDER_SPONSOR unless $ARGS->{four};  # the b-upline must be a child in b-tree
     }
     $err = $self->get_args($ARGS,
 "SELECT 1 AS five FROM member WHERE pid=? AND leg=?",
@@ -200,7 +208,7 @@ sub resetsid {
 	my $self = shift;
 	my $ARGS = $self->{ARGS};
 
-    return 3118 if ($ARGS->{newsid}==$ARGS->{memberid});
+    return ERR_SID_IS_SELF if ($ARGS->{newsid}==$ARGS->{memberid});
 	return $self->do_sql(
 "UPDATE member
 SET sid=?, active=?

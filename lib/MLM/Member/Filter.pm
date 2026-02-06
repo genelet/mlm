@@ -3,6 +3,11 @@ package MLM::Member::Filter;
 use strict;
 use warnings;
 use MLM::Filter;
+use MLM::Constants qw(
+    ERR_PASSWORD_MISMATCH
+    ERR_WRONG_DATE_RANGE
+    ERR_EMPTY_SEARCH
+);
 
 use parent 'MLM::Filter';
 
@@ -23,11 +28,11 @@ sub preset {
       delete $ARGS->{$key} if (grep {$key eq $_} qw(passwd ssn active typeid created ip sid pid top leg milel miler comm defpid defleg countl countr));
     }
   } elsif ($who eq 'm' && $action eq 'changepass') {
-    return 3102 unless ($ARGS->{newpasswd} eq $ARGS->{confirm});
+    return ERR_PASSWORD_MISMATCH unless ($ARGS->{newpasswd} eq $ARGS->{confirm});
     delete $ARGS->{confirm};
   } elsif ($who eq 'a' && $action eq 'resetpass') {
     if ($ARGS->{newpasswd}) {
-      return 3102 unless ($ARGS->{newpasswd} eq $ARGS->{confirm});
+      return ERR_PASSWORD_MISMATCH unless ($ARGS->{newpasswd} eq $ARGS->{confirm});
       delete $ARGS->{confirm};
     }
   } elsif ($who eq 'a' && $action eq 'topics') {
@@ -67,14 +72,14 @@ sub before {
 
   if ($who eq 'a' && $action eq 'topics' && $ARGS->{u}) {
     if ($ARGS->{u} eq 'created') {
-      return 3005 unless ($ARGS->{d1} && $ARGS->{d2});
+      return ERR_WRONG_DATE_RANGE unless ($ARGS->{d1} && $ARGS->{d2});
       my $date_sql = $self->build_date_range_sql('created',
         $ARGS->{y1}, $ARGS->{m1}, $ARGS->{d1},
         $ARGS->{y2}, $ARGS->{m2}, $ARGS->{d2});
-      return 3005 unless $date_sql;
+      return ERR_WRONG_DATE_RANGE unless $date_sql;
       $extra->{"_gsql"} = $date_sql;
     } else {
-      return 3006 unless $ARGS->{v};
+      return ERR_EMPTY_SEARCH unless $ARGS->{v};
       if ($ARGS->{u} eq 'loginm') {
         $extra->{"_gsql"} = $self->build_like_sql('m.login', $ARGS->{v}, 1);
       } elsif ($ARGS->{u} eq 'firstname') {
@@ -84,7 +89,7 @@ sub before {
       } else {
         # Whitelist allowed column names
         my $col = $self->validate_column($ARGS->{u}, [qw(login email phone ssn)]);
-        return 3006 unless $col;
+        return ERR_EMPTY_SEARCH unless $col;
         $extra->{"_gsql"} = $self->build_like_sql("m.$col", $ARGS->{v}, 1);
       }
     }

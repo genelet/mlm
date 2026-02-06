@@ -1,0 +1,51 @@
+package MLM::Constants;
+
+use strict;
+use warnings;
+use parent 'Exporter';
+
+our @EXPORT_OK = qw(
+    ERR_WRONG_PRIVILEGE
+    ERR_WRONG_ADMIN
+    ERR_WRONG_LOGIN_FORMAT
+    ERR_WRONG_DATE_RANGE
+    ERR_EMPTY_SEARCH
+    ERR_SPONSOR_NOT_FOUND
+    ERR_PASSWORD_MISMATCH
+    ERR_LOGIN_EXISTS
+    ERR_POSITION_TAKEN
+    ERR_PID_NOT_EXISTS
+    ERR_PLACEMENT_NOT_UNDER_SPONSOR
+    ERR_SID_IS_SELF
+    ERR_LOGIN_STARTS_WITH_NUMBER
+    ERR_PASSWORD_STRENGTH
+    ERR_PASSWORD_LENGTH
+    ERR_INSUFFICIENT_FUNDS
+    ERR_INSUFFICIENT_SHOP_BALANCE
+);
+
+# Standard MLM Error Codes
+use constant {
+    ERR_WRONG_PRIVILEGE             => 3001,
+    ERR_WRONG_ADMIN                 => 3002,
+    ERR_WRONG_LOGIN_FORMAT          => 3003,
+    ERR_WRONG_DATE_RANGE            => 3005,
+    ERR_EMPTY_SEARCH                => 3006,
+
+    ERR_SPONSOR_NOT_FOUND           => 3100,
+    ERR_PASSWORD_MISMATCH           => 3102,
+    ERR_LOGIN_EXISTS                => 3103,
+    ERR_POSITION_TAKEN              => 3106,
+
+    ERR_PID_NOT_EXISTS              => 3116,
+    ERR_PLACEMENT_NOT_UNDER_SPONSOR => 3117,
+    ERR_SID_IS_SELF                 => 3118,
+    ERR_LOGIN_STARTS_WITH_NUMBER    => 3122,
+    ERR_PASSWORD_STRENGTH           => 3123,
+    ERR_PASSWORD_LENGTH             => 3124,
+
+    ERR_INSUFFICIENT_FUNDS          => 3201,
+    ERR_INSUFFICIENT_SHOP_BALANCE   => 3202,
+};
+
+1;

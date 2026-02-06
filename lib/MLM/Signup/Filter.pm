@@ -4,6 +4,12 @@ use strict;
 use warnings;
 use Digest::SHA qw(sha1_hex);
 use MLM::Filter;
+use MLM::Constants qw(
+    ERR_PASSWORD_MISMATCH
+    ERR_LOGIN_STARTS_WITH_NUMBER
+    ERR_PASSWORD_STRENGTH
+    ERR_PASSWORD_LENGTH
+);
 
 use parent 'MLM::Filter';
 
@@ -18,11 +24,11 @@ sub preset {
 	my $action = $ARGS->{g_action};
 
 	if ($action eq 'insert') {
-		return 3102 unless ($ARGS->{passwd} && ($ARGS->{passwd} eq $ARGS->{confirm}));
+		return ERR_PASSWORD_MISMATCH unless ($ARGS->{passwd} && ($ARGS->{passwd} eq $ARGS->{confirm}));
 		delete $ARGS->{confirm};
-		return 3122 if ($ARGS->{login} =~ /^\d/);
-		return 3123 unless ($ARGS->{passwd} =~ /\d/ && $ARGS->{passwd} =~ /[a-zA-Z]/);
-		return 3124 unless ( length($ARGS->{passwd})>=6 );
+		return ERR_LOGIN_STARTS_WITH_NUMBER if ($ARGS->{login} =~ /^\d/);
+		return ERR_PASSWORD_STRENGTH unless ($ARGS->{passwd} =~ /\d/ && $ARGS->{passwd} =~ /[a-zA-Z]/);
+		return ERR_PASSWORD_LENGTH unless ( length($ARGS->{passwd})>=6 );
         $ARGS->{passwd} = sha1_hex($ARGS->{login}.$ARGS->{passwd});
 		$ARGS->{signuptime} = $ARGS->{created};
 	}
